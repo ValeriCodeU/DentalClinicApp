@@ -5,6 +5,10 @@ VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentalClinicApp", "DentalClinicApp\DentalClinicApp.csproj", "{5563EB68-2318-47CA-B4A0-B63B8135AEB5}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentalClinicApp.Infrastructure", "DentalClinicApp.Infrastructure\DentalClinicApp.Infrastructure.csproj", "{EF6630BF-6DD8-4744-9203-E5F8146D3EE2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentalClinicApp.Core", "DentalClinicApp.Core\DentalClinicApp.Core.csproj", "{99225C15-8E96-4BAF-988F-8AABFCA75FDF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{5563EB68-2318-47CA-B4A0-B63B8135AEB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5563EB68-2318-47CA-B4A0-B63B8135AEB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5563EB68-2318-47CA-B4A0-B63B8135AEB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EF6630BF-6DD8-4744-9203-E5F8146D3EE2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EF6630BF-6DD8-4744-9203-E5F8146D3EE2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EF6630BF-6DD8-4744-9203-E5F8146D3EE2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EF6630BF-6DD8-4744-9203-E5F8146D3EE2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99225C15-8E96-4BAF-988F-8AABFCA75FDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99225C15-8E96-4BAF-988F-8AABFCA75FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99225C15-8E96-4BAF-988F-8AABFCA75FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99225C15-8E96-4BAF-988F-8AABFCA75FDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

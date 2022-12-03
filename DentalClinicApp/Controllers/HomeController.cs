@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace DentalClinicApp.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -15,11 +15,11 @@ namespace DentalClinicApp.Controllers
 
         public IActionResult Index()
         {
-            return View();
-        }
+            if (User.IsInRole("Administrator"))
+            {
+                return RedirectToAction("Index", "Home", new { area = "Admin" });
+            }
 
-        public IActionResult Privacy()
-        {
             return View();
         }
 
