@@ -14,10 +14,10 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IPatientService, PatientService>();
 
             services.ConfigureApplicationCookie(options =>
-            {                
+            {
                 options.LoginPath = "/Account/Login";
             });
-                                                                                                                                                                                                                                                                                                                                                                                                                                                                
+
             return services;
         }
     }

@@ -19,20 +19,5 @@
             public const int MaxEmaildLength = 60;
             public const int MinEmailLength = 10;
         }
-
-        public static class DentalProblem
-        {
-            public const int MaxDiseaseName = 50;
-            public const int MinDiseaseName = 5;
-
-            public const int MaxDiseaseDescription = 500;
-            public const int MinDiseaseDescription = 5;
-
-            public const int MaxAlergyDescription = 50;
-            public const int MinAlergyDescription = 5;
-
-            public const int MaxDentalStatus = 50;
-            public const int MinDentalStatus = 5;
-        }
     }
 }

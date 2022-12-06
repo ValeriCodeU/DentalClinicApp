@@ -27,10 +27,6 @@ namespace DentalClinicApp.Core.Models.Account
         public string LastName { get; set; } = null!;
 
         [Required]
-
-        public string PhoneNumber { get; set; } = null!;
-
-        [Required]
         [StringLength(MaxEmaildLength, MinimumLength = MinEmailLength)]
         [EmailAddress]        
 

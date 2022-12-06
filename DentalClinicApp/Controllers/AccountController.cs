@@ -83,7 +83,6 @@ namespace DentalClinicApp.Controllers
                 UserName = model.UserName,
                 FirstName = model.FirstName,
                 LastName = model.LastName,
-                PhoneNumber = model.PhoneNumber,
             };
 
             var result = await userManager.CreateAsync(user, model.Password);
