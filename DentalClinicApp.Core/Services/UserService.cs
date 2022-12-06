@@ -2,9 +2,11 @@
 using DentalClinicApp.Core.Models.Users;
 using DentalClinicApp.Infrastructure.Data;
 using DentalClinicApp.Infrastructure.Data.Common;
+using DentalClinicApp.Infrastructure.Data.Entities;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using static DentalClinicApp.Core.Constants.ModelConstant;
 
 namespace DentalClinicApp.Core.Services
 {
@@ -65,7 +67,7 @@ namespace DentalClinicApp.Core.Services
         {
             var result = new List<UserListViewModel>();
 
-            var users = await repo.All<ApplicationUser>().ToListAsync();
+            var users = await repo.All<ApplicationUser>().ToListAsync();            
 
             foreach (var u in users)
             {

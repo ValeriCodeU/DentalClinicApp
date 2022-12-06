@@ -107,7 +107,7 @@ namespace DentalClinicApp.Areas.Admin.Controllers
         {
             //await roleManager.CreateAsync(new IdentityRole<Guid>()
             //{
-            //    Name = "User"
+            //    Name = "Dentist"
             //});
 
             return Ok();

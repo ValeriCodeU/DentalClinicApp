@@ -10,6 +10,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             services.AddScoped<IRepository, Repository>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IProblemService, ProblemService>();
+            services.AddScoped<IPatientService, PatientService>();
 
             services.ConfigureApplicationCookie(options =>
             {                

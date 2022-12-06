@@ -1,0 +1,27 @@
+﻿@model BecomePatientFormModel
+
+@{
+    ViewBag.Title = "Become Patient";
+    
+}
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">               
+                <select asp-for="Id" class="form-control">
+                    @foreach (var dentist in Model.Dentists)
+                    {
+                        <option value="@dentist.Id">@dentist.Name</option>
+                    }
+                </select>               
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
