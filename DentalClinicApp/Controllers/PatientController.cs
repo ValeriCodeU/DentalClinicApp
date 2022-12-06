@@ -73,9 +73,7 @@ namespace DentalClinicApp.Controllers
         {
             var userId = this.User.Id();
 
-            var patients = await patientService.GetMyPatients(userId);
-
-            
+            var patients = await patientService.GetMyPatients(userId);            
 
             return View(patients);
         }
