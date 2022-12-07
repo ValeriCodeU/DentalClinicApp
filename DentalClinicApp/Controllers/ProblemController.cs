@@ -50,7 +50,86 @@ namespace DentalClinicApp.Controllers
 
 
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction(nameof(Mine));
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            if (!await problemService.ProblemExistsAsync(id))
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            var model = await problemService.ProblemDetailsByIdAsync(id);
+            
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = new ProblemFormModel();
+
+
+            if (!await problemService.ProblemExistsAsync(id))
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            var problem = await problemService.ProblemDetailsByIdAsync(id);
+
+            model.DiseaseName = problem.DiseaseName;
+            model.DiseaseDescription = problem.DiseaseDescription;
+            model.AlergyDescription = problem.AlergyDescription;
+            model.DentalStatus = problem.DentalStatus;
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Mine()
+        {
+            var userId = this.User.Id();
+            int patientId = await patientService.GetPatientIdAsync(userId);
+
+            //IEnumerable<ProblemDetailsViewModel> myProblems;
+
+            var myProblems = await problemService.AllProblemsByPatientIdAsync(patientId);
+
+            
+                
+            return View(myProblems);
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            var problem = await problemService.GetProblemByIdAsync(id);
+
+            if (problem == null)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            var userId = this.User.Id();
+
+           
+
+            return View(problem);
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Delete(ProblemDetailsViewModel model)
+        {
+
+            if (!await problemService.ProblemExistsAsync(model.Id))
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            await problemService.DeleteAsync(model.Id);
+
+            return RedirectToAction(nameof(Mine));
+
         }
     }
 }

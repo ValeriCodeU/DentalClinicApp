@@ -105,12 +105,22 @@ namespace DentalClinicApp.Areas.Admin.Controllers
 
         public async Task<IActionResult> CreateRole()
         {
-            //await roleManager.CreateAsync(new IdentityRole<Guid>()
-            //{
-            //    Name = "User"
-            //});
+            await roleManager.CreateAsync(new IdentityRole<Guid>()
+            {
+                Name = "Patient"
+            });
 
             return Ok();
         }
+
+        //public async Task<IActionResult> EditRole()
+        //{
+        //    var role = await roleManager.FindByNameAsync("User");
+        //    role.Name = "Patient";
+        //    role.NormalizedName = "PATIENT";
+        //    await roleManager.UpdateAsync(role);
+
+        //    return Ok();
+        //}
     }
 }

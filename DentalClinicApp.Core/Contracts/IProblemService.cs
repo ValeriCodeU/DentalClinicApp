@@ -12,5 +12,15 @@ namespace DentalClinicApp.Core.Contracts
     public interface IProblemService
     {
         Task CreateAsync(int patientId, ProblemFormModel model);
+
+        Task<bool> ProblemExistsAsync(int id);
+
+        Task<ProblemDetailsViewModel> ProblemDetailsByIdAsync(int id);
+
+        Task<IEnumerable<ProblemDetailsViewModel>> AllProblemsByPatientIdAsync(int patientId);
+
+        Task<ProblemDetailsViewModel> GetProblemByIdAsync(int problemId);
+
+        Task DeleteAsync(int problemId);
     }
 }

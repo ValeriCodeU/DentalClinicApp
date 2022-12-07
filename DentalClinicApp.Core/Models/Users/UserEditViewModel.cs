@@ -20,5 +20,20 @@ namespace DentalClinicApp.Core.Models.Users
         [Display(Name = "Last Name")]
 
         public string? LastName { get; set; }
+
+        [Required]
+        [Display(Name = "Last Name")]
+
+        public string Username { get; set; }
+
+        [Required]
+        [Display(Name = "Email")]
+
+        public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Phone Number")]
+
+        public string PhoneNumber { get; set; }
 	}
 }

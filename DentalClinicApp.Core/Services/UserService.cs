@@ -34,6 +34,9 @@ namespace DentalClinicApp.Core.Services
             {
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
+                user.Email = model.Email;
+                user.UserName = model.Username;
+                user.PhoneNumber = model.PhoneNumber;
 
                 await repo.SaveChangesAsync();
 
@@ -56,7 +59,10 @@ namespace DentalClinicApp.Core.Services
             {
                 Id = user.Id,
                 FirstName = user.FirstName,
-                LastName = user.LastName
+                LastName = user.LastName,
+                Email = user.Email,
+                PhoneNumber = user.PhoneNumber,
+                Username = user.UserName,               
             };
         }
        

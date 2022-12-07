@@ -62,7 +62,7 @@ namespace DentalClinicApp.Controllers
 
             var user = await userService.GetUserByIdAsync(userId);
 
-            await userManager.AddToRoleAsync(user, "User");
+            await userManager.AddToRoleAsync(user, "Patient");
 
 
 

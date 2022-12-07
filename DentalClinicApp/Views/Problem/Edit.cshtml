@@ -1,0 +1,14 @@
+﻿@model ProblemFormModel
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@{
+	ViewBag.Title = "Edit Dental Problem";
+}
+
+<partial name="_ProblemFormPartial" model="@Model" />
+
+@section Scripts{
+	<partial name="_ValidationScriptsPartial" />
+}
