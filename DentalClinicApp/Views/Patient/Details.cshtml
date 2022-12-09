@@ -1,0 +1,37 @@
+﻿@model PatientDetailsViewModel
+
+@{
+	ViewBag.Title = "Patient Details";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<div class="container" style="display:inline">
+    <div class="row">
+        <div class="card" style="width: 18rem;">
+            <div class="card-body">
+                <h5 class="card-title">Patient Info</h5>
+                <p class="card-text">First Name:  @Model.FirstName</p>
+                <p class="card-text">Last Name:  @Model.LastName</p>
+                <p class="card-text">Email:  @Model.Email</p>
+                <p class="card-text">Phone Number: @Model.PhoneNumber</p>
+            </div>
+        </div>       
+    </div>
+</div>
+
+
+@if (Model.PatientProblems.Any())
+{
+    <div class="row">
+        @foreach (var problem in Model.PatientProblems)
+        {
+            <partial name="_ProblemPartial" model="@problem" />
+        }
+    </div>
+}
+else
+{
+    <h3 class="text-center">No dental problems yet!</h3>
+}

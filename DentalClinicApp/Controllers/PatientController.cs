@@ -15,15 +15,18 @@ namespace DentalClinicApp.Controllers
         private readonly IPatientService patientService;
         private readonly UserManager<ApplicationUser> userManager;
         private readonly IUserService userService;
+        private readonly IProblemService problemService;
 
         public PatientController(
             IPatientService _patientService,
             UserManager<ApplicationUser> _userManager,
-            IUserService _userService)
+            IUserService _userService,
+            IProblemService _problemService)
         {
             patientService = _patientService;
             userManager = _userManager;
             userService = _userService;
+            problemService = _problemService;
         }
 
         public async Task<IActionResult> Become()
@@ -76,6 +79,18 @@ namespace DentalClinicApp.Controllers
             var patients = await patientService.GetMyPatients(userId);            
 
             return View(patients);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            //if (!await problemService.ProblemExistsAsync(id))
+            //{
+            //    return RedirectToAction(nameof(MyPatients));
+            //}
+
+            var model = await patientService.PatientDetailsByIdAsync(id);
+
+            return View(model);
         }
     }
 }

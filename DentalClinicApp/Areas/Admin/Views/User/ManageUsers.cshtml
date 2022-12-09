@@ -12,6 +12,7 @@
 			<th scope="col">Email</th>
 			<th scope="col">Role</th>
 			<th scope="col">Actions</th>
+			<th scope="col">Manage User Roles</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -26,10 +27,13 @@
 					@String.Join(", ", user.RoleNames)
 				<td>
 					<a asp-area="Admin" asp-action="Edit" asp-controller="User" asp-route-id="@user.Id" class="btn btn-primary">Edit</a>
-					<a asp-area="Admin" asp-action="SetRole" asp-controller="User" asp-route-id="@user.Id" class="btn btn-success">Set</a>
+					<a asp-area="Admin" asp-action="Delete" asp-controller="User" asp-route-id="@user.Id" class="btn btn-danger">Delete</a>
 						@*<a asp-area="Admin" asp-action="Edit" asp-controller="User" asp-route-id="@user.Id" class="btn btn-block btn-outline-info btn-xs">Edit</a>
 				<a asp-area="Admin" asp-action="SetRole" asp-controller="User" asp-route-id="@user.Id" class="btn btn-block btn-outline-warning btn-xs">Set</a>*@
 				</td>
+				<td>
+					<a asp-area="Admin" asp-action="SetRole" asp-controller="User" asp-route-id="@user.Id" class="btn btn-success">Update</a>
+				</td>				
 			</tr>
 		}
 
