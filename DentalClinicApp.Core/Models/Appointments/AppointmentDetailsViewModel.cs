@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DentalClinicApp.Core.Models.Patients;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -16,6 +17,8 @@ namespace DentalClinicApp.Core.Models.Appointments
 
         public bool Status { get; set; }
 
-        
+        public PatientServiceModel Patient { get; set; }
+
+
     }
 }
