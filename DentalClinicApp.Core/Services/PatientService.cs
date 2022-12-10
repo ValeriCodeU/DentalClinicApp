@@ -30,7 +30,7 @@ namespace DentalClinicApp.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task<IEnumerable<DentistModel>> GetDentistAsync()
+        public async Task<IEnumerable<DentistModel>> GetDentistsAsync()
         {
 
             return await repo.AllReadonly<Dentist>().Select(d => new DentistModel()
@@ -86,6 +86,13 @@ namespace DentalClinicApp.Core.Services
             var patient = await repo.AllReadonly<Patient>().FirstAsync(u => u.UserId == userId);
 
             return patient.Id;
+        }
+
+        public async Task<int> GetPersonalDentistIdAsync(int patientId)
+        {
+            var result = await repo.GetByIdAsync<Patient>(patientId);
+
+            return result.DentistId;
         }
 
         public async Task<bool> IsExistsByIdAsync(Guid userId)

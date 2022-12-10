@@ -40,7 +40,7 @@ namespace DentalClinicApp.Controllers
 
 
             var model = new BecomePatientFormModel();
-            model.Dentists = await patientService.GetDentistAsync();
+            model.Dentists = await patientService.GetDentistsAsync();
             
 
             return View(model);
@@ -63,7 +63,7 @@ namespace DentalClinicApp.Controllers
 
             await patientService.CreatePatientAsync(userId, dentistId);
 
-            var user = await userService.GetUserByIdAsync(userId);
+            var user = await userService.GetUserByIdAsync(userId);            
 
             await userManager.AddToRoleAsync(user, "Patient");
 

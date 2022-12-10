@@ -13,7 +13,7 @@ namespace DentalClinicApp.Core.Contracts
     {
         Task CreatePatientAsync(Guid userId, int dentistId);
 
-        Task<IEnumerable<DentistModel>> GetDentistAsync();
+        Task<IEnumerable<DentistModel>> GetDentistsAsync();
 
         Task<int> GetPatientIdAsync(Guid userId);
 
@@ -22,5 +22,7 @@ namespace DentalClinicApp.Core.Contracts
         Task<MyPatientsViewModel> GetMyPatients(Guid userId);
 
         Task<PatientDetailsViewModel> PatientDetailsByIdAsync(int id);
+
+        Task<int> GetPersonalDentistIdAsync(int patientId);
     }
 }
