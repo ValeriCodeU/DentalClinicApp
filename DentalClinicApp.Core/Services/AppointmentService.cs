@@ -20,13 +20,14 @@ namespace DentalClinicApp.Core.Services
             repo = _repo;
         }
 
-        public async Task AcceptAppointmentByIdAsync(int id)
+        public async Task<bool> AcceptAppointmentByIdAsync(int id)
         {
             var appointment = await repo.GetByIdAsync<Appointment>(id);
 
             appointment.Status = true;
             await repo.SaveChangesAsync();
 
+            return true;
         }
 
         public async Task CreateAsync(AppointmentFormModel model, int patientId, int dentistId)
@@ -92,12 +93,14 @@ namespace DentalClinicApp.Core.Services
                 }).FirstAsync();
         }
 
-        public async Task PostponeAppointmentByIdAsync(int id)
+        public async Task<bool> PostponeAppointmentByIdAsync(int id)
         {
             var appointment = await repo.GetByIdAsync<Appointment>(id);
 
             appointment.Status = false;
             await repo.SaveChangesAsync();
+
+            return true;
         }
     }
 }

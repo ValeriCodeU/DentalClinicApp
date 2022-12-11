@@ -73,7 +73,10 @@ namespace DentalClinicApp.Controllers
 
         public async Task<IActionResult> Accept(AppointmentServiceModel model)
         {
-            await appointmentService.AcceptAppointmentByIdAsync(model.Id);
+            if (await appointmentService.AcceptAppointmentByIdAsync(model.Id))
+            {
+                TempData["message"] = "You have successfully accepted an appointment!";
+            }
 
             return RedirectToAction(nameof(Details));
         }
@@ -92,6 +95,11 @@ namespace DentalClinicApp.Controllers
         public async Task<IActionResult> Postpone(AppointmentServiceModel model)
         {
             await appointmentService.PostponeAppointmentByIdAsync(model.Id);
+
+            if (await appointmentService.PostponeAppointmentByIdAsync(model.Id))
+            {
+                TempData["message"] = "You have successfully postponed an appointment!";
+            }
 
             return RedirectToAction(nameof(Details));
         }
