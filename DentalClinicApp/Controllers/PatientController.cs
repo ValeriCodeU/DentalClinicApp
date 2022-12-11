@@ -67,6 +67,8 @@ namespace DentalClinicApp.Controllers
 
             await userManager.AddToRoleAsync(user, "Patient");
 
+            TempData["message"] = "You have successfully become a patient!";
+
 
 
             return RedirectToAction("Index", "Home");

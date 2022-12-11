@@ -9,7 +9,7 @@ namespace DentalClinicApp.Core.Models.Appointments
 
         [Display(Name = "Select a date")]
 
-        public DateTime StartDate { get; set; } = DateTime.Today;
+        public DateTime StartDate { get; set; } = DateTime.Now;
 
         public string? Details { get; set; }
 

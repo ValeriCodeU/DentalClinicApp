@@ -11,7 +11,7 @@ namespace DentalClinicApp.Core.Models.Appointments
     {
         public int Id { get; set; }
 
-        public DateTime StartDate { get; set; }
+        public DateTime StartDate { get; set; }      
 
         public string? Details { get; set; }
 

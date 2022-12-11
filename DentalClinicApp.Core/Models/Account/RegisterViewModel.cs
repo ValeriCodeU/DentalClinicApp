@@ -32,6 +32,11 @@ namespace DentalClinicApp.Core.Models.Account
 
         public string Email { get; set; } = null!;
 
+        [Required]        
+        [Phone]
+
+        public string PhoneNumber { get; set; } = null!;
+
         [Required]
         [StringLength(MaxPasswordLength, MinimumLength = MinPasswordLength)]
         [DataType(DataType.Password)]
