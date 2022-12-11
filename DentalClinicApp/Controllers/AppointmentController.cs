@@ -54,7 +54,12 @@ namespace DentalClinicApp.Controllers
 
         public async Task<IActionResult> Details()
         {
-            return View();
+            var userId = this.User.Id();
+
+            var model = await appointmentService.GetDentistAppointments(userId);
+
+
+            return View(model);
         }
     }
 }

@@ -1,5 +1,23 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model AppointmentDetailsViewModel
 @{
+	ViewBag.Title = "Appointments";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+
+
+@if (Model.Appointments.Any())
+{
+    <div class="row">
+        @foreach (var appointment in Model.Appointments)
+        {
+            <partial name="_AppointmentPartial" model="@appointment" />
+        }
+    </div>
+}
+else
+{
+    <h3 class="text-center">No dental appointments yet!</h3>
 }

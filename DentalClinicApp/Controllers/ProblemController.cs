@@ -89,7 +89,18 @@ namespace DentalClinicApp.Controllers
         public async Task<IActionResult> Mine()
         {
             var userId = this.User.Id();
+
+            if (!await patientService.IsExistsByIdAsync(userId))
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
             int patientId = await patientService.GetPatientIdAsync(userId);
+
+            if (!await problemService.ProblemExistsAsync(patientId))
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
 
             //IEnumerable<ProblemDetailsViewModel> myProblems;
 

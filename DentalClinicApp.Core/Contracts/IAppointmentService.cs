@@ -10,5 +10,7 @@ namespace DentalClinicApp.Core.Contracts
     public interface IAppointmentService
     {
         Task CreateAsync(AppointmentFormModel model, int patientId, int dentistId);
+
+        Task<AppointmentDetailsViewModel> GetDentistAppointments(Guid userId);
     }
 }
