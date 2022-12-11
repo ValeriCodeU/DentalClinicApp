@@ -20,6 +20,15 @@ namespace DentalClinicApp.Core.Services
             repo = _repo;
         }
 
+        public async Task AcceptAppointmentByIdAsync(int id)
+        {
+            var appointment = await repo.GetByIdAsync<Appointment>(id);
+
+            appointment.Status = true;
+            await repo.SaveChangesAsync();
+
+        }
+
         public async Task CreateAsync(AppointmentFormModel model, int patientId, int dentistId)
         {
 
@@ -34,6 +43,26 @@ namespace DentalClinicApp.Core.Services
 
             await repo.AddAsync<Appointment>(appointment);
             await repo.SaveChangesAsync();
+        }
+
+        public async Task<AppointmentServiceModel> GetAppointmentByIdAsync(int id)
+        {
+            return await repo.AllReadonly<Appointment>()
+                .Where(a => a.IsActive)
+                .Where(a => a.Id == id)                
+                .Select(a => new AppointmentServiceModel()
+                {
+                    StartDate = a.StartDateTime,
+                    Details = a.Details,
+                    Patient = new Models.Patients.PatientServiceModel()
+                    {
+                        FirstName = a.Patient.User.FirstName,
+                        LastName = a.Patient.User.LastName,
+                    }                  
+
+                    
+
+                }).FirstAsync();
         }
 
         public async Task<AppointmentDetailsViewModel> GetDentistAppointments(Guid userId)
@@ -61,6 +90,14 @@ namespace DentalClinicApp.Core.Services
                     }).ToList()
 
                 }).FirstAsync();
+        }
+
+        public async Task PostponeAppointmentByIdAsync(int id)
+        {
+            var appointment = await repo.GetByIdAsync<Appointment>(id);
+
+            appointment.Status = false;
+            await repo.SaveChangesAsync();
         }
     }
 }

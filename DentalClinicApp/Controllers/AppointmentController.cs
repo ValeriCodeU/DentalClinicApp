@@ -61,5 +61,39 @@ namespace DentalClinicApp.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> Accept(int id)
+        {
+            var model = await appointmentService.GetAppointmentByIdAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Accept(AppointmentServiceModel model)
+        {
+            await appointmentService.AcceptAppointmentByIdAsync(model.Id);
+
+            return RedirectToAction(nameof(Details));
+        }
+
+        [HttpGet]
+
+        public async Task<IActionResult> Postpone(int id)
+        {
+            var model = await appointmentService.GetAppointmentByIdAsync(id);
+
+            return View(model);
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Postpone(AppointmentServiceModel model)
+        {
+            await appointmentService.PostponeAppointmentByIdAsync(model.Id);
+
+            return RedirectToAction(nameof(Details));
+        }
     }
 }

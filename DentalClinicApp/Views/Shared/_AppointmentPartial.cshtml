@@ -1,28 +1,31 @@
 ﻿@model AppointmentServiceModel
 
 <div class="col-md-4">
-    <div class="card mb-3 text-center">
-        <div class="container" style="display:inline">
-            <div class="row">
-                <h5 class="card-title">Patient Info</h5>
-                <p class="card-text">Full Name: @Model.Patient.FirstName @Model.Patient.LastName</p>               
-                <p class="card-text">Email:  @Model.Patient.Email</p>
-                <p class="card-text">Phone Number: @Model.Patient.PhoneNumber</p>
-            </div>
-        </div>
-        <div class="card-body text-center">
-            <h4>@Model.StartDate</h4>
-            <h6>Description: <b>@Model.Details</b></h6>           
+	<div class="card mb-3 text-center">
+		<div class="container" style="display:inline">
+			<div class="row">
+				<h5 class="card-title">Patient Info</h5>
+				<p class="card-text">Full Name: @Model.Patient.FirstName @Model.Patient.LastName</p>
+				<p class="card-text">Email:  @Model.Patient.Email</p>
+				<p class="card-text">Phone Number: @Model.Patient.PhoneNumber</p>
+			</div>
+		</div>
+		<div class="card-body text-center">
+			<h4>@Model.StartDate</h4>
+			<h6>Details: <b>@Model.Details</b></h6>
 
-            @if (this.User.Identity.IsAuthenticated)
-            {
-                <a asp-area"" asp-controller="Appointment" asp-action="Accept" asp-route-id="@Model.Id"
-               class="btn btn-warning">Accept</a>
-                <a asp-controller="Appointment" asp-action="Postpone" asp-route-id="@Model.Id"
-               class="btn btn-danger">Postpone</a>
-                <p></p>
+			@if (this.User.Identity.IsAuthenticated)
+			{
+				@if (Model.Status == false)
+				{
+					<a asp-area"" asp-controller="Appointment" asp-action="Accept" 
+					asp-route-id="@Model.Id" class="btn btn-warning">Accept</a>			
+				}
 
-            }
-        </div>
-    </div>
+				<a asp-controller="Appointment" asp-action="Postpone" 
+				asp-route-id="@Model.Id" class="btn btn-danger">Postpone</a>			   
+				
+			}
+		</div>
+	</div>
 </div>

@@ -12,5 +12,11 @@ namespace DentalClinicApp.Core.Contracts
         Task CreateAsync(AppointmentFormModel model, int patientId, int dentistId);
 
         Task<AppointmentDetailsViewModel> GetDentistAppointments(Guid userId);
+
+        Task<AppointmentServiceModel> GetAppointmentByIdAsync(int id);
+
+        Task AcceptAppointmentByIdAsync(int id);
+
+        Task PostponeAppointmentByIdAsync(int id);
     }
 }

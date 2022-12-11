@@ -97,10 +97,10 @@ namespace DentalClinicApp.Controllers
 
             int patientId = await patientService.GetPatientIdAsync(userId);
 
-            if (!await problemService.ProblemExistsAsync(patientId))
-            {
-                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
-            }
+            //if (!await problemService.ProblemExistsAsync(patientId))
+            //{
+            //    return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            //}
 
             //IEnumerable<ProblemDetailsViewModel> myProblems;
 
