@@ -4,7 +4,6 @@ using DentalClinicApp.Core.Models.Dentists;
 using DentalClinicApp.Core.Models.Patients;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
-using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DentalClinicApp.Core.Services

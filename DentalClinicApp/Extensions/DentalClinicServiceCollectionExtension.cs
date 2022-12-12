@@ -13,6 +13,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IProblemService, ProblemService>();
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
+            services.AddScoped<IDentistService, DentistService>();
 
             services.ConfigureApplicationCookie(options =>
             {

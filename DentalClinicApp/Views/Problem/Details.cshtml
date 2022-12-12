@@ -14,16 +14,17 @@
             <p class="card-text"><span class="fw-bold">Description: </span>@Model.DiseaseDescription</p>           
             <p class="card-text"><span class="fw-bold">Tooth Status: </span>@Model.DentalStatus</p>
             <p class="card-text"><span class="fw-bold">Allergies: </span>@Model.AlergyDescription</p>
-            @if (this.User?.Identity?.IsAuthenticated ?? false)
-            {
-                <tr class="actions">
-                    <th><span class="fw-bold">Actions:</th>
-                    <td>
-                        <a asp-controller="Problem" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-                        <a asp-controller="Problem" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
-            }
+            
         </div>
     </div>
 </div>
+@if (this.User?.Identity?.IsAuthenticated ?? false)
+{
+    <tr class="actions">
+        <th><span class="fw-bold">Actions:</span></th>
+        <td>
+            <a asp-controller="Problem" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+            <a asp-controller="Problem" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+        </td>
+    </tr>
+}
