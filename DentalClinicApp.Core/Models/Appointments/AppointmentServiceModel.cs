@@ -18,5 +18,6 @@ namespace DentalClinicApp.Core.Models.Appointments
         public bool Status { get; set; }
 
         public PatientServiceModel Patient { get; set; } = null!;
+       
     }
 }

@@ -32,7 +32,7 @@
             public const int MinAlergyDescription = 5;
 
             public const int MaxDentalStatus = 50;
-            public const int MinDentalStatus = 5;
+            public const int MinDentalStatus = 2;
         }
     }
 }

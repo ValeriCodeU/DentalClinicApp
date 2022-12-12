@@ -93,11 +93,32 @@ namespace DentalClinicApp.Core.Services
                 }).FirstAsync();
         }
 
+        public async Task<AppointmentDetailsViewModel> GetPatientAppointments(Guid userId)
+        {
+            return await repo.AllReadonly<Patient>()
+                .Where(d => d.User.IsActive)
+                .Where(d => d.User.Id == userId)
+                .Select(d => new AppointmentDetailsViewModel()
+                {
+                    Appointments = d.Appointments
+                    .Where(a => a.IsActive)
+                    .Select(a => new AppointmentServiceModel()
+                    {
+                        StartDate = a.StartDateTime,
+                        Status = a.Status,
+                        Details = a.Details,
+                        Id = a.Id,                        
+                    })
+
+                }).FirstAsync();
+        }
+
         public async Task<bool> PostponeAppointmentByIdAsync(int id)
         {
             var appointment = await repo.GetByIdAsync<Appointment>(id);
 
             appointment.Status = false;
+            appointment.IsActive = false;
             await repo.SaveChangesAsync();
 
             return true;

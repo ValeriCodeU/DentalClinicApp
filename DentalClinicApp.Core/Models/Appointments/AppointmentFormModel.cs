@@ -7,16 +7,14 @@ namespace DentalClinicApp.Core.Models.Appointments
     {
         public int Id { get; set; }
 
-        [Display(Name = "Select a date")]
+        [Display(Name = "Select date and time")]
+        [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
 
         public DateTime StartDate { get; set; } = DateTime.Now;
 
         public string? Details { get; set; }
 
         public bool Status { get; set; }
-
-        //public PatientServiceModel Patient { get; set; }
-       
-        //public IEnumerable<DentistModel> Dentists { get; set; } = new List<DentistModel>();
+        
     }
 }

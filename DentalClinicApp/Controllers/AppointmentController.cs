@@ -49,7 +49,8 @@ namespace DentalClinicApp.Controllers
 
             await appointmentService.CreateAsync(model, patientId, personalDentist);
 
-            return View(model);
+            return RedirectToAction(nameof(MyAppointments));
+
         }
 
         public async Task<IActionResult> Details()
@@ -102,6 +103,15 @@ namespace DentalClinicApp.Controllers
             }
 
             return RedirectToAction(nameof(Details));
+        }
+
+        public async Task<IActionResult> MyAppointments()
+        {
+            var userId = this.User.Id();
+
+            var model = await appointmentService.GetPatientAppointments(userId);
+
+            return View(model);
         }
     }
 }

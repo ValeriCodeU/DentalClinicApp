@@ -24,20 +24,12 @@
 						</li>
 						@if (this.User?.Identity?.IsAuthenticated ?? false)
 						{
-							@if (!this.User.IsInRole("Administrator") && !this.User.IsInRole("Dentist"))
+							@if (this.User.IsInRole("User"))
 							{
 								<li class="nav-item">
 									<a class="nav-link text-dark" asp-area="" asp-controller="Patient" asp-action="Become">Become Patient</a>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link text-dark" asp-area="" asp-controller="Problem" asp-action="Create">Add Problem</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link text-dark" asp-area="" asp-controller="Problem" asp-action="Mine">My Problems</a>
-								</li>
-								<li class="nav-item">
-									<a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="Make">Make an Appointment</a>
-								</li>
+							
 							}
 
 							@if (this.User.IsInRole("Dentist"))
@@ -47,6 +39,22 @@
 								</li>
 								<li class="nav-item">
 									<a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="Details">Appointments</a>
+								</li>
+							}
+
+							@if (this.User.IsInRole("Patient"))
+							{
+								<li class="nav-item">
+									<a class="nav-link text-dark" asp-area="" asp-controller="Problem" asp-action="Create">Add Problem</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link text-dark" asp-area="" asp-controller="Problem" asp-action="Mine">My Problems</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="Make">Make an Appointment</a>
+								</li>
+								<li class="nav-item">
+									<a class="nav-link text-dark" asp-area="" asp-controller="Appointment" asp-action="MyAppointments">My Appointments</a>
 								</li>
 							}
 

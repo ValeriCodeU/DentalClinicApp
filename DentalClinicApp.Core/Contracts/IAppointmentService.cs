@@ -18,5 +18,7 @@ namespace DentalClinicApp.Core.Contracts
         Task<bool> AcceptAppointmentByIdAsync(int id);
 
         Task<bool> PostponeAppointmentByIdAsync(int id);
+
+        Task<AppointmentDetailsViewModel> GetPatientAppointments(Guid userId);
     }
 }

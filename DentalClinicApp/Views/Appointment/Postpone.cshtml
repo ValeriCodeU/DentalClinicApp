@@ -12,7 +12,10 @@
     <div class="d-flex justify-content-center">
         <div class="card " style="width: 50rem;">
             <div class="card-body">
-                <h3 class="card-title text-center">@Model.StartDate</h3>
+                @if (Model.Status == false)
+                {
+                    <h3 class="card-title text-center">@Model.StartDate</h3>
+                }                
                 <p class="card-text"><span class="fw-bold">Patient Name: </span>@Model.Patient.FirstName @Model.Patient.LastName</p>
             </div>
             <div class="mb-3 d-flex justify-content-center">

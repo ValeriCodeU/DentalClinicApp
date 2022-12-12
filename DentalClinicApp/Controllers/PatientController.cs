@@ -78,7 +78,15 @@ namespace DentalClinicApp.Controllers
         {
             var userId = this.User.Id();
 
-            var patients = await patientService.GetMyPatients(userId);            
+            var result = await patientService.IsExistsByIdAsync(userId);
+
+            if (result)
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            var patients = await patientService.GetMyPatients(userId);
+          
 
             return View(patients);
         }
