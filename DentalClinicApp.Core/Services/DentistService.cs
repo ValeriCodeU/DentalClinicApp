@@ -16,7 +16,7 @@ namespace DentalClinicApp.Core.Services
             repo = _repo;
         }
 
-        public async Task<DentistDetailsViewModel> GetAllDentistsAsync(Guid userId)
+        public async Task<DentistDetailsViewModel> GetAllManagedDentistsAsync(Guid userId)
         {
 
             return await repo.AllReadonly<Manager>()
@@ -31,7 +31,7 @@ namespace DentalClinicApp.Core.Services
                        LastName = d.User.LastName,
                        Email = d.User.Email,
                        PhoneNumber = d.User.PhoneNumber
-                   }).ToList()
+                   })
 
                }).FirstAsync();
 

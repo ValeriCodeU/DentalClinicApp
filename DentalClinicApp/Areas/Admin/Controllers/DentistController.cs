@@ -27,7 +27,7 @@ namespace DentalClinicApp.Areas.Admin.Controllers
         {
             var userId = this.User.Id();
 
-            var model = await dentistService.GetAllDentistsAsync(userId);
+            var model = await dentistService.GetAllManagedDentistsAsync(userId);
 
             return View(model);
         }

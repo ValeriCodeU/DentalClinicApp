@@ -9,6 +9,6 @@ namespace DentalClinicApp.Core.Contracts
 {
     public interface IDentistService
     {
-        Task<DentistDetailsViewModel> GetAllDentistsAsync(Guid userId);
+        Task<DentistDetailsViewModel> GetAllManagedDentistsAsync(Guid userId);
     }
 }

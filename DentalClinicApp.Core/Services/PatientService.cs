@@ -121,7 +121,7 @@ namespace DentalClinicApp.Core.Services
                         DiseaseDescription = dp.DiseaseDescription,
                         DentalStatus = dp.DentalStatus,
                         AlergyDescription = dp.AlergyDescription
-                    }).ToList()
+                    })
 
                 }).FirstAsync();
 
