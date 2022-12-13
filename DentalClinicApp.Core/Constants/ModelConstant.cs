@@ -34,5 +34,14 @@
             public const int MaxDentalStatus = 50;
             public const int MinDentalStatus = 2;
         }
+
+        public static class Attendance
+        {
+            public const int MaxClinicRemarksLength = 500;
+            public const int MinClinicRemarksLength = 10;
+
+            public const int MaxDiagnosislength = 200;
+            public const int MinDiagnosislength = 10;
+        }
     }
 }

@@ -63,15 +63,16 @@ namespace DentalClinicApp.Controllers
 
             await patientService.CreatePatientAsync(userId, dentistId);
 
-            var user = await userService.GetUserByIdAsync(userId);            
+            var user = await userService.GetUserByIdAsync(userId);
 
+            await userManager.RemoveFromRoleAsync(user, "User");
             await userManager.AddToRoleAsync(user, "Patient");
 
             TempData["message"] = "You have successfully become a patient!";
 
 
 
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Create", "Problem");
         }
 
         public async Task<IActionResult> MyPatients()
