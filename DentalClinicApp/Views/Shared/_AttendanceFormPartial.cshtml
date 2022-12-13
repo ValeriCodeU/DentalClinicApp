@@ -1,0 +1,37 @@
+﻿@model AttendanceFormModel
+
+<div class="row">
+    <div class="col-sm-12 offset-lg-2 col-lg-8 offset-xl-3 col-xl-6">
+        <form method="post">
+            <div class="form-group">
+                <label asp-for="ClinicRemarks"></label>
+                <input asp-for="ClinicRemarks" class="form-control" placeholder="Title...">
+                <span asp-validation-for="ClinicRemarks" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Diagnosis"></label>
+                <input asp-for="Diagnosis" class="form-control" placeholder="Diagnosis...">
+                <span asp-validation-for="Diagnosis" class="small text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Date"></label>
+                <textarea asp-for="Date" rows="4" class="form-control" placeholder="Date..."></textarea>
+                <span asp-validation-for="Date" class="small text-danger"></span>
+            </div>         
+            <div class="form-group">
+                <label asp-for="PatientId"></label>
+                <select asp-for="PatientId" class="form-select">
+                    @foreach (var patient in Model.Patients)
+                    {
+                        <option value="@patient.Id">@patient.Name</option>
+                    }
+                </select>
+                <span asp-validation-for="PatientId" class="small text-danger"></span>
+            </div>
+
+            <div class="text-center">
+                <input class="btn btn-primary mt-3" type="submit" value="Save" />
+            </div>
+        </form>
+    </div>
+</div>

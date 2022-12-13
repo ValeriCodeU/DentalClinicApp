@@ -50,7 +50,7 @@ namespace DentalClinicApp.Controllers
 
 
 
-            return RedirectToAction(nameof(Mine));
+            return RedirectToAction(nameof(MyProblems));
         }
 
         public async Task<IActionResult> Details(int id)
@@ -86,7 +86,7 @@ namespace DentalClinicApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Mine()
+        public async Task<IActionResult> MyProblems()
         {
             var userId = this.User.Id();
 
@@ -139,7 +139,7 @@ namespace DentalClinicApp.Controllers
 
             await problemService.DeleteAsync(model.Id);
 
-            return RedirectToAction(nameof(Mine));
+            return RedirectToAction(nameof(MyProblems));
 
         }
     }
