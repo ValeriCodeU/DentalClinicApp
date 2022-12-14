@@ -84,5 +84,20 @@ namespace DentalClinicApp.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+            var model = new AttendanceFormModel();
+
+            return View(model);
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Edit(AttendanceFormModel model)
+        {
+            return RedirectToAction(nameof(MyAttendances));
+        }
+
     }
 }

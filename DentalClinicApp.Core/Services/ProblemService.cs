@@ -55,6 +55,18 @@ namespace DentalClinicApp.Core.Services
             await repo.SaveChangesAsync();
         }
 
+        public async Task EditProblemAsync(ProblemFormModel model, int problemId)
+        {
+            var problem = await repo.GetByIdAsync<DentalProblem>(problemId);
+
+            problem.DiseaseName = model.DiseaseName;
+            problem.DiseaseDescription = model.DiseaseDescription;
+            problem.DentalStatus = model.DentalStatus;
+            problem.AlergyDescription = model.AlergyDescription;
+
+            await repo.SaveChangesAsync();
+        }
+
         public async Task<ProblemDetailsViewModel> GetProblemByIdAsync(int problemId)
         {
             return await repo.AllReadonly<DentalProblem>()

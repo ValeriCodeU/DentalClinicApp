@@ -85,6 +85,27 @@ namespace DentalClinicApp.Controllers
             return View(model);
         }
 
+        [HttpPost]
+
+        public async Task<IActionResult> Edit(ProblemFormModel model, int id)
+        {
+            if (!await problemService.ProblemExistsAsync(id))
+            {
+                ModelState.AddModelError("", "Dental problem does not exist!");
+
+                return View(model);
+            }
+
+            if (!ModelState.IsValid)
+            {               
+                return View(model);
+            }
+
+            await problemService.EditProblemAsync(model, id);
+
+            return RedirectToAction(nameof(Details), new { id });
+        }
+
         public async Task<IActionResult> MyProblems()
         {
             var userId = this.User.Id();

@@ -22,8 +22,8 @@
 			{
 				@if (this.User.IsInRole("Dentist"))
 				{
-					<a asp-area"" asp-controller="Appointment" asp-action="Accept" asp-route-id="@Model.Id" class="btn btn-warning">Accept</a>
-					<a asp-controller="Appointment" asp-action="Postpone" asp-route-id="@Model.Id" class="btn btn-danger">Postpone</a>
+					<a asp-area"" asp-controller="Attendance" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+					<a asp-controller="Attendance" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
 					
 				}
 

@@ -21,6 +21,8 @@ namespace DentalClinicApp.Core.Contracts
 
         Task<ProblemDetailsViewModel> GetProblemByIdAsync(int problemId);
 
+        Task EditProblemAsync(ProblemFormModel model, int problemId);
+
         Task DeleteAsync(int problemId);
     }
 }
