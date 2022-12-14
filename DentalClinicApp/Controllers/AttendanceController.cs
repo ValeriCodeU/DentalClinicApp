@@ -1,11 +1,9 @@
 ﻿using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Attendances;
-using DentalClinicApp.Core.Services;
 using HouseRentingSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
-using static DentalClinicApp.Core.Constants.ModelConstant;
+using static DentalClinicApp.Core.Constants.RoleConstant;
 
 namespace DentalClinicApp.Controllers
 {
@@ -26,7 +24,7 @@ namespace DentalClinicApp.Controllers
             patientService = _patientService;
         }
 
-        [Authorize(Roles = "Dentist")]
+        [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> Create()
         {
@@ -46,7 +44,7 @@ namespace DentalClinicApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Dentist")]
+        [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> Create(AttendanceFormModel model)
         {

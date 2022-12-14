@@ -3,8 +3,7 @@ using DentalClinicApp.Core.Models.Appointments;
 using HouseRentingSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using System.Data;
-using static DentalClinicApp.Core.Constants.ModelConstant;
+using static DentalClinicApp.Core.Constants.RoleConstant;
 
 namespace DentalClinicApp.Controllers
 {
@@ -21,7 +20,7 @@ namespace DentalClinicApp.Controllers
             appointmentService = _appointmentService;
         }
 
-        [Authorize(Roles = "Patient")]
+        [Authorize(Roles = PatientRoleName)]
 
         public async Task<IActionResult> Make()
         {
@@ -39,7 +38,7 @@ namespace DentalClinicApp.Controllers
 
 
         [HttpPost]
-        [Authorize(Roles = "Patient")]
+        [Authorize(Roles = PatientRoleName)]
 
         public async Task<IActionResult> Make(AppointmentFormModel model)
         {
@@ -69,7 +68,7 @@ namespace DentalClinicApp.Controllers
         //    return View(model);
         //}
 
-        [Authorize(Roles = "Dentist")]
+        [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> Accept(int id)
         {
@@ -79,7 +78,7 @@ namespace DentalClinicApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Dentist")]
+        [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> Accept(AppointmentServiceModel model)
         {
@@ -92,7 +91,7 @@ namespace DentalClinicApp.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = "Dentist")]
+        [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> Postpone(int id)
         {
@@ -102,7 +101,7 @@ namespace DentalClinicApp.Controllers
         }
 
         [HttpPost]
-        [Authorize(Roles = "Dentist")]
+        [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> Postpone(AppointmentServiceModel model)
         {
@@ -122,11 +121,11 @@ namespace DentalClinicApp.Controllers
 
             var model = new AppointmentDetailsViewModel();
 
-            if (this.User.IsInRole("Patient"))
+            if (this.User.IsInRole(PatientRoleName))
             {
                 model = await appointmentService.GetPatientAppointments(userId);
             }
-            if (this.User.IsInRole("Dentist"))
+            if (this.User.IsInRole(DentistRoleName))
             {
                 model = await appointmentService.GetDentistAppointments(userId);
             }            
