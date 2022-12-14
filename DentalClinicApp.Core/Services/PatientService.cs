@@ -32,14 +32,33 @@ namespace DentalClinicApp.Core.Services
         public async Task<IEnumerable<DentistModel>> GetDentistsAsync()
         {
 
-            return await repo.AllReadonly<Dentist>().Select(d => new DentistModel()
-            {
-                Id = d.Id,
-                Name = $"{d.User.FirstName} {d.User.LastName}"
-            }).ToListAsync();
+            return await repo.AllReadonly<Dentist>()
+                .Select(d => new DentistModel()
+                {
+                    Id = d.Id,
+                    Name = $"{d.User.FirstName} {d.User.LastName}"
+                }).ToListAsync();
         }
 
-        public async Task<MyPatientsViewModel> GetMyPatients(Guid userId)
+        public async Task<IEnumerable<PatientModel>> GetPatientsAsync(Guid userId)
+        {
+
+            var patients = await repo.AllReadonly<Dentist>()
+                .Where(d => d.User.Id == userId)
+                .Where(d => d.User.IsActive)
+                .Select(d => d.Patients
+                .Select(p => new PatientModel()
+                {
+                    Id = p.Id,
+                    Name = $"{p.User.FirstName} {p.User.LastName}"
+                })
+                .ToList())
+                .FirstAsync();
+
+            return patients;
+        }
+
+        public async Task<MyPatientsViewModel> GetMyPatientsAsync(Guid userId)
         {
 
             //var patients = await repo.AllReadonly<Patient>()
@@ -96,7 +115,7 @@ namespace DentalClinicApp.Core.Services
 
         public async Task<bool> IsExistsByIdAsync(Guid userId)
         {
-            return await repo.AllReadonly<Patient>().AnyAsync(p => p.UserId == userId);
+            return await repo.AllReadonly<Patient>().AnyAsync(p => p.UserId == userId && p.User.IsActive);
         }
 
         public async Task<PatientDetailsViewModel> PatientDetailsByIdAsync(int id)
@@ -124,26 +143,6 @@ namespace DentalClinicApp.Core.Services
                     })
 
                 }).FirstAsync();
-
-            //return await repo
-            //    .AllReadonly<DentalProblem>()
-            //    .Where(dp => dp.IsActive)
-            //    .Where(dp => dp.Id == id)
-            //    .Select(dp => new PatientDetailsViewModel()
-            //    {
-            //        Id = dp.Id,
-            //        DiseaseDescription = dp.DiseaseDescription,
-            //        DiseaseName = dp.DiseaseName,
-            //        DentalStatus = dp.DentalStatus,
-            //        AlergyDescription = dp.AlergyDescription,
-            //        //Patient = new PatientServiceModel()
-            //        //{
-            //        //    FirstName = dp.Patient.User.FirstName,
-            //        //    LastName = dp.Patient.User.LastName,
-            //        //    Email = dp.Patient.User.Email,
-            //        //    PhoneNumber = dp.Patient.User.PhoneNumber
-            //        //}
-            //    }).FirstAsync();
 
         }
     }

@@ -37,5 +37,10 @@ namespace DentalClinicApp.Core.Services
 
            
         }
+
+        public async Task<bool> IsExistsByIdAsync(Guid userId)
+        {
+            return await repo.AllReadonly<Dentist>().AnyAsync(d => d.UserId == userId && d.User.IsActive);
+        }
     }
 }

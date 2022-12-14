@@ -19,10 +19,12 @@ namespace DentalClinicApp.Core.Contracts
 
         Task<bool> IsExistsByIdAsync(Guid userId);
 
-        Task<MyPatientsViewModel> GetMyPatients(Guid userId);
+        Task<MyPatientsViewModel> GetMyPatientsAsync(Guid userId);
 
         Task<PatientDetailsViewModel> PatientDetailsByIdAsync(int id);
 
         Task<int> GetPersonalDentistIdAsync(int patientId);
+
+        Task<IEnumerable<PatientModel>> GetPatientsAsync(Guid userId);
     }
 }

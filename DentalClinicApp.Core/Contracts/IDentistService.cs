@@ -10,5 +10,7 @@ namespace DentalClinicApp.Core.Contracts
     public interface IDentistService
     {
         Task<DentistDetailsViewModel> GetAllManagedDentistsAsync(Guid userId);
+
+        Task<bool> IsExistsByIdAsync(Guid userId);
     }
 }

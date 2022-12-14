@@ -14,6 +14,7 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IPatientService, PatientService>();
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IDentistService, DentistService>();
+            services.AddScoped<IAttendanceService, AttendanceService>();
 
             services.ConfigureApplicationCookie(options =>
             {
