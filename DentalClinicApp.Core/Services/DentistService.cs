@@ -38,6 +38,13 @@ namespace DentalClinicApp.Core.Services
            
         }
 
+        public async Task<int> GetDentistIdAsync(Guid userId)
+        {
+            var dentist = await repo.AllReadonly<Dentist>().FirstAsync(u => u.UserId == userId);
+
+            return dentist.Id;
+        }
+
         public async Task<bool> IsExistsByIdAsync(Guid userId)
         {
             return await repo.AllReadonly<Dentist>().AnyAsync(d => d.UserId == userId && d.User.IsActive);

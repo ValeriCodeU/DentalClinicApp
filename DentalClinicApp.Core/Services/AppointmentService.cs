@@ -83,7 +83,7 @@ namespace DentalClinicApp.Core.Services
                             Email = a.Patient.User.Email,
                             PhoneNumber = a.Patient.User.PhoneNumber
                         }
-                    }).ToList()
+                    })
 
                 }).FirstAsync();
         }

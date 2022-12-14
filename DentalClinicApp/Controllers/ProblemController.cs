@@ -49,7 +49,6 @@ namespace DentalClinicApp.Controllers
             await problemService.CreateAsync(patientId, model);
 
 
-
             return RedirectToAction(nameof(MyProblems));
         }
 

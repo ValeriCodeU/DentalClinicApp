@@ -1,7 +1,11 @@
 ﻿using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Attendances;
+using DentalClinicApp.Core.Services;
 using HouseRentingSystem.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
+using static DentalClinicApp.Core.Constants.ModelConstant;
 
 namespace DentalClinicApp.Controllers
 {
@@ -21,7 +25,8 @@ namespace DentalClinicApp.Controllers
             attendanceService = _attendanceService;
             patientService = _patientService;
         }
-        
+
+        [Authorize(Roles = "Dentist")]
 
         public async Task<IActionResult> Create()
         {
@@ -36,6 +41,48 @@ namespace DentalClinicApp.Controllers
             {
                 Patients = await patientService.GetPatientsAsync(userId)
             };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [Authorize(Roles = "Dentist")]
+
+        public async Task<IActionResult> Create(AttendanceFormModel model)
+        {
+            var userId = this.User.Id();
+
+            if (!await dentistService.IsExistsByIdAsync(userId))
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            var dentistId = await dentistService.GetDentistIdAsync(userId);
+
+            await attendanceService.CreateAsync(model, dentistId);
+
+            return RedirectToAction(nameof(Details));
+        }
+
+        public async Task<IActionResult> Details()
+        {
+            return View();
+        }
+
+        public async Task<IActionResult> MyAttendances()
+        {
+
+            var userId = User.Id();
+
+            IEnumerable<AttedanceServiceModel> model;
+
+            model = await attendanceService.GetDentistAttendancesAsync(userId);
+
+            //if (this.User.IsInRole("Dentist"))
+            //{
+            //    model = await attendanceService.GetDentistAttendancesAsync(userId);
+            //}         
+
 
             return View(model);
         }

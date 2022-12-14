@@ -1,0 +1,24 @@
+﻿@model IEnumerable<AttedanceServiceModel>
+
+@{
+    ViewBag.Title = "Attendances";
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+
+
+@if (Model.Any())
+{
+    <div class="row">
+        @foreach (var appointment in Model)
+        {
+            <partial name="_AttendancePartial" model="@appointment" />
+        }
+    </div>
+}
+else
+{
+    <h3 class="text-center">No dental attendances yet!</h3>
+}

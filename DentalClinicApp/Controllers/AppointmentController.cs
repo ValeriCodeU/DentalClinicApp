@@ -1,7 +1,9 @@
 ﻿using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Appointments;
 using HouseRentingSystem.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using System.Data;
 using static DentalClinicApp.Core.Constants.ModelConstant;
 
 namespace DentalClinicApp.Controllers
@@ -18,6 +20,9 @@ namespace DentalClinicApp.Controllers
             patientService = _patientService;
             appointmentService = _appointmentService;
         }
+
+        [Authorize(Roles = "Patient")]
+
         public async Task<IActionResult> Make()
         {
             var model = new AppointmentFormModel();
@@ -34,6 +39,7 @@ namespace DentalClinicApp.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = "Patient")]
 
         public async Task<IActionResult> Make(AppointmentFormModel model)
         {
@@ -53,15 +59,17 @@ namespace DentalClinicApp.Controllers
 
         }
 
-        public async Task<IActionResult> Details()
-        {
-            var userId = this.User.Id();
+        //public async Task<IActionResult> Details()
+        //{
+        //    var userId = this.User.Id();
 
-            var model = await appointmentService.GetDentistAppointments(userId);
+        //    var model = await appointmentService.GetDentistAppointments(userId);
 
 
-            return View(model);
-        }
+        //    return View(model);
+        //}
+
+        [Authorize(Roles = "Dentist")]
 
         public async Task<IActionResult> Accept(int id)
         {
@@ -71,6 +79,7 @@ namespace DentalClinicApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Dentist")]
 
         public async Task<IActionResult> Accept(AppointmentServiceModel model)
         {
@@ -79,10 +88,11 @@ namespace DentalClinicApp.Controllers
                 TempData["message"] = "You have successfully accepted an appointment!";
             }
 
-            return RedirectToAction(nameof(Details));
+            return RedirectToAction(nameof(MyAppointments));
         }
 
         [HttpGet]
+        [Authorize(Roles = "Dentist")]
 
         public async Task<IActionResult> Postpone(int id)
         {
@@ -92,6 +102,7 @@ namespace DentalClinicApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Dentist")]
 
         public async Task<IActionResult> Postpone(AppointmentServiceModel model)
         {
@@ -102,14 +113,23 @@ namespace DentalClinicApp.Controllers
                 TempData["message"] = "You have successfully postponed an appointment!";
             }
 
-            return RedirectToAction(nameof(Details));
+            return RedirectToAction(nameof(MyAppointments));
         }
 
         public async Task<IActionResult> MyAppointments()
         {
             var userId = this.User.Id();
 
-            var model = await appointmentService.GetPatientAppointments(userId);
+            var model = new AppointmentDetailsViewModel();
+
+            if (this.User.IsInRole("Patient"))
+            {
+                model = await appointmentService.GetPatientAppointments(userId);
+            }
+            if (this.User.IsInRole("Dentist"))
+            {
+                model = await appointmentService.GetDentistAppointments(userId);
+            }            
 
             return View(model);
         }

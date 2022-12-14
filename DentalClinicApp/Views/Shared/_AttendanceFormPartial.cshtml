@@ -5,19 +5,14 @@
         <form method="post">
             <div class="form-group">
                 <label asp-for="ClinicRemarks"></label>
-                <input asp-for="ClinicRemarks" class="form-control" placeholder="Title...">
+                <textarea asp-for="ClinicRemarks" class="form-control" placeholder="Clinic Remarks..."></textarea>
                 <span asp-validation-for="ClinicRemarks" class="small text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Diagnosis"></label>
-                <input asp-for="Diagnosis" class="form-control" placeholder="Diagnosis...">
+                <textarea asp-for="Diagnosis" class="form-control" placeholder="Diagnosis..."></textarea>
                 <span asp-validation-for="Diagnosis" class="small text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Date"></label>
-                <textarea asp-for="Date" rows="4" class="form-control" placeholder="Date..."></textarea>
-                <span asp-validation-for="Date" class="small text-danger"></span>
-            </div>         
+            </div>          
             <div class="form-group">
                 <label asp-for="PatientId"></label>
                 <select asp-for="PatientId" class="form-select">

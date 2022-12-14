@@ -12,5 +12,7 @@ namespace DentalClinicApp.Core.Contracts
         Task<DentistDetailsViewModel> GetAllManagedDentistsAsync(Guid userId);
 
         Task<bool> IsExistsByIdAsync(Guid userId);
+
+        Task<int> GetDentistIdAsync(Guid userId);
     }
 }

@@ -19,8 +19,6 @@ namespace DentalClinicApp.Core.Models.Attendances
 
         public string Diagnosis { get; set; } = null!;
 
-        public string Date { get; set; } = null!;
-
         public int PatientId { get; set; }
 
         public IEnumerable<PatientModel> Patients { get; set; } = new List<PatientModel>();
