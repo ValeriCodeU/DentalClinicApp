@@ -5,8 +5,10 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 	<title>@ViewData["Title"] - Dental Clinic App - Зъболекарски помощник</title>
 	<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+	<link rel="stylesheet" href="~/lib/toastr/toastr.min.css" />
 	<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 	<link rel="stylesheet" href="~/DentalClinicApp.styles.css" asp-append-version="true" />
+	<script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
 	<header>
@@ -75,13 +77,14 @@
 	</header>
 	<div class="container">
 		<main role="main" class="pb-3">
-			@if (TempData["message"] != null)
+			@*@if (TempData["message"] != null)
 			{
 				<div class="alert alert-success alert-dismissible fade show" role="alert">
 					@TempData["message"]
 					<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>					
 				</div>
-			}
+			}*@
+			<partial name="_UserMessages" />
 			@RenderBody()
 		</main>
 	</div>
@@ -90,9 +93,9 @@
 		<div class="container">
 			&copy; @DateTime.UtcNow.Year - DentalClinicApp
 		</div>
-	</footer>
-	<script src="~/lib/jquery/dist/jquery.min.js"></script>
+	</footer>	
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+	<script src="~/lib/toastr/toastr.min.js" ></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
 	@await RenderSectionAsync("Scripts", required: false)
 </body>

@@ -1,4 +1,5 @@
-﻿using DentalClinicApp.Core.Contracts;
+﻿using DentalClinicApp.Core.Constants;
+using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Dentists;
 using DentalClinicApp.Core.Models.Patients;
 using DentalClinicApp.Infrastructure.Data.Identity;
@@ -35,7 +36,9 @@ namespace DentalClinicApp.Controllers
             
             if (await patientService.IsExistsByIdAsync(userId))
             {
+                //TempData[MessageConstant.ErrorMessage] = "Вие вече сте пациент";
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+               
             }
 
 

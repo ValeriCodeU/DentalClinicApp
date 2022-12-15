@@ -1,4 +1,5 @@
-﻿using DentalClinicApp.Core.Models.Account;
+﻿using DentalClinicApp.Core.Constants;
+using DentalClinicApp.Core.Models.Account;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -49,7 +50,8 @@ namespace DentalClinicApp.Controllers
 
             if (result.Succeeded)
             {
-                TempData["message"] = "You have successfully log in!";
+                //TempData["message"] = "You have successfully log in!";
+                TempData[MessageConstant.SuccessMessage] = "You have successfully log in!";
                 return RedirectToAction("Index", "Home");
             }
 
@@ -108,6 +110,7 @@ namespace DentalClinicApp.Controllers
         public async Task<IActionResult> Logout()
         {
             await signInManager.SignOutAsync();
+            TempData[MessageConstant.ErrorMessage] = "You have successfully log out!";
 
             return RedirectToAction("Index", "Home");
         }
