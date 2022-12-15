@@ -15,6 +15,7 @@ namespace DentalClinicApp.Controllers
     {
         private readonly IPatientService patientService;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IUserService userService;
         private readonly IProblemService problemService;
 
@@ -22,12 +23,14 @@ namespace DentalClinicApp.Controllers
             IPatientService _patientService,
             UserManager<ApplicationUser> _userManager,
             IUserService _userService,
-            IProblemService _problemService)
+            IProblemService _problemService,
+            SignInManager<ApplicationUser> _signInManager)
         {
             patientService = _patientService;
             userManager = _userManager;
             userService = _userService;
             problemService = _problemService;
+            signInManager = _signInManager;
         }
 
         public async Task<IActionResult> Become()
@@ -71,11 +74,13 @@ namespace DentalClinicApp.Controllers
             await userManager.RemoveFromRoleAsync(user, "User");
             await userManager.AddToRoleAsync(user, "Patient");
 
-            TempData["message"] = "You have successfully become a patient!";
+            await signInManager.SignOutAsync();
+            await signInManager.SignInAsync(user, isPersistent: false);
 
 
+            TempData[MessageConstant.SuccessMessage] = "You have successfully become a patient!";
 
-            return RedirectToAction("Create", "Problem");
+            return RedirectToAction("Index", "Home");
         }
 
         public async Task<IActionResult> MyPatients()

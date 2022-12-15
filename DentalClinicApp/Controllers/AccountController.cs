@@ -94,7 +94,10 @@ namespace DentalClinicApp.Controllers
             if (result.Succeeded)
             {
                 await userManager.AddToRoleAsync(user, "User");
-                return RedirectToAction("Login", "Account");
+                await signInManager.SignInAsync(user, isPersistent: false);
+                TempData[MessageConstant.SuccessMessage] = "You have successfully registered as a new member!";
+                return RedirectToAction("Index", "Home");
+                //return RedirectToAction("Login", "Account");
             }
 
             foreach (var error in result.Errors)
