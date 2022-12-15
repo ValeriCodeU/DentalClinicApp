@@ -21,6 +21,25 @@ namespace DentalClinicApp.Core.Services
 			repo = _repo;
 		}
 
+		public async Task<AttedanceServiceModel> AttendanceDetailsByIdAsync(int id)
+		{
+			return await repo.AllReadonly<Attendance>()
+				.Where(a => a.Id == id)
+				.Where(a => a.IsActive)
+				.Select(a => new AttedanceServiceModel()
+				{
+					Id = a.Id,
+					ClinicRemarks = a.ClinicRemarks,
+					Diagnosis = a.Diagnosis,
+					Date = a.Date.ToString(),
+					Patient = new Models.Patients.PatientServiceModel()
+					{
+						Id = a.Patient.Id,					
+					}
+
+				}).FirstAsync();
+		}
+
 		public async Task<bool> AttendanceExistsAsync(int id)
 		{
             return await repo.AllReadonly<Attendance>().AnyAsync(a => a.Id == id && a.IsActive);

@@ -14,5 +14,7 @@ namespace DentalClinicApp.Core.Contracts
 		Task<IEnumerable<AttedanceServiceModel>> GetDentistAttendancesAsync(Guid userId);
 
 		Task<bool> AttendanceExistsAsync(int id);
+
+		Task<AttedanceServiceModel> AttendanceDetailsByIdAsync(int id);
     }
 }

@@ -1,9 +1,11 @@
 ﻿using DentalClinicApp.Core.Constants;
 using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Attendances;
+using DentalClinicApp.Infrastructure.Data.Entities;
 using HouseRentingSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static DentalClinicApp.Core.Constants.ModelConstant;
 using static DentalClinicApp.Core.Constants.RoleConstant;
 
 namespace DentalClinicApp.Controllers
@@ -88,6 +90,7 @@ namespace DentalClinicApp.Controllers
 
         public async Task<IActionResult> Edit(int id)
         {
+            var userId = this.User.Id();
             var model = new AttendanceFormModel();
 
             if (!await attendanceService.AttendanceExistsAsync(id))
@@ -96,6 +99,13 @@ namespace DentalClinicApp.Controllers
 
                 return RedirectToAction("Index", "Home");
             }
+
+            var attendance = await attendanceService.AttendanceDetailsByIdAsync(id);
+
+            model.ClinicRemarks = attendance.ClinicRemarks;
+            model.Diagnosis = attendance.Diagnosis;
+            model.PatientId = attendance.Patient.Id;
+            model.Patients = await patientService.GetPatientsAsync(userId);            
 
             return View(model);
         }
