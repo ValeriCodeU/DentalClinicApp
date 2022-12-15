@@ -163,12 +163,13 @@ namespace DentalClinicApp.Core.Services
                    Email = p.User.Email,
                    PhoneNumber = p.User.PhoneNumber,
                    PatientAttendances = p.Attendances
-                   .Where(p => p.IsActive)
-                   .Select(p => new AttedanceServiceModel()
+                   .Where(pa => pa.IsActive)
+                   .Select(pa => new AttedanceServiceModel()
                    {
-                       ClinicRemarks = p.ClinicRemarks,
-                       Diagnosis = p.Diagnosis,
-                       Date = p.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
+                       Id = pa.Id,   
+                       ClinicRemarks = pa.ClinicRemarks,
+                       Diagnosis = pa.Diagnosis,
+                       Date = pa.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
                    })
 
                }).FirstAsync();

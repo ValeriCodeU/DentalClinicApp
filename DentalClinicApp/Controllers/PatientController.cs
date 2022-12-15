@@ -100,7 +100,7 @@ namespace DentalClinicApp.Controllers
             return View(patients);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public async Task<IActionResult> PatientProblemDetails(int id)
         {
             //if (!await problemService.ProblemExistsAsync(id))
             //{
@@ -112,7 +112,7 @@ namespace DentalClinicApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> AttendanceDetails(int id)
+        public async Task<IActionResult> PatientAttendanceDetails(int id)
         {
            
             var model = await patientService.PatientAttendanceDetailsByIdAsync(id);
