@@ -21,6 +21,11 @@ namespace DentalClinicApp.Core.Services
 			repo = _repo;
 		}
 
+		public async Task<bool> AttendanceExistsAsync(int id)
+		{
+            return await repo.AllReadonly<Attendance>().AnyAsync(a => a.Id == id && a.IsActive);
+        }
+
 		public async Task<int> CreateAsync(AttendanceFormModel model, int dentistId)
 		{
 			var attendance = new Attendance()

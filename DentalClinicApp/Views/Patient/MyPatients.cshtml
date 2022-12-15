@@ -13,7 +13,8 @@
 				<th scope="col">Last Name</th>
 				<th scope="col">Phone Number</th>
 				<th scope="col">Email</th>
-				<th scope="col">Dental Problem</th>
+				<th scope="col">Dental Problems</th>
+				<th scope="col">Attendances</th>
 			</tr>
 		</thead>
 		<tbody>
@@ -27,8 +28,10 @@
 					<td>@user.PhoneNumber</td>
 					<td>@user.Email</td>
 					<td>
-						<a asp-area="" asp-action="Details" asp-controller="Patient" asp-route-id="@user.Id" class="btn btn-primary">View</a>
-						<a asp-area="" asp-action="Update" asp-controller="Problem" asp-route-id="" class="btn btn-success">Update</a>
+						<a asp-area="" asp-action="Details" asp-controller="Patient" asp-route-id="@user.Id" class="btn btn-primary">View</a>						
+					</td>
+					<td>
+						<a asp-area="" asp-action="AttendanceDetails" asp-controller="Patient" asp-route-id="@user.Id" class="btn btn-primary">View</a>
 					</td>
 				</tr>
 			}

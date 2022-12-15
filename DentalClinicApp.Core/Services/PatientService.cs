@@ -1,10 +1,13 @@
 ﻿using DentalClinicApp.Core.Contracts;
+using DentalClinicApp.Core.Models.Attendances;
 using DentalClinicApp.Core.Models.DentalProblems;
 using DentalClinicApp.Core.Models.Dentists;
 using DentalClinicApp.Core.Models.Patients;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
+using System.Reflection.Emit;
 
 namespace DentalClinicApp.Core.Services
 {
@@ -144,6 +147,31 @@ namespace DentalClinicApp.Core.Services
 
                 }).FirstAsync();
 
+        }
+
+        public async Task<PatientDetailsViewModel> PatientAttendanceDetailsByIdAsync(int id)
+        {
+            return await repo
+               .AllReadonly<Patient>()
+               .Where(p => p.User.IsActive)
+               .Where(p => p.Id == id)
+               .Select(p => new PatientDetailsViewModel()
+               {
+
+                   FirstName = p.User.FirstName,
+                   LastName = p.User.LastName,
+                   Email = p.User.Email,
+                   PhoneNumber = p.User.PhoneNumber,
+                   PatientAttendances = p.Attendances
+                   .Where(p => p.IsActive)
+                   .Select(p => new AttedanceServiceModel()
+                   {
+                       ClinicRemarks = p.ClinicRemarks,
+                       Diagnosis = p.Diagnosis,
+                       Date = p.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
+                   })
+
+               }).FirstAsync();
         }
     }
 }

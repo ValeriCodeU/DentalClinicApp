@@ -87,12 +87,12 @@ namespace DentalClinicApp.Controllers
         {
             var userId = this.User.Id();
 
-            var result = await patientService.IsExistsByIdAsync(userId);
+            //var result = await patientService.IsExistsByIdAsync(userId);
 
-            if (result)
-            {
-                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
-            }
+            //if (result)
+            //{
+            //    return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            //}
 
             var patients = await patientService.GetMyPatientsAsync(userId);
           
@@ -108,6 +108,14 @@ namespace DentalClinicApp.Controllers
             //}
 
             var model = await patientService.PatientDetailsByIdAsync(id);
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> AttendanceDetails(int id)
+        {
+           
+            var model = await patientService.PatientAttendanceDetailsByIdAsync(id);
 
             return View(model);
         }

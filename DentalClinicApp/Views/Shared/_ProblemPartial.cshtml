@@ -8,7 +8,7 @@
 			<h6>Description: <b>@Model.DiseaseDescription</b></h6>
 			<h6>Alergy: <b>@Model.AlergyDescription</b></h6>
 
-            @if (this.User.Identity.IsAuthenticated)
+          @*  @if (this.User.Identity.IsAuthenticated)
             {
                 <a asp-area"" asp-controller="Houses" asp-action="Edit" asp-route-id="@Model.Id"
                class="btn btn-warning">Edit</a>
@@ -16,7 +16,7 @@
                class="btn btn-danger">Delete</a>
                 <p></p>
               
-            }
+            }*@
 		</div>
 	</div>
 </div>

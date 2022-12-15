@@ -1,4 +1,5 @@
-﻿using DentalClinicApp.Core.Contracts;
+﻿using DentalClinicApp.Core.Constants;
+using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Attendances;
 using HouseRentingSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -88,6 +89,13 @@ namespace DentalClinicApp.Controllers
         public async Task<IActionResult> Edit(int id)
         {
             var model = new AttendanceFormModel();
+
+            if (!await attendanceService.AttendanceExistsAsync(id))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Attendance does not exist!";
+
+                return RedirectToAction("Index", "Home");
+            }
 
             return View(model);
         }
