@@ -116,5 +116,10 @@ namespace DentalClinicApp.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> Card()
+        {
+            return View();
+        }
     }
 }

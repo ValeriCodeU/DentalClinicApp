@@ -179,5 +179,22 @@ namespace DentalClinicApp.Controllers
             return RedirectToAction(nameof(MyAttendances));
         }
 
+        public async Task<IActionResult> Card()
+        {
+            var userId = this.User.Id();
+
+            if (!await patientService.IsExistsByIdAsync(userId))
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            int patientId = await patientService.GetPatientIdAsync(userId);
+
+            var model = await attendanceService.AllAttendancesByPatientIdAsync(patientId);
+
+
+            return View(model);
+        }
+
     }
 }

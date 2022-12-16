@@ -1,0 +1,36 @@
+﻿@model IEnumerable<AttendanceDetailsViewModel>
+
+@{
+	ViewBag.Title = "View My Attendance Card";
+	int count = 0;
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<table class="table table-success table-hover">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">ClinicRemarks</th>
+			<th scope="col">Date</th>
+			<th scope="col">Details</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var attendance in Model)
+		{
+			count++;
+			<tr>
+				<th scope="row">@count</th>
+				<td>@attendance.ClinicRemarks</td>
+				<td>@attendance.Date</td>
+
+				<td>
+					<a asp-area="" asp-action="Details" asp-controller="Attendance" asp-route-id="@attendance.Id" class="btn btn-primary">View</a>
+				</td>
+			</tr>
+		}
+
+	</tbody>
+</table>

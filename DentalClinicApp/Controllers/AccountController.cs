@@ -50,7 +50,6 @@ namespace DentalClinicApp.Controllers
 
             if (result.Succeeded)
             {
-                //TempData["message"] = "You have successfully log in!";
                 TempData[MessageConstant.SuccessMessage] = "You have successfully log in!";
                 return RedirectToAction("Index", "Home");
             }
@@ -95,7 +94,7 @@ namespace DentalClinicApp.Controllers
             {
                 await userManager.AddToRoleAsync(user, "User");
                 await signInManager.SignInAsync(user, isPersistent: false);
-                TempData[MessageConstant.SuccessMessage] = "You have successfully registered as a new member!";
+                TempData[MessageConstant.SuccessMessage] = "You have successfully become a new user!";
                 return RedirectToAction("Index", "Home");
                 //return RedirectToAction("Login", "Account");
             }

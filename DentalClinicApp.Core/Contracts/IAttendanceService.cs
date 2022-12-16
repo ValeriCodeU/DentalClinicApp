@@ -1,4 +1,5 @@
 ﻿using DentalClinicApp.Core.Models.Attendances;
+using DentalClinicApp.Core.Models.DentalProblems;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,5 +21,7 @@ namespace DentalClinicApp.Core.Contracts
 		Task EditAttendanceAsync(AttendanceFormModel model, int attendanceId);
 
 		Task<bool> DeleteAttendanceAsync(int id);
+
+        Task<IEnumerable<AttendanceDetailsViewModel>> AllAttendancesByPatientIdAsync(int patientId);
     }
 }
