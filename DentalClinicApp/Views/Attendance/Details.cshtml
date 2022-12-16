@@ -1,5 +1,36 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
+﻿@model AttedanceServiceModel
+
 @{
+    ViewBag.Title = "View Attendance Details";
 }
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+
+
+<div class="d-flex justify-content-center">
+    <div class="card " style="width: 50rem;">
+        <div class="card-body">           
+            <p class="card-text"><span class="fw-bold">Clinic Remarks: </span>@Model.ClinicRemarks</p>
+            <p class="card-text"><span class="fw-bold">Diagnosis: </span>@Model.Diagnosis</p>           
+            <p class="card-text"><span class="fw-bold">Created On: </span>@Model.Date</p>
+            <p class="card-text"><span class="fw-bold">First Name: </span>@Model.Patient.FirstName</p>
+            <p class="card-text"><span class="fw-bold">Last Name: </span>@Model.Patient.LastName</p>
+            <p class="card-text"><span class="fw-bold">Email: </span>@Model.Patient.Email</p>
+            <p class="card-text"><span class="fw-bold">Phone Number: </span>@Model.Patient.PhoneNumber</p>
+           
+            @if (this.User?.Identity?.IsAuthenticated ?? false)
+            {
+                <tr class="actions">
+                    <th><span class="fw-bold">Actions:</span></th>
+                    <td>
+                        <a asp-controller="Attendance" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                        <a asp-controller="Attendance" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+
+        </div>
+    </div>
+</div>

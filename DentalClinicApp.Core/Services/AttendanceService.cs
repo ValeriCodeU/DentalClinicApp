@@ -31,10 +31,14 @@ namespace DentalClinicApp.Core.Services
 					Id = a.Id,
 					ClinicRemarks = a.ClinicRemarks,
 					Diagnosis = a.Diagnosis,
-					Date = a.Date.ToString(),
+					Date = a.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture),
 					Patient = new Models.Patients.PatientServiceModel()
 					{
-						Id = a.Patient.Id,					
+						Id = a.Patient.Id,
+						FirstName = a.Patient.User.FirstName,
+						LastName = a.Patient.User.LastName,
+						Email = a.Patient.User.Email,
+						PhoneNumber = a.Patient.User.PhoneNumber
 					}
 
 				}).FirstAsync();

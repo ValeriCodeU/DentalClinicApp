@@ -36,7 +36,7 @@ namespace DentalClinicApp.Controllers
             
             if (await patientService.IsExistsByIdAsync(userId))
             {
-                //TempData[MessageConstant.ErrorMessage] = "Вие вече сте пациент";
+                TempData[MessageConstant.ErrorMessage] = "You are alread a patient";
                 return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
                
             }

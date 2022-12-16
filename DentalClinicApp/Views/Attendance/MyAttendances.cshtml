@@ -51,9 +51,9 @@ else
 			count++;
 			<tr>
 				<th scope="row">@count</th>
-				<td>@problem.ClinicRemarks</td>
-				<td>@problem.Diagnosis</td>
-				<td>@problem.Date</td>
+				<td>@attedance.ClinicRemarks</td>
+				<td>@attedance.Diagnosis</td>
+				<td>@attedance.Date</td>
 				
 				<td>
 					<a asp-area="" asp-action="Details" asp-controller="Attendance" asp-route-id="@attedance.Id" class="btn btn-primary">Details</a>

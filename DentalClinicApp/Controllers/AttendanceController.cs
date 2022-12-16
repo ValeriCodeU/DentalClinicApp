@@ -1,6 +1,7 @@
 ﻿using DentalClinicApp.Core.Constants;
 using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Attendances;
+using DentalClinicApp.Core.Services;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using HouseRentingSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
@@ -65,9 +66,19 @@ namespace DentalClinicApp.Controllers
             return RedirectToAction(nameof(MyAttendances));
         }
 
-        public async Task<IActionResult> Details()
+        public async Task<IActionResult> Details(int id)
         {
-            return View();
+            if (!await attendanceService.AttendanceExistsAsync(id))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Attendance does not exist!";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = await attendanceService.AttendanceDetailsByIdAsync(id);
+
+
+            return View(model);
         }
 
         public async Task<IActionResult> MyAttendances()
@@ -123,7 +134,7 @@ namespace DentalClinicApp.Controllers
 
             await attendanceService.EditAttendanceAsync(model, id);
 
-            return RedirectToAction(nameof(MyAttendances));
+            return RedirectToAction(nameof(Details), new { id });
         }
 
         public async Task<IActionResult> Delete(int id)

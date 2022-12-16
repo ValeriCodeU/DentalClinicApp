@@ -3,11 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32901.215
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentalClinicApp", "DentalClinicApp\DentalClinicApp.csproj", "{5563EB68-2318-47CA-B4A0-B63B8135AEB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DentalClinicApp", "DentalClinicApp\DentalClinicApp.csproj", "{5563EB68-2318-47CA-B4A0-B63B8135AEB5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentalClinicApp.Infrastructure", "DentalClinicApp.Infrastructure\DentalClinicApp.Infrastructure.csproj", "{EF6630BF-6DD8-4744-9203-E5F8146D3EE2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DentalClinicApp.Infrastructure", "DentalClinicApp.Infrastructure\DentalClinicApp.Infrastructure.csproj", "{EF6630BF-6DD8-4744-9203-E5F8146D3EE2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentalClinicApp.Core", "DentalClinicApp.Core\DentalClinicApp.Core.csproj", "{99225C15-8E96-4BAF-988F-8AABFCA75FDF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DentalClinicApp.Core", "DentalClinicApp.Core\DentalClinicApp.Core.csproj", "{99225C15-8E96-4BAF-988F-8AABFCA75FDF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DentalClinicApp.Test", "DentalClinicApp.Test\DentalClinicApp.Test.csproj", "{8E7FE3D0-B7F8-487B-98A5-D4D7242AEAF2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,10 @@ Global
 		{99225C15-8E96-4BAF-988F-8AABFCA75FDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{99225C15-8E96-4BAF-988F-8AABFCA75FDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{99225C15-8E96-4BAF-988F-8AABFCA75FDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E7FE3D0-B7F8-487B-98A5-D4D7242AEAF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E7FE3D0-B7F8-487B-98A5-D4D7242AEAF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E7FE3D0-B7F8-487B-98A5-D4D7242AEAF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E7FE3D0-B7F8-487B-98A5-D4D7242AEAF2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
