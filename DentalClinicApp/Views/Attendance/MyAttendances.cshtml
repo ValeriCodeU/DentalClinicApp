@@ -12,9 +12,9 @@
 @if (Model.Any())
 {
     <div class="row">
-        @foreach (var appointment in Model)
+        @foreach (var attendance in Model)
         {
-            <partial name="_AttendancePartial" model="@appointment" />
+            <partial name="_AttendancePartial" model="@attendance" />
         }
     </div>
 }

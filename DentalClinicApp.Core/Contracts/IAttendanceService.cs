@@ -16,5 +16,9 @@ namespace DentalClinicApp.Core.Contracts
 		Task<bool> AttendanceExistsAsync(int id);
 
 		Task<AttedanceServiceModel> AttendanceDetailsByIdAsync(int id);
+
+		Task EditAttendanceAsync(AttendanceFormModel model, int attendanceId);
+
+		Task<bool> DeleteAttendanceAsync(int id);
     }
 }

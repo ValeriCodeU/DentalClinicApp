@@ -62,18 +62,42 @@ namespace DentalClinicApp.Core.Services
 			return attendance.Id;
 		}
 
+		public async Task<bool> DeleteAttendanceAsync(int id)
+		{
+			var attendance = await repo.GetByIdAsync<Attendance>(id);
+
+			attendance.IsActive = false;
+			await repo.SaveChangesAsync();
+
+			return true;
+		}
+
+		public async Task EditAttendanceAsync(AttendanceFormModel model, int attendanceId)
+		{
+			var attendance = await repo.GetByIdAsync<Attendance>(attendanceId);
+
+			attendance.ClinicRemarks = model.ClinicRemarks;
+			attendance.Diagnosis = model.Diagnosis;
+			attendance.Date = DateTime.Now;
+			attendance.PatientId = model.PatientId;
+
+			await repo.SaveChangesAsync();
+		}
+
 		public async Task<IEnumerable<AttedanceServiceModel>> GetDentistAttendancesAsync(Guid userId)
 		{
 			return await repo.AllReadonly<Dentist>()
 				.Where(d => d.UserId == userId)
 				.Where(d => d.User.IsActive)
 				.Select(d => d.Attendances
+				.Where(d => d.IsActive)
 				.Select(a => new AttedanceServiceModel()
 				{
 					ClinicRemarks=a.ClinicRemarks,
 					Diagnosis=a.Diagnosis,
 					Id = a.Id,
-					Patient = new Models.Patients.PatientServiceModel()
+					Date = a.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture),
+                    Patient = new Models.Patients.PatientServiceModel()
 					{
 						FirstName = a.Patient.User.FirstName,
 						LastName = a.Patient.User.LastName,

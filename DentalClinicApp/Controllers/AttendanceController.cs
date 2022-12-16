@@ -101,7 +101,7 @@ namespace DentalClinicApp.Controllers
             }
 
             var attendance = await attendanceService.AttendanceDetailsByIdAsync(id);
-
+            
             model.ClinicRemarks = attendance.ClinicRemarks;
             model.Diagnosis = attendance.Diagnosis;
             model.PatientId = attendance.Patient.Id;
@@ -112,8 +112,59 @@ namespace DentalClinicApp.Controllers
 
         [HttpPost]
 
-        public async Task<IActionResult> Edit(AttendanceFormModel model)
+        public async Task<IActionResult> Edit(AttendanceFormModel model, int id)
         {
+            if (!await attendanceService.AttendanceExistsAsync(id))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Attendance does not exist!";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            await attendanceService.EditAttendanceAsync(model, id);
+
+            return RedirectToAction(nameof(MyAttendances));
+        }
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (!await attendanceService.AttendanceExistsAsync(id))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Attendance does not exist!";
+
+                return RedirectToAction("Index", "Home");
+            }           
+
+            var attendance = await attendanceService.AttendanceDetailsByIdAsync(id);
+
+            var model = new AttendanceDeleteViewModel()
+            {
+                Id = attendance.Id,
+                ClinicRemarks = attendance.ClinicRemarks,
+                Diagnosis = attendance.Diagnosis
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+
+        public async Task<IActionResult> Delete(AttendanceDeleteViewModel model)
+        {
+            if (!await attendanceService.AttendanceExistsAsync(model.Id))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Attendance does not exist!";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            var result = await attendanceService.DeleteAttendanceAsync(model.Id);
+
+            if (result)
+            {
+                TempData[MessageConstant.SuccessMessage] = "You successfully deleted this attendance!";
+            }            
+
             return RedirectToAction(nameof(MyAttendances));
         }
 

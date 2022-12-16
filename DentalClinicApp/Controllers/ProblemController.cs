@@ -1,4 +1,5 @@
-﻿using DentalClinicApp.Core.Contracts;
+﻿using DentalClinicApp.Core.Constants;
+using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models;
 using DentalClinicApp.Core.Models.DentalProblems;
 using DentalClinicApp.Infrastructure.Data.Identity;
@@ -154,10 +155,13 @@ namespace DentalClinicApp.Controllers
 
             if (!await problemService.ProblemExistsAsync(model.Id))
             {
-                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+                TempData[MessageConstant.ErrorMessage] = "Dental problem does not exist!";
+                return RedirectToAction(nameof(MyProblems));                
             }
 
             await problemService.DeleteAsync(model.Id);
+
+            TempData[MessageConstant.SuccessMessage] = "You successfully deleted this dental problem!";
 
             return RedirectToAction(nameof(MyProblems));
 

@@ -1,13 +1,10 @@
 ﻿using DentalClinicApp.Core.Constants;
 using DentalClinicApp.Core.Contracts;
-using DentalClinicApp.Core.Models.Dentists;
 using DentalClinicApp.Core.Models.Patients;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using HouseRentingSystem.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
-using static DentalClinicApp.Core.Constants.ModelConstant;
 
 namespace DentalClinicApp.Controllers
 {
