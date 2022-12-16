@@ -62,7 +62,7 @@ namespace DentalClinicApp.Controllers
 
             await attendanceService.CreateAsync(model, dentistId);
 
-            return RedirectToAction(nameof(Details));
+            return RedirectToAction(nameof(MyAttendances));
         }
 
         public async Task<IActionResult> Details()

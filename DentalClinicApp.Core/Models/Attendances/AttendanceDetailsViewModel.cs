@@ -10,10 +10,10 @@ namespace DentalClinicApp.Core.Models.Attendances
     {
         public int Id { get; set; }
 
-        public string ClinicRemarks { get; set; }
+        public string ClinicRemarks { get; set; } = null!;
 
-        public string Diagnosis { get; set; }
+        public string Diagnosis { get; set; } = null!;
 
-        public string Date { get; set; }
+        public string Date { get; set; } = null!;
     }
 }
