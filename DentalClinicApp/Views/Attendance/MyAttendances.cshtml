@@ -46,7 +46,7 @@ else
 		</tr>
 	</thead>
 	<tbody>
-		@foreach (var problem in Model)
+		@foreach (var attedance in Model)
 		{
 			count++;
 			<tr>
@@ -56,9 +56,9 @@ else
 				<td>@problem.Date</td>
 				
 				<td>
-					<a asp-area="" asp-action="Details" asp-controller="Problem" asp-route-id="@problem.Id" class="btn btn-primary">Details</a>
-					<a asp-area="" asp-action="Edit" asp-controller="Attendance" asp-route-id="@problem.Id" class="btn btn-success">Edit</a>					
-					<a asp-area="" asp-action="Delete" asp-controller="Attendance" asp-route-id="@problem.Id" class="btn btn-danger">Delete</a>					
+					<a asp-area="" asp-action="Details" asp-controller="Attendance" asp-route-id="@attedance.Id" class="btn btn-primary">Details</a>
+					<a asp-area="" asp-action="Edit" asp-controller="Attendance" asp-route-id="@attedance.Id" class="btn btn-success">Edit</a>					
+					<a asp-area="" asp-action="Delete" asp-controller="Attendance" asp-route-id="@attedance.Id" class="btn btn-danger">Delete</a>					
 				</td>
 			</tr>
 		}
