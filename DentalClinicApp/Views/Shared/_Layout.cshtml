@@ -59,7 +59,7 @@
 									</a>
 
 									<div class="dropdown-menu" style="background-color: #2fa082;" aria-labelledby="dropDownMenuLink">
-										<a class="nav-link text-white" asp-area="" asp-controller="Procedure" asp-action="">My Procedures</a>
+										<a class="nav-link text-white" asp-area="" asp-controller="Procedure" asp-action="MyProcedures">My Procedures</a>
 										<a class="nav-link text-white" asp-area="" asp-controller="Procedure" asp-action="Create">Add Procedure</a>										
 									</div>
 								</li>
@@ -137,7 +137,7 @@
 	<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 	<script src="~/lib/toastr/toastr.min.js"></script>
 	<script src="~/js/site.js" asp-append-version="true"></script>
-	<script src="~/lib/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>
+	<script src="~/lib/jquery-ui-1.13.2.custom/jquery-ui.min.js"></script>	
 	@await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>

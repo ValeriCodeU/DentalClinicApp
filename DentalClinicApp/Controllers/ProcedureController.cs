@@ -1,8 +1,12 @@
-﻿using DentalClinicApp.Core.Contracts;
+﻿using DentalClinicApp.Core.Constants;
+using DentalClinicApp.Core.Contracts;
+using DentalClinicApp.Core.Models.Attendances;
 using DentalClinicApp.Core.Models.DentalProcedures;
+using DentalClinicApp.Core.Services;
 using HouseRentingSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using static DentalClinicApp.Core.Constants.ModelConstant;
 using static DentalClinicApp.Core.Constants.RoleConstant;
 
 namespace DentalClinicApp.Controllers
@@ -59,6 +63,43 @@ namespace DentalClinicApp.Controllers
             await procedureService.CreateAsync(model, dentistId);
 
             return RedirectToAction("Index", "Home");
+        }
+
+        public async Task<IActionResult> Edit(int id)
+        {
+
+            if (!await procedureService.ProcedureExistsAsync(id))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Procedure does not exist!";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = new ProcedureFormModel();
+
+            var procedure = await procedureService.ProcedureDetailsByIdAsync(id);
+           
+
+            model.Name = procedure.Name;
+            model.Description = procedure.Description;
+            model.StartDate = procedure.StartDate;
+            model.EndDate = procedure.EndDate;
+            model.Cost = procedure.Cost;
+            model.PatientId = procedure.Patient.Id;
+            model.Patients = await patientService.GetPatientsAsync(this.User.Id());
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> MyProcedures()
+        {
+            var userId = this.User.Id();
+
+            IEnumerable<ProcedureServiceModel> model;
+
+            model = await procedureService.GetDentistProceduresAsync(userId);
+
+            return View(model);
         }
     }
 }

@@ -1,0 +1,17 @@
+﻿@model ProcedureFormModel
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+@{
+	ViewBag.Title = "Edit Dental Procedure";
+}
+
+<partial name="_ProcedureFormPartial" model="@Model" />
+
+@section Scripts{
+
+	<script src="~/js/datepicker.js"></script>
+
+	<partial name="_ValidationScriptsPartial" />
+}

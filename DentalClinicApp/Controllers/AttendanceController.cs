@@ -61,10 +61,12 @@ namespace DentalClinicApp.Controllers
 
             var dentistId = await dentistService.GetDentistIdAsync(userId);
 
-            await attendanceService.CreateAsync(model, dentistId);
+            var attendaceId = await attendanceService.CreateAsync(model, dentistId);
 
-            return RedirectToAction(nameof(MyAttendances));
+            return RedirectToAction(nameof(Details), new { id = attendaceId });
         }
+
+        [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> Details(int id)
         {
@@ -80,6 +82,8 @@ namespace DentalClinicApp.Controllers
 
             return View(model);
         }
+
+        [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> MyAttendances()
         {
@@ -99,9 +103,11 @@ namespace DentalClinicApp.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = DentistRoleName)]
+
         public async Task<IActionResult> Edit(int id)
         {
-            var userId = this.User.Id();
+            
             var model = new AttendanceFormModel();
 
             if (!await attendanceService.AttendanceExistsAsync(id))
@@ -116,12 +122,13 @@ namespace DentalClinicApp.Controllers
             model.ClinicRemarks = attendance.ClinicRemarks;
             model.Diagnosis = attendance.Diagnosis;
             model.PatientId = attendance.Patient.Id;
-            model.Patients = await patientService.GetPatientsAsync(userId);            
+            model.Patients = await patientService.GetPatientsAsync(this.User.Id());            
 
             return View(model);
         }
 
         [HttpPost]
+        [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> Edit(AttendanceFormModel model, int id)
         {
@@ -136,6 +143,8 @@ namespace DentalClinicApp.Controllers
 
             return RedirectToAction(nameof(Details), new { id });
         }
+
+        [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> Delete(int id)
         {
@@ -159,6 +168,7 @@ namespace DentalClinicApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> Delete(AttendanceDeleteViewModel model)
         {
@@ -178,6 +188,8 @@ namespace DentalClinicApp.Controllers
 
             return RedirectToAction(nameof(MyAttendances));
         }
+
+        [Authorize(Roles = PatientRoleName)]
 
         public async Task<IActionResult> Card()
         {

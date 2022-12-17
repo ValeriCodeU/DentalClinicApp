@@ -1,4 +1,5 @@
-﻿using DentalClinicApp.Core.Models.DentalProcedures;
+﻿using DentalClinicApp.Core.Models.Attendances;
+using DentalClinicApp.Core.Models.DentalProcedures;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,5 +11,11 @@ namespace DentalClinicApp.Core.Contracts
 	public interface IProcedureService
 	{
 		Task<int> CreateAsync(ProcedureFormModel model, int dentistId);
-	}
+
+		Task<bool> ProcedureExistsAsync(int id);
+
+        Task<ProcedureServiceModel> ProcedureDetailsByIdAsync(int id);
+
+		Task<IEnumerable<ProcedureServiceModel>> GetDentistProceduresAsync(Guid userId);
+    }
 }
