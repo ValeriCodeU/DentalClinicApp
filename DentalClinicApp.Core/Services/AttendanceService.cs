@@ -32,7 +32,7 @@ namespace DentalClinicApp.Core.Services
 				{
 					ClinicRemarks = a.ClinicRemarks,
 					Diagnosis = a.Diagnosis,
-					Date = a.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture),
+					Date = a.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
 					Id = a.Id,
 
 				})).FirstAsync();
@@ -48,7 +48,7 @@ namespace DentalClinicApp.Core.Services
 					Id = a.Id,
 					ClinicRemarks = a.ClinicRemarks,
 					Diagnosis = a.Diagnosis,
-					Date = a.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture),
+					Date = a.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
 					Patient = new Models.Patients.PatientServiceModel()
 					{
 						Id = a.Patient.Id,
@@ -117,7 +117,7 @@ namespace DentalClinicApp.Core.Services
 					ClinicRemarks=a.ClinicRemarks,
 					Diagnosis=a.Diagnosis,
 					Id = a.Id,
-					Date = a.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture),
+					Date = a.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                     Patient = new Models.Patients.PatientServiceModel()
 					{
 						FirstName = a.Patient.User.FirstName,

@@ -27,12 +27,14 @@ namespace DentalClinicApp.Core.Models.DentalProcedures
         [Display(Name = "Select start date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
 
-        public DateTime StartDate { get; set; } = DateTime.Now;
+        [Required]
+
+        public string StartDate { get; set; } = null!;
 
         [Display(Name = "Select end date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
 
-        public DateTime EndDate { get; set; } = DateTime.Now;
+        public string? EndDate { get; set; } 
 
         [Display(Name = "Select your patient")]
 

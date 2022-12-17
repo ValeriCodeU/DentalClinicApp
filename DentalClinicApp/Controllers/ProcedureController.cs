@@ -38,5 +38,22 @@ namespace DentalClinicApp.Controllers
 
             return View(model);
         }
+
+        [HttpPost]
+        [Authorize(Roles = DentistRoleName)]
+
+        public async Task<IActionResult> Create(ProcedureFormModel model)
+        {
+            var userId = this.User.Id();
+
+            if (!await dentistService.IsExistsByIdAsync(userId))
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            var dentistId = await dentistService.GetDentistIdAsync(userId);
+
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
