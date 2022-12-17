@@ -31,6 +31,7 @@ namespace DentalClinicApp.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
+
             var model = new LoginViewModel();
 
             return View(model);
@@ -44,7 +45,7 @@ namespace DentalClinicApp.Controllers
             if (!ModelState.IsValid)
             {
                 return View(model);
-            }
+            }            
 
             var result = await signInManager.PasswordSignInAsync(model.Username, model.Password, false, false);
 

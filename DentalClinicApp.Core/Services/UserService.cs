@@ -30,7 +30,7 @@ namespace DentalClinicApp.Core.Services
 
             var user = await repo.GetByIdAsync<ApplicationUser>(model.Id);
 
-            if (user != null)
+            if (user != null && user.IsActive)
             {
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;

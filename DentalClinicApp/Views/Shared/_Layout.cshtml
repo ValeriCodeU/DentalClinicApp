@@ -40,15 +40,34 @@
 								<li class="nav-item">
 									<a class="nav-link text-white" asp-area="" asp-controller="Patient" asp-action="MyPatients">My Patients</a>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link text-white" asp-area="" asp-controller="Appointment" asp-action="MyAppointments">Appointments</a>
+								<li class=" nav-item dropdown">
+									<a class="nav-link dropdown-toggle text-white" href="#" id="dropDownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Attendances
+									</a>
+
+									<div class="dropdown-menu" style="background-color: #2fa082;" aria-labelledby="dropDownMenuLink">
+										<a class="nav-link text-white" asp-area="" asp-controller="Attendance" asp-action="MyAttendances">My Attendances</a>
+										<a class="nav-link text-white" asp-area="" asp-controller="Attendance" asp-action="Create">Add Attendance</a>
+									</div>
+								</li>
+
+								<li class=" nav-item dropdown">
+									<a class="nav-link dropdown-toggle text-white" href="#" id="dropDownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Dental Procedures
+									</a>
+
+									<div class="dropdown-menu" style="background-color: #2fa082;" aria-labelledby="dropDownMenuLink">
+										<a class="nav-link text-white" asp-area="" asp-controller="Procedure" asp-action="Create">Add Procedure</a>
+										<a class="nav-link text-white" asp-area="" asp-controller="Procedure" asp-action="Create">My Procedures</a>
+									</div>
 								</li>
 								<li class="nav-item">
-									<a class="nav-link text-white" asp-area="" asp-controller="Attendance" asp-action="MyAttendances">Attendances</a>
+									<a class="nav-link text-warning" asp-area="" asp-controller="Appointment" asp-action="MyAppointments">Appointments</a>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link text-white" asp-area="" asp-controller="Attendance" asp-action="Create">Add Attendance</a>
-								</li>
+
+								@*<li class="nav-item">
+						<a class="nav-link text-white" asp-area="" asp-controller="Procedure" asp-action="Create">Add Procedure</a>
+						</li>*@
 							}
 
 							@if (this.User.IsInRole("Patient"))
@@ -59,21 +78,32 @@
 									</a>
 
 									<div class="dropdown-menu" style="background-color: #2fa082;" aria-labelledby="dropDownMenuLink">
-										<a class="nav-link text-white" asp-area="" asp-controller="Attendance" asp-action="Card">Dental Attendances</a>
-										<a class="nav-link text-white" asp-area="" asp-controller="Attendance" asp-action="Card">Dental Procedures</a>
-										<a class="nav-link text-white" asp-area="" asp-controller="Problem" asp-action="MyProblems">Dental Problems</a>
+										<a class="nav-link text-white" asp-area="" asp-controller="Attendance" asp-action="Card">Attendances</a>
+										<a class="nav-link text-white" asp-area="" asp-controller="Attendance" asp-action="Card">Procedures</a>
 									</div>
 								</li>
 
-								<li class="nav-item">
-									<a class="nav-link text-white" asp-area="" asp-controller="Problem" asp-action="Create">Add Problem</a>
-								</li>							
-								<li class="nav-item">
-									<a class="nav-link text-white" asp-area="" asp-controller="Appointment" asp-action="Make">Make an Appointment</a>
+								<li class=" nav-item dropdown">
+									<a class="nav-link dropdown-toggle text-white" href="#" id="dropDownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Dental Problems
+									</a>
+
+									<div class="dropdown-menu" style="background-color: #2fa082;" aria-labelledby="dropDownMenuLink">
+										<a class="nav-link text-white" asp-area="" asp-controller="Problem" asp-action="MyProblems">My Problems</a>
+										<a class="nav-link text-white" asp-area="" asp-controller="Problem" asp-action="Create">Add Problem</a>
+									</div>
 								</li>
-								<li class="nav-item">
-									<a class="nav-link text-white" asp-area="" asp-controller="Appointment" asp-action="MyAppointments">My Appointments</a>
-								</li>													
+
+								<li class=" nav-item dropdown">
+									<a class="nav-link dropdown-toggle text-warning" href="#" id="dropDownMenuLink" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+										Appointments
+									</a>
+
+									<div class="dropdown-menu" style="background-color: #2fa082;" aria-labelledby="dropDownMenuLink">
+										<a class="nav-link text-warning" asp-area="" asp-controller="Appointment" asp-action="MyAppointments">My Appointments</a>
+										<a class="nav-link text-warning" asp-area="" asp-controller="Appointment" asp-action="Make">Make an Appointment</a>
+									</div>
+								</li>
 							}
 						}
 

@@ -1,10 +1,8 @@
 ﻿using DentalClinicApp.Core.Constants;
 using DentalClinicApp.Core.Contracts;
-using DentalClinicApp.Core.Models;
 using DentalClinicApp.Core.Models.DentalProblems;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using HouseRentingSystem.Extensions;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
@@ -29,6 +27,7 @@ namespace DentalClinicApp.Controllers
 
 
         [HttpGet]
+
         public IActionResult Create()
         {
             var model = new ProblemFormModel();
@@ -37,6 +36,7 @@ namespace DentalClinicApp.Controllers
         }
 
         [HttpPost]
+
         public async Task<IActionResult> Create(ProblemFormModel model)
         {
             if (!ModelState.IsValid)

@@ -11,16 +11,19 @@ namespace DentalClinicApp.Areas.Admin.Controllers
     {
         private readonly RoleManager<IdentityRole<Guid>> roleManager;
         private readonly UserManager<ApplicationUser> userManager;
+        private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IUserService userService;
 
         public UserController(
             RoleManager<IdentityRole<Guid>> _roleManager,
             UserManager<ApplicationUser> _userManager,
-            IUserService _userService)
+            IUserService _userService,
+            SignInManager<ApplicationUser> _signInManager)
         {
             roleManager = _roleManager;
             userManager = _userManager;
             userService = _userService;
+            signInManager = _signInManager;
         }
 
         public async Task<IActionResult> ManageUsers()
@@ -95,23 +98,32 @@ namespace DentalClinicApp.Areas.Admin.Controllers
 
             if (await userService.EditUserAsync(model))
             {
+                var user = await userService.GetUserByIdAsync(model.Id);
+
+                await signInManager.SignOutAsync();
+                await signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("ManageUsers", "User", new { area = "Admin" });
             }
 
             return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
         }
 
+        //public async Task<IActionResult> Delete(Guid id)
+        //{
+
+        //}
 
 
-        public async Task<IActionResult> CreateRole()
-        {
-            await roleManager.CreateAsync(new IdentityRole<Guid>()
-            {
-                Name = "Patient"
-            });
 
-            return Ok();
-        }
+        //public async Task<IActionResult> CreateRole()
+        //{
+        //    await roleManager.CreateAsync(new IdentityRole<Guid>()
+        //    {
+        //        Name = "Patient"
+        //    });
+
+        //    return Ok();
+        //}
 
         //public async Task<IActionResult> EditRole()
         //{
