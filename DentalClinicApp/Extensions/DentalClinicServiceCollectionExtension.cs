@@ -15,12 +15,12 @@ namespace Microsoft.Extensions.DependencyInjection
             services.AddScoped<IAppointmentService, AppointmentService>();
             services.AddScoped<IDentistService, DentistService>();
             services.AddScoped<IAttendanceService, AttendanceService>();
+            services.AddScoped<IProcedureService, ProcedureService>();
 
             services.ConfigureApplicationCookie(options =>
             {
                 options.LoginPath = "/Account/Login";
-                options.LogoutPath = "/Account/Logout";
-               
+                options.LogoutPath = "/Account/Logout";               
             });
 
             return services;

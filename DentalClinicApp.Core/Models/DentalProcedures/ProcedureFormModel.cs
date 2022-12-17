@@ -34,7 +34,9 @@ namespace DentalClinicApp.Core.Models.DentalProcedures
         [Display(Name = "Select end date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
 
-        public string? EndDate { get; set; } 
+        [Required]
+
+        public string EndDate { get; set; } = null!;
 
         [Display(Name = "Select your patient")]
 

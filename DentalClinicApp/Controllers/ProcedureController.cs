@@ -11,13 +11,16 @@ namespace DentalClinicApp.Controllers
     {
         private readonly IDentistService dentistService;
         private readonly IPatientService patientService;
+        private readonly IProcedureService procedureService;
 
         public ProcedureController(
             IDentistService _dentistService, 
-            IPatientService _patientService)
+            IPatientService _patientService,
+            IProcedureService _procedureService)
         {
             dentistService = _dentistService;
             patientService = _patientService;
+            procedureService = _procedureService;
         }
 
         [Authorize(Roles = DentistRoleName)]
@@ -52,6 +55,8 @@ namespace DentalClinicApp.Controllers
             }
 
             var dentistId = await dentistService.GetDentistIdAsync(userId);
+
+            await procedureService.CreateAsync(model, dentistId);
 
             return RedirectToAction("Index", "Home");
         }
