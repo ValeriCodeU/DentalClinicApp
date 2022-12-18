@@ -18,10 +18,7 @@ namespace DentalClinicApp.Core.Models.DentalProcedures
         public string Description { get; set; } = null!;
 
         public string? Note { get; set; }
-
-        [Range(typeof(decimal), MinPricePerProcedure, MaxPricePerProcedure,
-            ErrorMessage = "Price Per Procedure must be a positive number and less than {2} BGN.")]
-
+        
         public decimal Cost { get; set; }
 
         [Display(Name = "Select start date")]

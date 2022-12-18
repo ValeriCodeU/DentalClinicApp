@@ -17,6 +17,24 @@ namespace DentalClinicApp.Core.Services
 			repo = _repo;
 		}
 
+		public async Task<IEnumerable<ProcedureDetailsViewModel>> AllProceduresByPatientIdAsync(int patientId)
+		{
+			return await repo.AllReadonly<Patient>()
+				.Where(p => p.Id == patientId && p.User.IsActive)
+				.Select(p => p.DentalProcedures
+				.Where(pp => pp.IsActive)
+				.Select(pp => new ProcedureDetailsViewModel()
+				{
+					Name = pp.Name,
+					Description = pp.Description,
+					StartDate = pp.StartDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+					EndDate = pp.EndDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    Cost = decimal.Parse(pp.Cost.ToString("F2")),
+                    Id = pp.Id
+
+				})).FirstAsync();
+		}
+
 		public async Task<int> CreateAsync(ProcedureFormModel model, int dentistId)
 		{
 			var procedure = new DentalProcedure()
@@ -63,7 +81,7 @@ namespace DentalClinicApp.Core.Services
                     Name = p.Name,
                     Description= p.Description,
                     Id = p.Id,
-					Cost = p.Cost,
+                    Cost = decimal.Parse(p.Cost.ToString("F2")),
                     StartDate = p.EndDate.ToString("MM/dd/yyyy"),
                     EndDate = p.EndDate.ToString("MM/dd/yyyy"),
                     Patient = new Models.Patients.PatientServiceModel()
@@ -89,7 +107,7 @@ namespace DentalClinicApp.Core.Services
 					Description = p.Description,
 					StartDate = p.StartDate.ToString("MM/dd/yyyy"),
 					EndDate = p.EndDate.ToString("MM/dd/yyyy"),
-					Cost = p.Cost,
+					Cost = decimal.Parse(p.Cost.ToString("F2")),
 					Patient = new Models.Patients.PatientServiceModel()
 					{
 						Id = p.Patient.Id,

@@ -1,12 +1,9 @@
 ﻿using DentalClinicApp.Core.Constants;
 using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Attendances;
-using DentalClinicApp.Core.Services;
-using DentalClinicApp.Infrastructure.Data.Entities;
 using HouseRentingSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static DentalClinicApp.Core.Constants.ModelConstant;
 using static DentalClinicApp.Core.Constants.RoleConstant;
 
 namespace DentalClinicApp.Controllers
@@ -64,9 +61,7 @@ namespace DentalClinicApp.Controllers
             var attendaceId = await attendanceService.CreateAsync(model, dentistId);
 
             return RedirectToAction(nameof(Details), new { id = attendaceId });
-        }
-
-        [Authorize(Roles = DentistRoleName)]
+        }     
 
         public async Task<IActionResult> Details(int id)
         {

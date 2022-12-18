@@ -55,7 +55,7 @@ namespace DentalClinicApp.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Appointments");
+                    b.ToTable("Appointments", (string)null);
                 });
 
             modelBuilder.Entity("DentalClinicApp.Infrastructure.Data.Entities.Attendance", b =>
@@ -94,7 +94,7 @@ namespace DentalClinicApp.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("Attendances");
+                    b.ToTable("Attendances", (string)null);
                 });
 
             modelBuilder.Entity("DentalClinicApp.Infrastructure.Data.Entities.DentalProblem", b =>
@@ -134,7 +134,7 @@ namespace DentalClinicApp.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("DentalProblems");
+                    b.ToTable("DentalProblems", (string)null);
                 });
 
             modelBuilder.Entity("DentalClinicApp.Infrastructure.Data.Entities.DentalProcedure", b =>
@@ -184,7 +184,7 @@ namespace DentalClinicApp.Infrastructure.Migrations
 
                     b.HasIndex("PatientId");
 
-                    b.ToTable("DentalProcedures");
+                    b.ToTable("DentalProcedures", (string)null);
                 });
 
             modelBuilder.Entity("DentalClinicApp.Infrastructure.Data.Entities.Dentist", b =>
@@ -207,7 +207,7 @@ namespace DentalClinicApp.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Dentists");
+                    b.ToTable("Dentists", (string)null);
                 });
 
             modelBuilder.Entity("DentalClinicApp.Infrastructure.Data.Entities.Manager", b =>
@@ -225,7 +225,7 @@ namespace DentalClinicApp.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Managers");
+                    b.ToTable("Managers", (string)null);
                 });
 
             modelBuilder.Entity("DentalClinicApp.Infrastructure.Data.Entities.Patient", b =>
@@ -248,7 +248,7 @@ namespace DentalClinicApp.Infrastructure.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Patients");
+                    b.ToTable("Patients", (string)null);
                 });
 
             modelBuilder.Entity("DentalClinicApp.Infrastructure.Data.Entities.Prescription", b =>
@@ -282,7 +282,7 @@ namespace DentalClinicApp.Infrastructure.Migrations
 
                     b.HasIndex("TreatmentId");
 
-                    b.ToTable("Prescriptions");
+                    b.ToTable("Prescriptions", (string)null);
                 });
 
             modelBuilder.Entity("DentalClinicApp.Infrastructure.Data.Entities.Treatment", b =>
@@ -317,7 +317,7 @@ namespace DentalClinicApp.Infrastructure.Migrations
 
                     b.HasIndex("AttendanceId");
 
-                    b.ToTable("Treatments");
+                    b.ToTable("Treatments", (string)null);
                 });
 
             modelBuilder.Entity("DentalClinicApp.Infrastructure.Data.Identity.ApplicationUser", b =>

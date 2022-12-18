@@ -124,5 +124,35 @@ namespace DentalClinicApp.Controllers
 
             return View(model);
         }
+
+        public async Task<IActionResult> Card()
+        {
+            var userId = this.User.Id();
+
+            if (!await patientService.IsExistsByIdAsync(userId))
+            {
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+            }
+
+            int patientId = await patientService.GetPatientIdAsync(userId);
+
+            var model = await procedureService.AllProceduresByPatientIdAsync(patientId);
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Details(int id)
+        {
+            if (!await procedureService.ProcedureExistsAsync(id))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Procedure does not exist!";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = await procedureService.ProcedureDetailsByIdAsync(id);
+
+            return View(model);
+        }
     }
 }

@@ -37,6 +37,7 @@ namespace DentalClinicApp.Infrastructure.Data
                 .HasMany(p => p.DentalProcedures)
                 .WithOne(p => p.Patient)
                 .OnDelete(DeleteBehavior.Restrict);
+            
 
             base.OnModelCreating(builder);
         }

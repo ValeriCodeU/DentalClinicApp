@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ProcedureDetailsViewModel>
+
+@{
+	ViewBag.Title = "View My Dental Procedure Card";
+	int count = 0;
+}
+
+<h2 class="text-center">@ViewBag.Title</h2>
+<hr />
+
+<table class="table table-success table-hover">
+	<thead>
+		<tr>
+			<th scope="col">#</th>
+			<th scope="col">Name</th>			
+			<th scope="col">StartDate</th>
+			<th scope="col">EndDate</th>			
+			<th scope="col">Details</th>
+		</tr>
+	</thead>
+	<tbody>
+		@foreach (var procedure in Model)
+		{
+			count++;
+			<tr>
+				<th scope="row">@count</th>
+				<td>@procedure.Name</td>				
+				<td>@procedure.StartDate</td>	
+				<td>@procedure.EndDate</td>					
+				<td>
+					<a asp-area="" asp-action="Details" asp-controller="Procedure" asp-route-id="@procedure.Id" class="btn btn-primary">View</a>
+				</td>
+			</tr>
+		}
+
+	</tbody>
+</table>

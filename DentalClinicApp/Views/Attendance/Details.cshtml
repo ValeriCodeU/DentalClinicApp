@@ -22,13 +22,16 @@
            
             @if (this.User?.Identity?.IsAuthenticated ?? false)
             {
-                <tr class="actions">
-                    <th><span class="fw-bold">Actions:</span></th>
-                    <td>
-                        <a asp-controller="Attendance" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-                        <a asp-controller="Attendance" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-                    </td>
-                </tr>
+                @if (this.User.IsInRole("Dentist"))
+                {
+                    <tr class="actions">
+                        <th><span class="fw-bold">Actions:</span></th>
+                        <td>
+                            <a asp-controller="Attendance" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                            <a asp-controller="Attendance" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                        </td>
+                    </tr>
+                }                
             }
 
         </div>
