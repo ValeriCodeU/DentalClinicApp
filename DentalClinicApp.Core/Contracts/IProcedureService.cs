@@ -17,5 +17,7 @@ namespace DentalClinicApp.Core.Contracts
         Task<ProcedureServiceModel> ProcedureDetailsByIdAsync(int id);
 
 		Task<IEnumerable<ProcedureServiceModel>> GetDentistProceduresAsync(Guid userId);
+
+        Task EditProcedureAsync(ProcedureFormModel model, int procedureId);
     }
 }

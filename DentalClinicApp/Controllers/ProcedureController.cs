@@ -65,6 +65,8 @@ namespace DentalClinicApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize(Roles = DentistRoleName)]
+
         public async Task<IActionResult> Edit(int id)
         {
 
@@ -88,7 +90,28 @@ namespace DentalClinicApp.Controllers
             model.PatientId = procedure.Patient.Id;
             model.Patients = await patientService.GetPatientsAsync(this.User.Id());
 
+            ViewBag.Date = model.StartDate;
+
             return View(model);
+        }
+
+
+        [HttpPost]
+        [Authorize(Roles = DentistRoleName)]
+
+        public async Task<IActionResult> Edit(ProcedureFormModel model, int id)
+        {            
+
+            if (!await procedureService.ProcedureExistsAsync(id))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Procedure does not exist!";
+
+                return RedirectToAction("Index", "Home");           
+            }            
+
+            await procedureService.EditProcedureAsync(model, id);
+
+            return RedirectToAction(nameof(MyProcedures));
         }
 
         public async Task<IActionResult> MyProcedures()

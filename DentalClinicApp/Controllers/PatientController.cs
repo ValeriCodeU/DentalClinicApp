@@ -15,19 +15,22 @@ namespace DentalClinicApp.Controllers
         private readonly SignInManager<ApplicationUser> signInManager;
         private readonly IUserService userService;
         private readonly IProblemService problemService;
+        private readonly IProcedureService procedureService;
 
         public PatientController(
             IPatientService _patientService,
             UserManager<ApplicationUser> _userManager,
             IUserService _userService,
             IProblemService _problemService,
-            SignInManager<ApplicationUser> _signInManager)
+            SignInManager<ApplicationUser> _signInManager,
+            IProcedureService _procedureService)
         {
             patientService = _patientService;
             userManager = _userManager;
             userService = _userService;
             problemService = _problemService;
             signInManager = _signInManager;
+            procedureService = _procedureService;
         }
 
         public async Task<IActionResult> Become()
@@ -117,9 +120,12 @@ namespace DentalClinicApp.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Card()
+        public async Task<IActionResult> PatientProcedureDetails(int id)
         {
-            return View();
+            var model = await patientService.PatientProcedureDetailsByIdAsync(id);
+
+            return View(model);
         }
+       
     }
 }

@@ -1,0 +1,26 @@
+﻿@model ProcedureServiceModel
+
+<div class="col-md-4">
+	<div class="card mb-3 text-center">
+		<div class="container" style="display:inline">
+			
+		</div>
+		<div class="card-body text-center">
+			<h4>@Model.Name</h4>
+			<h6>Details: <b>@Model.Description</b></h6>
+			<h6>Start Date: <b>@Model.StartDate</b></h6>			
+			<h6>End Date: <b>@Model.EndDate</b></h6>
+			<h6>Cost: <b>@Model.Cost</b></h6>
+
+			@if (this.User.Identity.IsAuthenticated)
+			{
+				@if (this.User.IsInRole("Dentist"))
+				{
+					<a asp-area"" asp-controller="Procedure" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
+					<a asp-controller="Procedure" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+					
+				}
+			}
+		</div>
+	</div>
+</div>

@@ -37,6 +37,20 @@ namespace DentalClinicApp.Core.Services
 
 		}
 
+		public async Task EditProcedureAsync(ProcedureFormModel model, int procedureId)
+		{
+			var attendance = await repo.GetByIdAsync<DentalProcedure>(procedureId);
+
+			attendance.Name = model.Name;
+			attendance.Description = model.Description;
+			attendance.Cost = model.Cost;
+			attendance.StartDate = DateTime.Parse(model.StartDate);
+			attendance.EndDate = DateTime.Parse(model.EndDate);
+			attendance.PatientId = model.PatientId;			
+
+			await repo.SaveChangesAsync();
+		}
+
 		public async Task<IEnumerable<ProcedureServiceModel>> GetDentistProceduresAsync(Guid userId)
 		{
             return await repo.AllReadonly<Dentist>()
@@ -50,8 +64,8 @@ namespace DentalClinicApp.Core.Services
                     Description= p.Description,
                     Id = p.Id,
 					Cost = p.Cost,
-                    StartDate = p.EndDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    EndDate = p.EndDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    StartDate = p.EndDate.ToString("MM/dd/yyyy"),
+                    EndDate = p.EndDate.ToString("MM/dd/yyyy"),
                     Patient = new Models.Patients.PatientServiceModel()
                     {
                         FirstName = p.Patient.User.FirstName,
@@ -73,8 +87,8 @@ namespace DentalClinicApp.Core.Services
 					Id = p.Id,
 					Name = p.Name,
 					Description = p.Description,
-					StartDate = p.StartDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-					EndDate = p.EndDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+					StartDate = p.StartDate.ToString("MM/dd/yyyy"),
+					EndDate = p.EndDate.ToString("MM/dd/yyyy"),
 					Cost = p.Cost,
 					Patient = new Models.Patients.PatientServiceModel()
 					{

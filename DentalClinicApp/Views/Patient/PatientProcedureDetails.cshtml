@@ -1,7 +1,7 @@
 ﻿@model PatientDetailsViewModel
 
 @{
-	ViewBag.Title = "Patient Problem Details";
+    ViewBag.Title = "Patient Procedure Details";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -17,21 +17,21 @@
                 <p class="card-text">Email:  @Model.Email</p>
                 <p class="card-text">Phone Number: @Model.PhoneNumber</p>
             </div>
-        </div>       
+        </div>
     </div>
 </div>
 
 
-@if (Model.PatientProblems.Any())
+@if (Model.PatientProcedures.Any())
 {
     <div class="row">
-        @foreach (var problem in Model.PatientProblems)
+        @foreach (var procedure in Model.PatientProcedures)
         {
-            <partial name="_ProblemPartial" model="@problem" />
+            <partial name="_ProcedurePartial" model="@procedure" />
         }
     </div>
 }
 else
 {
-    <h3 class="text-center">No dental problems yet!</h3>
+    <h3 class="text-center">No dental procedures yet!</h3>
 }

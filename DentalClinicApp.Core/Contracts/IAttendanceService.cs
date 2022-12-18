@@ -23,5 +23,7 @@ namespace DentalClinicApp.Core.Contracts
 		Task<bool> DeleteAttendanceAsync(int id);
 
         Task<IEnumerable<AttendanceDetailsViewModel>> AllAttendancesByPatientIdAsync(int patientId);
+
+        
     }
 }

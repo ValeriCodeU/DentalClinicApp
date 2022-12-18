@@ -23,8 +23,9 @@ namespace DentalClinicApp.Core.Contracts
 
         Task<PatientDetailsViewModel> PatientDetailsByIdAsync(int id);
 
-        //TODO
         Task<PatientDetailsViewModel> PatientAttendanceDetailsByIdAsync(int id);
+
+        Task<PatientDetailsViewModel> PatientProcedureDetailsByIdAsync(int id);
 
         Task<int> GetPersonalDentistIdAsync(int patientId);
 

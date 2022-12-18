@@ -174,5 +174,33 @@ namespace DentalClinicApp.Core.Services
 
                }).FirstAsync();
         }
+
+        public async Task<PatientDetailsViewModel> PatientProcedureDetailsByIdAsync(int id)
+        {
+            return await repo
+                .AllReadonly<Patient>()
+                .Where(p => p.User.IsActive && p.Id == id)
+                .Select(p => new PatientDetailsViewModel()
+                {
+                    FirstName = p.User.FirstName,
+                    LastName = p.User.LastName,
+                    Email = p.User.Email,
+                    PhoneNumber = p.User.PhoneNumber,
+                    PatientProcedures = p.DentalProcedures
+                    .Where(pp => pp.IsActive)
+                    .Select(pp => new Models.DentalProcedures.ProcedureServiceModel()
+                    {
+                        Id = pp.Id,
+                        Name = pp.Name,
+                        Description = pp.Description,
+                        StartDate = pp.StartDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture),
+                        EndDate = pp.EndDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture),
+                        Cost = pp.Cost,
+                    })
+
+
+                }).FirstAsync();               
+
+        }
     }
 }
