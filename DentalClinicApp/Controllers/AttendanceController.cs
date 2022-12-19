@@ -61,7 +61,10 @@ namespace DentalClinicApp.Controllers
             var attendaceId = await attendanceService.CreateAsync(model, dentistId);
 
             return RedirectToAction(nameof(Details), new { id = attendaceId });
-        }     
+        }
+
+        [Authorize(Roles = DentistRoleName)]
+        [Authorize(Roles = PatientRoleName)]
 
         public async Task<IActionResult> Details(int id)
         {

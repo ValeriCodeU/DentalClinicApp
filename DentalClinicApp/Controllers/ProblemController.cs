@@ -3,8 +3,10 @@ using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.DentalProblems;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using HouseRentingSystem.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using static DentalClinicApp.Core.Constants.RoleConstant;
 
 namespace DentalClinicApp.Controllers
 {
@@ -27,6 +29,7 @@ namespace DentalClinicApp.Controllers
 
 
         [HttpGet]
+        [Authorize(Roles = PatientRoleName)]
 
         public IActionResult Create()
         {
@@ -36,6 +39,7 @@ namespace DentalClinicApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = PatientRoleName)]
 
         public async Task<IActionResult> Create(ProblemFormModel model)
         {
@@ -53,6 +57,9 @@ namespace DentalClinicApp.Controllers
             return RedirectToAction(nameof(MyProblems));
         }
 
+        [Authorize(Roles = DentistRoleName)]
+        [Authorize(Roles = PatientRoleName)]
+
         public async Task<IActionResult> Details(int id)
         {
             if (!await problemService.ProblemExistsAsync(id))
@@ -65,6 +72,8 @@ namespace DentalClinicApp.Controllers
 
             return View(model);
         }
+
+        [Authorize(Roles = PatientRoleName)]
 
         public async Task<IActionResult> Edit(int id)
         {
@@ -87,6 +96,7 @@ namespace DentalClinicApp.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = PatientRoleName)]
 
         public async Task<IActionResult> Edit(ProblemFormModel model, int id)
         {
@@ -106,6 +116,8 @@ namespace DentalClinicApp.Controllers
 
             return RedirectToAction(nameof(Details), new { id });
         }
+
+        [Authorize(Roles = PatientRoleName)]
 
         public async Task<IActionResult> MyProblems()
         {
@@ -131,6 +143,8 @@ namespace DentalClinicApp.Controllers
                 
             return View(myProblems);
         }
+
+        [Authorize(Roles = PatientRoleName)]
 
         public async Task<IActionResult> Delete(int id)
         {

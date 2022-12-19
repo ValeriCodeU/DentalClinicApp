@@ -1,12 +1,9 @@
 ﻿using DentalClinicApp.Core.Constants;
 using DentalClinicApp.Core.Contracts;
-using DentalClinicApp.Core.Models.Attendances;
 using DentalClinicApp.Core.Models.DentalProcedures;
-using DentalClinicApp.Core.Services;
 using HouseRentingSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using static DentalClinicApp.Core.Constants.ModelConstant;
 using static DentalClinicApp.Core.Constants.RoleConstant;
 
 namespace DentalClinicApp.Controllers
@@ -114,6 +111,8 @@ namespace DentalClinicApp.Controllers
             return RedirectToAction(nameof(MyProcedures));
         }
 
+        [Authorize(Roles = DentistRoleName)]
+
         public async Task<IActionResult> MyProcedures()
         {
             var userId = this.User.Id();
@@ -142,6 +141,9 @@ namespace DentalClinicApp.Controllers
 
             return View(model);
         }
+
+        [Authorize(Roles = DentistRoleName)]
+        [Authorize(Roles = PatientRoleName)]
 
         public async Task<IActionResult> Details(int id)
         {

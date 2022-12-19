@@ -3,8 +3,10 @@ using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Patients;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using HouseRentingSystem.Extensions;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using static DentalClinicApp.Core.Constants.RoleConstant;
 
 namespace DentalClinicApp.Controllers
 {
@@ -33,6 +35,8 @@ namespace DentalClinicApp.Controllers
             procedureService = _procedureService;
         }
 
+        [Authorize(Roles = UserRoleName)]
+
         public async Task<IActionResult> Become()
         {
             var userId = this.User.Id();
@@ -54,6 +58,8 @@ namespace DentalClinicApp.Controllers
 
 
         [HttpPost]
+        [Authorize(Roles = UserRoleName)]
+
 
         public async Task<IActionResult> Become(BecomePatientFormModel model)
         {
@@ -83,6 +89,8 @@ namespace DentalClinicApp.Controllers
             return RedirectToAction("Index", "Home");
         }
 
+        [Authorize(Roles = DentistRoleName)]
+
         public async Task<IActionResult> MyPatients()
         {
             var userId = this.User.Id();
@@ -100,6 +108,8 @@ namespace DentalClinicApp.Controllers
             return View(patients);
         }
 
+        [Authorize(Roles = DentistRoleName)]
+
         public async Task<IActionResult> PatientProblemDetails(int id)
         {
             //if (!await problemService.ProblemExistsAsync(id))
@@ -112,13 +122,16 @@ namespace DentalClinicApp.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = DentistRoleName)]
+
         public async Task<IActionResult> PatientAttendanceDetails(int id)
-        {
-           
+        {           
             var model = await patientService.PatientAttendanceDetailsByIdAsync(id);
 
             return View(model);
         }
+
+        [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> PatientProcedureDetails(int id)
         {
