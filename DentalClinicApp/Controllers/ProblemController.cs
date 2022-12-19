@@ -57,8 +57,7 @@ namespace DentalClinicApp.Controllers
             return RedirectToAction(nameof(MyProblems));
         }
 
-        [Authorize(Roles = DentistRoleName)]
-        [Authorize(Roles = PatientRoleName)]
+        [Authorize(Roles = DentistRoleName + "," + PatientRoleName)]
 
         public async Task<IActionResult> Details(int id)
         {

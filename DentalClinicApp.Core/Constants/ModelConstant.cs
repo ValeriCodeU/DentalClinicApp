@@ -41,7 +41,7 @@
             public const int MinClinicRemarksLength = 10;
 
             public const int MaxDiagnosislength = 200;
-            public const int MinDiagnosislength = 10;
+            public const int MinDiagnosislength = 5;
         }
 
         public static class DentalProcedure
@@ -50,7 +50,7 @@
             public const int MinProcedureName = 5;
 
             public const int MaxProcedureDescription = 500;
-            public const int MinProcedureDescription = 10;
+            public const int MinProcedureDescription = 5;
             
             public const string MaxPricePerProcedure = "2000";
             public const string MinPricePerProcedure = "0.0";

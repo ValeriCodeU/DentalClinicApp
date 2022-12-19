@@ -30,11 +30,8 @@ namespace DentalClinicApp.Infrastructure.Data.Entities
 
         [ForeignKey(nameof(DentistId))]
 
-        public Dentist Dentist { get; set; } = null!;
-
-        public ICollection<Treatment> Treatments { get; set; } = new List<Treatment>();
+        public Dentist Dentist { get; set; } = null!;       
 
         public bool IsActive { get; set; } = true;
-
     }
 }

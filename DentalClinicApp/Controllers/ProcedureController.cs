@@ -142,8 +142,7 @@ namespace DentalClinicApp.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = DentistRoleName)]
-        [Authorize(Roles = PatientRoleName)]
+        [Authorize(Roles = DentistRoleName + "," + PatientRoleName)]
 
         public async Task<IActionResult> Details(int id)
         {
