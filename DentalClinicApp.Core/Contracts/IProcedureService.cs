@@ -21,5 +21,7 @@ namespace DentalClinicApp.Core.Contracts
         Task EditProcedureAsync(ProcedureFormModel model, int procedureId);
 
         Task<IEnumerable<ProcedureDetailsViewModel>> AllProceduresByPatientIdAsync(int patientId);
+
+		Task<bool> DeleteProcedureAsync(int id);
     }
 }

@@ -125,6 +125,8 @@ namespace DentalClinicApp.Controllers
             return View(model);
         }
 
+        [Authorize(Roles = PatientRoleName)]
+
         public async Task<IActionResult> Card()
         {
             var userId = this.User.Id();
@@ -153,6 +155,51 @@ namespace DentalClinicApp.Controllers
             var model = await procedureService.ProcedureDetailsByIdAsync(id);
 
             return View(model);
+        }
+
+        [Authorize(Roles = DentistRoleName)]
+
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (!await procedureService.ProcedureExistsAsync(id))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Dental procedure does not exist!";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            var model = new ProcedureDeleteViewModel();
+
+            var procedure = await procedureService.ProcedureDetailsByIdAsync(id);
+
+            model.Name = procedure.Name;
+            model.StartDate = procedure.StartDate;
+            model.EndDate = procedure.EndDate;
+
+            return View(model);
+
+        }
+
+        [HttpPost]
+        [Authorize(Roles = DentistRoleName)]
+
+        public async Task<IActionResult> Delete(ProcedureDeleteViewModel model)
+        {
+            if (!await procedureService.ProcedureExistsAsync(model.Id))
+            {
+                TempData[MessageConstant.ErrorMessage] = "Dental procedure does not exist!";
+
+                return RedirectToAction("Index", "Home");
+            }
+
+            var result = await procedureService.DeleteProcedureAsync(model.Id);
+
+            if (result)
+            {
+                TempData[MessageConstant.SuccessMessage] = "You successfully deleted this dental procedure!";
+            }
+
+            return RedirectToAction(nameof(MyProcedures));           
         }
     }
 }

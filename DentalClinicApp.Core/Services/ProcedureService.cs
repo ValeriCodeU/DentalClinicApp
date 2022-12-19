@@ -55,6 +55,15 @@ namespace DentalClinicApp.Core.Services
 
 		}
 
+		public async Task<bool> DeleteProcedureAsync(int id)
+		{
+			var procedure = await repo.GetByIdAsync<DentalProcedure>(id);
+			procedure.IsActive = false;
+			await repo.SaveChangesAsync();
+
+			return true;
+		}
+
 		public async Task EditProcedureAsync(ProcedureFormModel model, int procedureId)
 		{
 			var attendance = await repo.GetByIdAsync<DentalProcedure>(procedureId);
