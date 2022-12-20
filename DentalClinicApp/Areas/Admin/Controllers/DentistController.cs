@@ -23,11 +23,19 @@ namespace DentalClinicApp.Areas.Admin.Controllers
         //    return View();
         //}
 
-        public async Task<IActionResult> Details()
+        public async Task<IActionResult> MyDentists()
         {
             var userId = this.User.Id();
 
             var model = await dentistService.GetAllManagedDentistsAsync(userId);
+
+            return View(model);
+        }
+
+        public async Task<IActionResult> Statistics(int id)
+        {
+
+            var model = await dentistService.GetStatisticsAsync(id);
 
             return View(model);
         }

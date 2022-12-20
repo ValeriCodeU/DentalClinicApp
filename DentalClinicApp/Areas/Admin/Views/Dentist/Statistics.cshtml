@@ -1,5 +1,7 @@
-﻿@{
-    ViewBag.Title = "Dentist Details";
+﻿@model DentistStatisticsViewModel
+
+@{
+    ViewBag.Title = "Dentist's Statistics";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -18,3 +20,7 @@
         </div>
     </div>
 </div>
+
+<p class="card-text">Total patients:  @Model.TotalPatientsCount</p>
+<p class="card-text">Total procedures:  @Model.TotalProceduresCount</p>
+<p class="card-text">Total appointments:  @Model.TotalAppointmentsCount</p>

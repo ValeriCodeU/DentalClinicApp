@@ -74,6 +74,8 @@ namespace DentalClinicApp.Areas.Admin.Controllers
             if (model.RoleNames.Length > 0)
             {
                 await userManager.AddToRolesAsync(user, model.RoleNames);
+                await signInManager.SignOutAsync();
+                await signInManager.SignInAsync(user, isPersistent: false);
             }
 
             return RedirectToAction(nameof(ManageUsers));
@@ -100,8 +102,8 @@ namespace DentalClinicApp.Areas.Admin.Controllers
             {
                 var user = await userService.GetUserByIdAsync(model.Id);
 
-                await signInManager.SignOutAsync();
-                await signInManager.SignInAsync(user, isPersistent: false);
+                //await signInManager.SignOutAsync();
+                //await signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("ManageUsers", "User", new { area = "Admin" });
             }
 

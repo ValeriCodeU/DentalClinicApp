@@ -15,9 +15,7 @@ namespace DentalClinicApp.Core.Models.DentalProcedures
 
 		public string StartDate { get; set; } = null!; 
 
-		public string EndDate { get; set; } = null!;
-
-        [Range(typeof(decimal), "0.00", "1000.00", ConvertValueInInvariantCulture = true)]
+		public string EndDate { get; set; } = null!;       
 
         public decimal Cost { get; set; }
 
