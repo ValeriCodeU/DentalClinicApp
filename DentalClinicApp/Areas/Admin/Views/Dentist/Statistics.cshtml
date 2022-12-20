@@ -21,7 +21,25 @@
     </div>
 </div>
 
-<p class="card-text">Total patients:  @Model.TotalPatientsCount</p>
-<p class="card-text">Total procedures:  @Model.TotalProceduresCount</p>
-<p class="card-text">Total appointments:  @Model.TotalAppointmentsCount</p>
-<p class="card-text">Total attendances:  @Model.TotalAttendancesCount</p>
+<div class="col-md-4">
+    <ul class="list-group">
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Total patients:
+            <span class="badge bg-success rounded-pill">@Model.TotalPatientsCount</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Total procedures:
+            <span class="badge bg-success rounded-pill">@Model.TotalProceduresCount</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Total attendances:
+            <span class="badge bg-success rounded-pill">@Model.TotalAttendancesCount</span>
+        </li>
+        <li class="list-group-item d-flex justify-content-between align-items-center">
+            Total appointments:
+            <span class="badge bg-success rounded-pill">@Model.TotalAppointmentsCount</span>
+        </li>
+    </ul>
+</div>
+
+
