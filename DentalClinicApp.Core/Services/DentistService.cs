@@ -69,19 +69,29 @@ namespace DentalClinicApp.Core.Services
               .Count())
               .FirstAsync();
 
+            var totalAttendances = await repo.AllReadonly<Dentist>()
+            .Where(d => d.Id == id && d.User.IsActive)
+            .Select(dat => dat.Attendances
+            .Where(dat => dat.IsActive)
+            .Count())
+            .FirstAsync();
 
-            var dentist = await repo.GetByIdAsync<Dentist>(id);
 
-            return new DentistStatisticsViewModel()
-            {
-                //FirstName = dentist.User.FirstName,
-                //LastName = dentist.User.LastName,
-                //Email = dentist.User.Email,
-                //PhoneNumber = dentist.User.PhoneNumber,
-                TotalPatientsCount = totalPatients,
-                TotalProceduresCount = totalProcedures,
-                TotalAppointmentsCount = totalAppointments
-            };
+            return await repo.AllReadonly<Dentist>()
+                .Where(d => d.Id == id)
+                .Select(d => new DentistStatisticsViewModel()
+                {
+                    FirstName = d.User.FirstName,
+                    LastName = d.User.LastName,
+                    Email = d.User.Email,
+                    PhoneNumber = d.User.PhoneNumber,
+                    TotalPatientsCount = totalPatients,
+                    TotalProceduresCount = totalProcedures,
+                    TotalAppointmentsCount = totalAppointments,
+                    TotalAttendancesCount = totalAttendances
+
+                }).FirstAsync();
+            
         }
 
         public async Task<bool> IsExistsByIdAsync(Guid userId)

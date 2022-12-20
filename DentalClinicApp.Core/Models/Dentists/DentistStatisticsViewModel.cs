@@ -13,5 +13,7 @@ namespace DentalClinicApp.Core.Models.Dentists
         public int TotalProceduresCount { get; set; }
 
         public int TotalAppointmentsCount { get; set; }
+
+        public int TotalAttendancesCount { get; set; }
     }
 }
