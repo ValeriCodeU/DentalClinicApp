@@ -49,6 +49,11 @@ namespace DentalClinicApp.Controllers
 
         public async Task<IActionResult> Create(AttendanceFormModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             var userId = this.User.Id();
 
             if (!await dentistService.IsExistsByIdAsync(userId))
@@ -129,6 +134,11 @@ namespace DentalClinicApp.Controllers
 
         public async Task<IActionResult> Edit(AttendanceFormModel model, int id)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             if (!await attendanceService.AttendanceExistsAsync(id))
             {
                 TempData[MessageConstant.ErrorMessage] = "Attendance does not exist!";

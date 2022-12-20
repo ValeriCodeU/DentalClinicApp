@@ -108,12 +108,7 @@ namespace DentalClinicApp.Areas.Admin.Controllers
             return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
         }
 
-        //public async Task<IActionResult> Delete(Guid id)
-        //{
-
-        //}
-
-
+        
 
         //public async Task<IActionResult> CreateRole()
         //{

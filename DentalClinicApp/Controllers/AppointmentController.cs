@@ -115,6 +115,8 @@ namespace DentalClinicApp.Controllers
             return RedirectToAction(nameof(MyAppointments));
         }
 
+        [Authorize(Roles = DentistRoleName + "," + PatientRoleName)]
+
         public async Task<IActionResult> MyAppointments()
         {
             var userId = this.User.Id();

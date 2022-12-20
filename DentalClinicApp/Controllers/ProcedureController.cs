@@ -48,6 +48,11 @@ namespace DentalClinicApp.Controllers
 
         public async Task<IActionResult> Create(ProcedureFormModel model)
         {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
             var userId = this.User.Id();
 
             if (!await dentistService.IsExistsByIdAsync(userId))

@@ -13,15 +13,15 @@ namespace DentalClinicApp.Areas.Admin.Controllers
             dentistService = _dentistService;
         }
 
-        public async Task<IActionResult> GetStatistic()
-        {
-            return View();
-        }
+        //public async Task<IActionResult> GetStatistic()
+        //{
+        //    return View();
+        //}
 
-        public async Task<IActionResult> Accept()
-        {
-            return View();
-        }
+        //public async Task<IActionResult> Accept()
+        //{
+        //    return View();
+        //}
 
         public async Task<IActionResult> Details()
         {

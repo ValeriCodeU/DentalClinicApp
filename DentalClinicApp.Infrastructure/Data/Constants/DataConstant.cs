@@ -13,7 +13,7 @@
             public const int MaxDiseaseName = 50;
             public const int MaxDiseaseDescription = 500;
             public const int MaxAlergyDescription = 50;
-            public const int MaxDentalStatus = 50;
+            public const int MaxDentalStatus = 5;
         }
 
         public static class DentalProcedure

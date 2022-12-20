@@ -26,7 +26,7 @@ namespace DentalClinicApp.Infrastructure.Configuration
                     DiseaseName = "Cracked tooth",
                     DiseaseDescription = "Playing boxing without a mouth guard",
                     AlergyDescription = "drug allergy",
-                    DentalStatus = "H-55",
+                    DentalStatus = "55",
                     PatientId = 1,
                     IsActive = true,
 
@@ -38,7 +38,7 @@ namespace DentalClinicApp.Infrastructure.Configuration
                     DiseaseName = "Sensitive to cold",
                     DiseaseDescription = "Pain when consuming cold drinks",
                     AlergyDescription = "not reported",
-                    DentalStatus = "H-62",
+                    DentalStatus = "11",
                     PatientId = 1,
                     IsActive= true,
                 },
