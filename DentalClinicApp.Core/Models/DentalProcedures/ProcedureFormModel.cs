@@ -1,5 +1,6 @@
 ﻿using DentalClinicApp.Core.Models.Patients;
 using Microsoft.EntityFrameworkCore;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using static DentalClinicApp.Core.Constants.ModelConstant.DentalProcedure;
 
@@ -24,7 +25,7 @@ namespace DentalClinicApp.Core.Models.DentalProcedures
         [Display(Name = "Select start date")]
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString = "{0:yyyy-MM-dd HH:mm}")]
 
-        [Required]
+        [Required]      
 
         public string StartDate { get; set; } = null!;
 

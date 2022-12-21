@@ -13,8 +13,8 @@
         <div class="card-body alert-success">           
             <p class="card-text"><span class="fw-bold">Name: </span>@Model.Name</p>
             <p class="card-text"><span class="fw-bold">Description: </span>@Model.Description</p>           
-            <p class="card-text"><span class="fw-bold">Started On: </span>@Model.StartDate</p>
-            <p class="card-text"><span class="fw-bold">Ended On: </span>@Model.EndDate</p>
+            <p class="card-text"><span class="fw-bold">Start Date: </span>@Model.StartDate</p>
+            <p class="card-text"><span class="fw-bold">End Date: </span>@Model.EndDate</p>
             <p class="card-text"><span class="fw-bold">Cost: </span>@Model.Cost</p>
 
             @if (this.User.IsInRole("Dentist"))
@@ -33,8 +33,8 @@
                     <tr class="actions">
                         <th><span class="fw-bold">Actions:</span></th>
                         <td>
-                            <a asp-controller="Attendance" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-                            <a asp-controller="Attendance" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+                            <a asp-controller="Procedure" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+                            <a asp-controller="Procedure" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
                         </td>
                     </tr>
                 }                

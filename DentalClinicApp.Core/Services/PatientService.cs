@@ -195,7 +195,7 @@ namespace DentalClinicApp.Core.Services
                         Description = pp.Description,
                         StartDate = pp.StartDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture),
                         EndDate = pp.EndDate.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture),
-                        Cost = pp.Cost,
+                        Cost = decimal.Parse(pp.Cost.ToString("F2")),
                     })
 
 
