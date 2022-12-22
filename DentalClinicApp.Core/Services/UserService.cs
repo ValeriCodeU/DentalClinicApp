@@ -10,8 +10,7 @@ namespace DentalClinicApp.Core.Services
 {
     public class UserService : IUserService
     {
-        private readonly IRepository repo;
-        private readonly DentalClinicDbContext dbContext;
+        private readonly IRepository repo;        
         private readonly UserManager<ApplicationUser> userManager;
 
         public UserService(
@@ -19,9 +18,18 @@ namespace DentalClinicApp.Core.Services
             DentalClinicDbContext _dbContex,
             UserManager<ApplicationUser> _userManager)
         {
-            repo = _repo;
-            dbContext = _dbContex;
+            repo = _repo;            
             userManager = _userManager;
+        }
+
+        public async Task<bool> DeleteUserAsync(Guid id)
+        {
+            var user = await repo.GetByIdAsync<ApplicationUser>(id);
+
+            user.IsActive = false;            
+            await repo.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task<bool> EditUserAsync(UserEditViewModel model)
@@ -44,6 +52,19 @@ namespace DentalClinicApp.Core.Services
             }
 
             return result;
+        }
+
+        public async Task<UserDeleteViewModel> GetUserForDeleteAsync(Guid id)
+        {
+            var user = await repo.GetByIdAsync<ApplicationUser>(id);
+
+            return new UserDeleteViewModel()
+            {
+                Id = user.Id,
+                Username = user.UserName,
+                FirstName = user.FirstName,
+                LastName = user.LastName
+            };
         }
 
         public async Task<ApplicationUser> GetUserByIdAsync(Guid id)
@@ -71,7 +92,7 @@ namespace DentalClinicApp.Core.Services
         {
             var result = new List<UserListViewModel>();
 
-            var users = await repo.All<ApplicationUser>().ToListAsync();
+            var users = await repo.All<ApplicationUser>().Where(u => u.IsActive).ToListAsync();
 
             foreach (var u in users)
             {

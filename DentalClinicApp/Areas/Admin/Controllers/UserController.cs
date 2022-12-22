@@ -1,4 +1,5 @@
-﻿using DentalClinicApp.Core.Contracts;
+﻿using DentalClinicApp.Core.Constants;
+using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Users;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Identity;
@@ -73,9 +74,7 @@ namespace DentalClinicApp.Areas.Admin.Controllers
 
             if (model.RoleNames.Length > 0)
             {
-                await userManager.AddToRolesAsync(user, model.RoleNames);
-                await signInManager.SignOutAsync();
-                await signInManager.SignInAsync(user, isPersistent: false);
+                await userManager.AddToRolesAsync(user, model.RoleNames);              
             }
 
             return RedirectToAction(nameof(ManageUsers));
@@ -109,6 +108,35 @@ namespace DentalClinicApp.Areas.Admin.Controllers
 
             return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
         }
+
+        public async Task<IActionResult> Delete(Guid id)
+        {           
+            var model = await userService.GetUserForDeleteAsync(id);          
+
+            return View(model);
+        }
+
+
+        [HttpPost]
+
+        public async Task<IActionResult> Delete(UserDeleteViewModel model)
+        {
+            var result = await userService.DeleteUserAsync(model.Id);
+
+            if (result)
+            {
+                TempData[MessageConstant.SuccessMessage] = "User is now deleted!";
+            }
+            else
+            {
+                TempData[MessageConstant.ErrorMessage] = "Something went wrong!";
+            }
+
+            return RedirectToAction(nameof(ManageUsers), new { ared = "Admin" });
+        }
+
+
+
 
         
 

@@ -11,6 +11,10 @@ namespace DentalClinicApp.Core.Contracts
 
         Task<bool> EditUserAsync(UserEditViewModel model);
 
-        Task<ApplicationUser> GetUserByIdAsync(Guid id);       
+        Task<ApplicationUser> GetUserByIdAsync(Guid id);
+
+        Task<bool> DeleteUserAsync(Guid id);
+
+        Task<UserDeleteViewModel> GetUserForDeleteAsync(Guid id);
     }
 }
