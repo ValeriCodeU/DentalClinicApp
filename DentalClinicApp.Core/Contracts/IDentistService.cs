@@ -16,5 +16,9 @@ namespace DentalClinicApp.Core.Contracts
         Task<int> GetDentistIdAsync(Guid userId);
 
         Task<DentistStatisticsViewModel> GetStatisticsAsync(int id);
+
+        Task<bool> AddUserAsDentistAsync(Guid userId, int managerId);
+
+        Task<int> GetManagerOfDentistAsync(Guid userId);
     }
 }

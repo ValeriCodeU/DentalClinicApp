@@ -77,12 +77,12 @@ namespace DentalClinicApp.Test
                 DentistId = 1,
             });
 
-            await repo.AddAsync(new Patient()
-            {
-                Id = 5,
-                UserId = new Guid("a4a7eab8-9e0c-43a3-b882-35f9fdbded93"),
-                DentistId = 1,
-            });           
+            //await repo.AddAsync(new Patient()
+            //{
+            //    Id = 5,
+            //    UserId = new Guid("a4a7eab8-9e0c-43a3-b882-35f9fdbded93"),
+            //    DentistId = 1,
+            //});           
 
             await repo.SaveChangesAsync();
 
@@ -91,7 +91,7 @@ namespace DentalClinicApp.Test
             //await repo.SaveChangesAsync();
 
             var patientsCountAfter = await repo.AllReadonly<Patient>().CountAsync();
-            var patientCollection = await repo.AllReadonly<Patient>().ToListAsync();
+            var patientCollection = await repo.AllReadonly<Patient>().ToListAsync();            
 
             Assert.That(patientsCountBefore + 1, Is.EqualTo(patientsCountAfter));
             Assert.That(patientCollection.Any(p => p.Id == 2), Is.True);

@@ -7,7 +7,6 @@ using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using System.Globalization;
-using System.Reflection.Emit;
 
 namespace DentalClinicApp.Core.Services
 {
@@ -63,19 +62,6 @@ namespace DentalClinicApp.Core.Services
 
         public async Task<MyPatientsViewModel> GetMyPatientsAsync(Guid userId)
         {
-
-            //var patients = await repo.AllReadonly<Patient>()
-            //    .Where(d => d.DentistId == dentist.Id)
-            //    .Select(p => new PatientServiceModel()
-            //    {
-            //        FirstName = p.User.FirstName,
-            //        LastName = p.User.LastName,
-            //        Email = p.User.Email,
-            //        PhoneNumber = p.User.PhoneNumber
-
-            //    }).ToListAsync();
-
-
             var patients = await repo.AllReadonly<Dentist>()
                 .Where(d => d.UserId == userId)
                 .Select(b => new MyPatientsViewModel()
@@ -86,14 +72,7 @@ namespace DentalClinicApp.Core.Services
                         FirstName = p.User.FirstName,
                         LastName = p.User.LastName,
                         PhoneNumber = p.User.PhoneNumber,
-                        Email = p.User.Email,
-                        //PatientProblems = p.DentalProblems.Select(dp => new ProblemDetailsViewModel()
-                        //{
-                        //    DiseaseName = dp.DiseaseName,
-                        //    DiseaseDescription = dp.DiseaseDescription,
-                        //    DentalStatus = dp.DentalStatus,
-                        //    AlergyDescription = dp.AlergyDescription
-                        //}).ToList()
+                        Email = p.User.Email,                      
                     })
 
                 }).FirstAsync();

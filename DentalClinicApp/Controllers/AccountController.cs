@@ -89,7 +89,7 @@ namespace DentalClinicApp.Controllers
                 PhoneNumber = model.PhoneNumber
             };
 
-            var result = await userManager.CreateAsync(user, model.Password);
+            var result = await userManager.CreateAsync(user, model.Password);           
 
             if (result.Succeeded)
             {
@@ -103,7 +103,7 @@ namespace DentalClinicApp.Controllers
             foreach (var error in result.Errors)
             {
                 ModelState.AddModelError("", error.Description);
-            }
+            }            
 
             return View(model);
         }

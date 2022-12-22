@@ -16,6 +16,20 @@ namespace DentalClinicApp.Core.Services
             repo = _repo;
         }
 
+        public async Task<bool> AddUserAsDentistAsync(Guid userId, int managerId)
+        {
+            var dentist = new Dentist()
+            {
+                UserId = userId,
+                ManagerId = managerId,
+            };
+
+            await repo.AddAsync(dentist);
+            await repo.SaveChangesAsync();
+
+            return true;
+        }
+
         public async Task<DentistDetailsViewModel> GetAllManagedDentistsAsync(Guid userId)
         {
 
@@ -24,6 +38,7 @@ namespace DentalClinicApp.Core.Services
                .Select(m => new DentistDetailsViewModel()
                {
                    Dentists = m.AcceptedDentists
+                   .Where(d => d.User.IsActive)                   
                    .Select(d => new DentistServiceModel()
                    {
                        Id = d.Id,
@@ -43,6 +58,13 @@ namespace DentalClinicApp.Core.Services
             var dentist = await repo.AllReadonly<Dentist>().FirstAsync(u => u.UserId == userId);
 
             return dentist.Id;
+        }
+
+        public async Task<int> GetManagerOfDentistAsync(Guid userId)
+        {
+            var manager = await repo.AllReadonly<Manager>().FirstAsync(u => u.UserId == userId);
+
+            return manager.Id;
         }
 
         public async Task<DentistStatisticsViewModel> GetStatisticsAsync(int id)

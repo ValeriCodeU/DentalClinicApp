@@ -1,0 +1,48 @@
+﻿@model DentistFormModel
+
+
+<div class="row">
+	<div class="col-md-4 offset-md-4">
+		<form method="post">
+			<div class="text-center mb-3">
+				<label asp-for="UserName"></label>
+				<input asp-for="UserName" class="form-control" placeholder="">
+				<span asp-validation-for="UserName" class="small text-danger"></span>
+			</div>
+			<div class="text-center mb-3">
+				<label asp-for="FirstName"></label>
+				<input asp-for="FirstName" class="form-control" placeholder="">
+				<span asp-validation-for="FirstName" class="small text-danger"></span>
+			</div>
+			<div class="text-center mb-3">
+				<label asp-for="LastName"></label>
+				<input asp-for="LastName" rows="4" class="form-control" placeholder="">
+				<span asp-validation-for="LastName" class="small text-danger"></span>
+			</div>
+			<div class="text-center mb-3">
+				<label asp-for="PhoneNumber"></label>
+				<input asp-for="PhoneNumber" class="form-control" placeholder="">
+				<span asp-validation-for="PhoneNumber" class="small text-danger"></span>
+			</div>
+			<div class="text-center mb-3">
+				<label asp-for="Email"></label>
+				<input asp-for="Email" class="form-control">
+				<span asp-validation-for="Email" class="small text-danger"></span>
+			</div>
+			<div class="text-center mb-3">
+				<label asp-for="Password">Password</label>
+				<input class="form-control" type="password" autocomplete="new-password" aria-required="true" asp-for="Password" />
+				<span asp-validation-for="Password" class="text-danger"></span>
+			</div>
+			<div class="text-center mb-3">
+				<label asp-for="ConfirmPassword">Confirm Password</label>
+				<input class="form-control" type="password" autocomplete="new-password" aria-required="true" asp-for="ConfirmPassword" />
+				<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+			</div>
+
+			<div class="text-center">
+				<input class="btn btn-primary mt-3" type="submit" value="Save" />
+			</div>
+		</form>
+	</div>
+</div>
