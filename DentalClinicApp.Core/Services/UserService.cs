@@ -92,7 +92,7 @@ namespace DentalClinicApp.Core.Services
         {
             var result = new List<UserListViewModel>();
 
-            var users = await repo.All<ApplicationUser>().Where(u => u.IsActive).ToListAsync();
+            var users = await repo.AllReadonly<ApplicationUser>().Where(u => u.IsActive).ToListAsync();
 
             foreach (var u in users)
             {
@@ -106,17 +106,7 @@ namespace DentalClinicApp.Core.Services
                 });
             }
 
-            return result;
-
-            //return await repo.All<ApplicationUser>()
-            //    .Select(u => new UserListViewModel()
-            //    {
-            //        Id = u.Id,
-            //        Name = $"{u.FirstName} {u.LastName}",
-            //        Email = u.Email
-            //       
-            //    })
-            //    .ToListAsync();
+            return result;           
         }
     }
 }
