@@ -46,6 +46,8 @@ namespace DentalClinicApp.Core.Services
                 user.UserName = model.Username;
                 user.PhoneNumber = model.PhoneNumber;
 
+                await userManager.UpdateAsync(user);
+
                 await repo.SaveChangesAsync();
 
                 result = true;
