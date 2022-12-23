@@ -112,6 +112,7 @@ namespace DentalClinicApp.Core.Services
 				.Where(d => d.User.IsActive)
 				.Select(d => d.Attendances
 				.Where(d => d.IsActive)
+				.OrderByDescending(d => d.Date)
 				.Select(a => new AttedanceServiceModel()
 				{
 					ClinicRemarks=a.ClinicRemarks,

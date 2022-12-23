@@ -1,24 +1,20 @@
 ﻿@model ProcedureServiceModel
 
 <div class="col-md-4">
-	<div class="card mb-3 text-center">
-		<div class="container" style="display:inline">
-			
-		</div>
-		<div class="card-body text-center">
+	<div class="card border-success mb-3 text-center">		
+		<div class="card-body border-success alert-success text-center">
 			<h4>@Model.Name</h4>
-			<h6>Details: <b>@Model.Description</b></h6>
-			<h6>Start Date: <b>@Model.StartDate</b></h6>			
-			<h6>End Date: <b>@Model.EndDate</b></h6>
-			<h6>Cost: <b>@Model.Cost</b></h6>
+			<p class="card-text"><b>Description: </b> @Model.Description</p>
+			<p class="card-text"><b>Start Date: </b>@Model.StartDate</p>
+			<p class="card-text"><b>Start Date: </b>@Model.EndDate</p>
+			<p class="card-text"><b>Start Date: </b>@Model.Cost</p>
 
-			@if (this.User.Identity.IsAuthenticated)
+			@if (this.User?.Identity?.IsAuthenticated ?? false)
 			{
 				@if (this.User.IsInRole("Dentist"))
 				{
 					<a asp-area"" asp-controller="Procedure" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
-					<a asp-controller="Procedure" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-					
+					<a asp-controller="Procedure" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>					
 				}
 			}
 		</div>

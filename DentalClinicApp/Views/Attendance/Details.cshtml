@@ -1,7 +1,7 @@
 ﻿@model AttedanceServiceModel
 
 @{
-    ViewBag.Title = "View Attendance Details";
+	ViewBag.Title = "View My Attendance Details";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -10,30 +10,31 @@
 
 
 <div class="d-flex justify-content-center">
-    <div class="card " style="width: 50rem;">
-        <div class="card-body">           
-            <p class="card-text"><span class="fw-bold">Clinic Remarks: </span>@Model.ClinicRemarks</p>
-            <p class="card-text"><span class="fw-bold">Diagnosis: </span>@Model.Diagnosis</p>           
-            <p class="card-text"><span class="fw-bold">Created On: </span>@Model.Date</p>
-            <p class="card-text"><span class="fw-bold">First Name: </span>@Model.Patient.FirstName</p>
-            <p class="card-text"><span class="fw-bold">Last Name: </span>@Model.Patient.LastName</p>
-            <p class="card-text"><span class="fw-bold">Email: </span>@Model.Patient.Email</p>
-            <p class="card-text"><span class="fw-bold">Phone Number: </span>@Model.Patient.PhoneNumber</p>
-           
-            @if (this.User?.Identity?.IsAuthenticated ?? false)
-            {
-                @if (this.User.IsInRole("Dentist"))
-                {
-                    <tr class="actions">
-                        <th><span class="fw-bold">Actions:</span></th>
-                        <td>
-                            <a asp-controller="Attendance" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
-                            <a asp-controller="Attendance" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
-                        </td>
-                    </tr>
-                }                
-            }
+	<div class="card border-success " style="width: 50rem;">
+		<div class="card-body alert-success">
+			<p class="card-text"><span class="fw-bold">Diagnosis: </span>@Model.Diagnosis</p>
+			<p class="card-text"><span class="fw-bold">Clinic Remarks: </span>@Model.ClinicRemarks</p>			
+			<p class="card-text"><span class="fw-bold">Created On: </span>@Model.Date</p>
+			@if (this.User.IsInRole("Dentist"))
+			{
+				<p class="card-text"><span class="fw-bold">Patient's name: </span>@Model.Patient.FirstName @Model.Patient.LastName</p>
+				<p class="card-text"><span class="fw-bold">Patient's email: </span>@Model.Patient.Email</p>
+				<p class="card-text"><span class="fw-bold">Patient's phone number: </span>@Model.Patient.PhoneNumber</p>
+			}
+			@if (this.User?.Identity?.IsAuthenticated ?? false)
+			{
+				@if (this.User.IsInRole("Dentist"))
+				{
+					<tr class="actions">
+						<th><span class="fw-bold">Actions:</span></th>
+						<td>
+							<a asp-controller="Attendance" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-primary">Edit</a>
+							<a asp-controller="Attendance" asp-action="Delete" asp-route-id="@Model.Id" class="btn btn-danger">Delete</a>
+						</td>
+					</tr>
+				}
+			}
 
-        </div>
-    </div>
+		</div>
+	</div>
 </div>

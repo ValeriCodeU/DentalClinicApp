@@ -155,7 +155,7 @@ namespace DentalClinicApp.Controllers
             {
                 TempData[MessageConstant.ErrorMessage] = "Procedure does not exist!";
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(nameof(MyProcedures));
             }
 
             var model = await procedureService.ProcedureDetailsByIdAsync(id);

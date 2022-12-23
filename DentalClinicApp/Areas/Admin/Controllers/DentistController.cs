@@ -40,7 +40,7 @@ namespace DentalClinicApp.Areas.Admin.Controllers
             return View(model);
         }
 
-        public async Task<IActionResult> Create()
+        public IActionResult Create()
         {
             var model = new DentistFormModel();
 

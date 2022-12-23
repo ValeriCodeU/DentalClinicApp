@@ -63,16 +63,18 @@ namespace DentalClinicApp.Core.Services
         public async Task<MyPatientsViewModel> GetMyPatientsAsync(Guid userId)
         {
             var patients = await repo.AllReadonly<Dentist>()
-                .Where(d => d.UserId == userId)
+                .Where(d => d.UserId == userId && d.User.IsActive)                
                 .Select(b => new MyPatientsViewModel()
                 {
-                    Patients = b.Patients.Select(p => new PatientServiceModel
+                    Patients = b.Patients
+                    .Where(p => p.User.IsActive)
+                    .Select(p => new PatientServiceModel
                     {
                         Id = p.Id,
                         FirstName = p.User.FirstName,
                         LastName = p.User.LastName,
                         PhoneNumber = p.User.PhoneNumber,
-                        Email = p.User.Email,                      
+                        Email = p.User.Email,
                     })
 
                 }).FirstAsync();
@@ -145,7 +147,7 @@ namespace DentalClinicApp.Core.Services
                    .Where(pa => pa.IsActive)
                    .Select(pa => new AttedanceServiceModel()
                    {
-                       Id = pa.Id,   
+                       Id = pa.Id,
                        ClinicRemarks = pa.ClinicRemarks,
                        Diagnosis = pa.Diagnosis,
                        Date = pa.Date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)
@@ -178,8 +180,14 @@ namespace DentalClinicApp.Core.Services
                     })
 
 
-                }).FirstAsync();               
+                }).FirstAsync();
+        }
 
+        public async Task<Guid> GetUserIdByPatientId(int id)
+        {
+            var patient = await repo.GetByIdAsync<Patient>(id);
+
+            return patient.UserId;
         }
     }
 }

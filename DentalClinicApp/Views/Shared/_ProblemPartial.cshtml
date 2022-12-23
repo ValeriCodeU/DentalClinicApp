@@ -2,11 +2,11 @@
 
 <div class="col-md-4">
     <div class="card border-success mb-3">
-		<div class="card-body text-center">
+		<div class="card-body border-success alert-success text-center">
 			<h4>@Model.DiseaseName</h4>
-			<h6>Dental Status: <b>@Model.DentalStatus</b></h6>
-			<h6>Description: <b>@Model.DiseaseDescription</b></h6>
-			<h6>Alergy: <b>@Model.AlergyDescription</b></h6>
+            <p class="card-text"><span class="fw-bold">Description: </span>@Model.DiseaseDescription</p>
+            <p class="card-text"><span class="fw-bold">Tooth Status: </span>@Model.DentalStatus</p>
+            <p class="card-text"><span class="fw-bold">Allergies: </span>@Model.AlergyDescription</p>
 
           @*  @if (this.User.Identity.IsAuthenticated)
             {

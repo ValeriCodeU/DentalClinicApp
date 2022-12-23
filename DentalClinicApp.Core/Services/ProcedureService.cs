@@ -1,5 +1,4 @@
 ﻿using DentalClinicApp.Core.Contracts;
-using DentalClinicApp.Core.Models.Attendances;
 using DentalClinicApp.Core.Models.DentalProcedures;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
@@ -85,6 +84,7 @@ namespace DentalClinicApp.Core.Services
                 .Where(d => d.User.IsActive)
                 .Select(d => d.DentalProcedures
                 .Where(d => d.IsActive)
+				.OrderByDescending(d => d.StartDate)
                 .Select(p => new ProcedureServiceModel()
                 {
                     Name = p.Name,

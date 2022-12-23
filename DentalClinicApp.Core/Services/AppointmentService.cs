@@ -45,7 +45,7 @@ namespace DentalClinicApp.Core.Services
         {
             return await repo.AllReadonly<Appointment>()
                 .Where(a => a.IsActive)
-                .Where(a => a.Id == id)                
+                .Where(a => a.Id == id)
                 .Select(a => new AppointmentServiceModel()
                 {
                     StartDate = a.StartDateTime,
@@ -54,9 +54,7 @@ namespace DentalClinicApp.Core.Services
                     {
                         FirstName = a.Patient.User.FirstName,
                         LastName = a.Patient.User.LastName,
-                    }                  
-
-                    
+                    }
 
                 }).FirstAsync();
         }
@@ -102,7 +100,7 @@ namespace DentalClinicApp.Core.Services
                         StartDate = a.StartDateTime,
                         Status = a.Status,
                         Details = a.Details,
-                        Id = a.Id,                        
+                        Id = a.Id,
                     })
 
                 }).FirstAsync();

@@ -56,17 +56,7 @@ namespace DentalClinicApp.Controllers
 
             return RedirectToAction(nameof(MyAppointments));
 
-        }
-
-        //public async Task<IActionResult> Details()
-        //{
-        //    var userId = this.User.Id();
-
-        //    var model = await appointmentService.GetDentistAppointments(userId);
-
-
-        //    return View(model);
-        //}
+        }     
 
         [Authorize(Roles = DentistRoleName)]
 

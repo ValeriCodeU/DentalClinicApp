@@ -30,5 +30,7 @@ namespace DentalClinicApp.Core.Contracts
         Task<int> GetPersonalDentistIdAsync(int patientId);
 
         Task<IEnumerable<PatientModel>> GetPatientsAsync(Guid userId);
+
+        Task<Guid> GetUserIdByPatientId(int id);
     }
 }

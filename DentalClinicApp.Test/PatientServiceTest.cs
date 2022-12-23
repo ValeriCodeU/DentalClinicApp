@@ -1,4 +1,5 @@
 ﻿using DentalClinicApp.Core.Contracts;
+using DentalClinicApp.Core.Models.Patients;
 using DentalClinicApp.Core.Services;
 using DentalClinicApp.Infrastructure.Data;
 using DentalClinicApp.Infrastructure.Data.Common;
@@ -87,8 +88,7 @@ namespace DentalClinicApp.Test
             await repo.SaveChangesAsync();
 
             var patientsCountBefore = await repo.AllReadonly<Patient>().CountAsync();
-            await patientService.CreatePatientAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"), 1);
-            //await repo.SaveChangesAsync();
+            await patientService.CreatePatientAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"), 1);            
 
             var patientsCountAfter = await repo.AllReadonly<Patient>().CountAsync();
             var patientCollection = await repo.AllReadonly<Patient>().ToListAsync();            
@@ -97,12 +97,85 @@ namespace DentalClinicApp.Test
             Assert.That(patientCollection.Any(p => p.Id == 2), Is.True);
         }
 
+        [Test]
+
+        public async Task GetPersonalDentistIdAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            patientService = new PatientService(repo);
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 2,
+                UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                DentistId = 1,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var dentistId = await patientService.GetPersonalDentistIdAsync(2);
+            Assert.That(dentistId, Is.EqualTo(1));
+        }
+
+        [Test]
+
+        public async Task GetMyPatientsAsync_ShouldReturnCorrectPatient()
+        {
+            var repo = new Repository(dbContext);
+            patientService = new PatientService(repo);
+
+            var patients = new MyPatientsViewModel();
+
+
+        }
+
+        [Test]
+
+        public async Task GetPatientIdAsync_ShouldReturnCorrectId()
+        {
+            var repo = new Repository(dbContext);
+            patientService = new PatientService(repo);
+           
+            await repo.AddAsync(new Patient()
+            {
+                Id = 10,
+                UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                DentistId = 1,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var patientId = await patientService.GetPatientIdAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"));
+
+            Assert.That(patientId, Is.EqualTo(10));
+        }
+
+
+        [Test]
+
+        public async Task GetUserIdByPatientId_ShouldReturnCorrectGuidUserId()
+        {
+            var repo = new Repository(dbContext);
+            patientService = new PatientService(repo);
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 10,
+                UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                DentistId = 1,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var patientId = await patientService.GetUserIdByPatientId(10);
+
+            Assert.That(patientId, Is.EqualTo(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6")));
+        }
 
         [TearDown]
 
         public void TearDown()
         {
-
             dbContext.Dispose();
         }
     }

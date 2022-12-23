@@ -76,11 +76,10 @@ namespace DentalClinicApp.Controllers
             {
                 TempData[MessageConstant.ErrorMessage] = "Attendance does not exist!";
 
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction(nameof(MyAttendances));
             }
 
             var model = await attendanceService.AttendanceDetailsByIdAsync(id);
-
 
             return View(model);
         }

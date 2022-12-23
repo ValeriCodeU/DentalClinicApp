@@ -1,7 +1,7 @@
 ﻿@model ProblemDetailsViewModel
 
 @{
-    ViewBag.Title = "View Problem Details";
+    ViewBag.Title = "View My Problem Details";
 }
 
 <h2 class="text-center">@ViewBag.Title</h2>
@@ -10,8 +10,8 @@
 
 
 <div class="d-flex justify-content-center">
-    <div class="card " style="width: 50rem;">
-        <div class="card-body">
+    <div class="card border-success" style="width: 50rem;">
+        <div class="card-body alert-success">
             <h3 class="card-title text-center">@Model.DiseaseName</h3>
             <p class="card-text"><span class="fw-bold">Description: </span>@Model.DiseaseDescription</p>           
             <p class="card-text"><span class="fw-bold">Tooth Status: </span>@Model.DentalStatus</p>

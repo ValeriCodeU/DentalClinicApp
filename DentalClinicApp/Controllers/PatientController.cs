@@ -43,15 +43,13 @@ namespace DentalClinicApp.Controllers
             
             if (await patientService.IsExistsByIdAsync(userId))
             {
-                TempData[MessageConstant.ErrorMessage] = "You are alread a patient";
-                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
-               
+                TempData[MessageConstant.ErrorMessage] = "You are already a patient";
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });               
             }
 
 
             var model = new BecomePatientFormModel();
-            model.Dentists = await patientService.GetDentistsAsync();
-            
+            model.Dentists = await patientService.GetDentistsAsync();            
 
             return View(model);
         }
@@ -94,14 +92,7 @@ namespace DentalClinicApp.Controllers
         public async Task<IActionResult> MyPatients()
         {
             var userId = this.User.Id();
-
-            //var result = await patientService.IsExistsByIdAsync(userId);
-
-            //if (result)
-            //{
-            //    return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
-            //}
-
+            
             var patients = await patientService.GetMyPatientsAsync(userId);
           
 
@@ -111,11 +102,14 @@ namespace DentalClinicApp.Controllers
         [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> PatientProblemDetails(int id)
-        {
-            //if (!await problemService.ProblemExistsAsync(id))
-            //{
-            //    return RedirectToAction(nameof(MyPatients));
-            //}
+        {            
+            var patientUserId = await patientService.GetUserIdByPatientId(id);
+
+            if (!await patientService.IsExistsByIdAsync(patientUserId))
+            {
+                TempData[MessageConstant.ErrorMessage] = "This patient does not exist!";
+                return RedirectToAction(nameof(MyPatients));
+            }
 
             var model = await patientService.PatientDetailsByIdAsync(id);
 
@@ -125,7 +119,15 @@ namespace DentalClinicApp.Controllers
         [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> PatientAttendanceDetails(int id)
-        {           
+        {
+            var patientUserId = await patientService.GetUserIdByPatientId(id);
+
+            if (!await patientService.IsExistsByIdAsync(patientUserId))
+            {
+                TempData[MessageConstant.ErrorMessage] = "This patient does not exist!";
+                return RedirectToAction(nameof(MyPatients));
+            }
+
             var model = await patientService.PatientAttendanceDetailsByIdAsync(id);
 
             return View(model);
@@ -135,10 +137,17 @@ namespace DentalClinicApp.Controllers
 
         public async Task<IActionResult> PatientProcedureDetails(int id)
         {
+            var patientUserId = await patientService.GetUserIdByPatientId(id);
+
+            if (!await patientService.IsExistsByIdAsync(patientUserId))
+            {
+                TempData[MessageConstant.ErrorMessage] = "This patient does not exist!";
+                return RedirectToAction(nameof(MyPatients));
+            }
+
             var model = await patientService.PatientProcedureDetailsByIdAsync(id);
 
             return View(model);
-        }
-       
+        }       
     }
 }

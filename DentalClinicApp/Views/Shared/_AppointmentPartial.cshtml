@@ -1,24 +1,24 @@
 ﻿@model AppointmentServiceModel
 
 <div class="col-md-4">
-	<div class="card mb-3 text-center">
+	<div class="card mb-3 alert-info text-center">
 		<div class="container" style="display:inline">
 			@if (this.User.IsInRole("Dentist"))
 			{
 				<div class="row">
-				<h5 class="card-title">Patient Info</h5>
-				<p class="card-text">Full Name: @Model.Patient.FirstName @Model.Patient.LastName</p>
-				<p class="card-text">Email:  @Model.Patient.Email</p>
-				<p class="card-text">Phone Number: @Model.Patient.PhoneNumber</p>
-			</div>
+					<h5 class="card-title">Patient Info</h5>
+					<p class="card-text"><span class="fw-bold">Full Name: </span>@Model.Patient.FirstName @Model.Patient.LastName </p>
+					<p class="card-text"><span class="fw-bold">Email: </span>@Model.Patient.Email </p>
+					<p class="card-text"><span class="fw-bold">Phone Number: </span>@Model.Patient.PhoneNumber </p>
+				</div>
 			}
-			
+
 		</div>
-		<div class="card-body text-center">
+		<div class="card-body alert-success text-center">
 			<h4>@Model.StartDate</h4>
 			<h6>Details: <b>@Model.Details</b></h6>
 
-			@if (this.User.Identity.IsAuthenticated)
+			@if (this.User?.Identity?.IsAuthenticated ?? false)
 			{
 				@if (this.User.IsInRole("Dentist"))
 				{
@@ -41,10 +41,10 @@
 					else
 					{
 						<p class="card-text alert-info"> Waiting </p>
-					}					
+					}
 				}
 
-				
+
 			}
 		</div>
 	</div>
