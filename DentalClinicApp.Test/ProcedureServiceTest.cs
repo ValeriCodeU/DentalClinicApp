@@ -157,9 +157,7 @@ namespace DentalClinicApp.Test
 
             var procedure = await repo.GetByIdAsync<DentalProcedure>(1);
 
-            Assert.That(procedure.DentistId, Is.EqualTo(1
-                ));
-
+            Assert.That(procedure.DentistId, Is.EqualTo(1));
         }
 
 

@@ -1,4 +1,5 @@
 ﻿using DentalClinicApp.Core.Contracts;
+using DentalClinicApp.Core.Models.Attendances;
 using DentalClinicApp.Core.Services;
 using DentalClinicApp.Infrastructure.Data;
 using DentalClinicApp.Infrastructure.Data.Common;
@@ -49,6 +50,28 @@ namespace DentalClinicApp.Test
             var problemExist = await attendanceService.AttendanceExistsAsync(3);
 
             Assert.That(problemExist, Is.True);
+        }
+
+        [Test]
+
+        public async Task CreateAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            attendanceService = new AttendanceService(repo);
+
+            var model = new AttendanceFormModel()
+            {
+                ClinicRemarks = "You need a root canal and a crown",
+                Diagnosis = "Fractured tooth",
+                PatientId = 1,
+            };
+
+            await attendanceService.CreateAsync(model, 1);
+
+            var attendance = await repo.GetByIdAsync<Attendance>(1);
+
+            Assert.That(attendance.DentistId, Is.EqualTo(1));
+            Assert.That(attendance.PatientId, Is.EqualTo(1));
         }
 
         [TearDown]
