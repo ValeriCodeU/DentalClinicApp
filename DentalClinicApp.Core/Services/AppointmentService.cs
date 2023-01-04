@@ -48,6 +48,7 @@ namespace DentalClinicApp.Core.Services
                 .Where(a => a.Id == id)
                 .Select(a => new AppointmentServiceModel()
                 {
+                    Id = a.Id,                    
                     StartDate = a.StartDateTime,
                     Details = a.Details,
                     Patient = new Models.Patients.PatientServiceModel()
