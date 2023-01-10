@@ -66,10 +66,11 @@ namespace DentalClinicApp.Test
                 PatientId = 1,
             };
 
-            await attendanceService.CreateAsync(model, 1);
+            var result = await attendanceService.CreateAsync(model, 1);
 
             var attendance = await repo.GetByIdAsync<Attendance>(1);
 
+            Assert.That(result, Is.EqualTo(1));
             Assert.That(attendance.DentistId, Is.EqualTo(1));
             Assert.That(attendance.PatientId, Is.EqualTo(1));
         }

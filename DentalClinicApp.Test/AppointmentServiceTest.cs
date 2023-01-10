@@ -202,8 +202,6 @@ namespace DentalClinicApp.Test
             Assert.That(appointment.StartDateTime, Is.EqualTo(DateTime.ParseExact("30/01/2023 15:00:00", "dd/MM/yyyy HH:mm:ss", null)));
         }
 
-
-
         [TearDown]
 
         public void TearDown()

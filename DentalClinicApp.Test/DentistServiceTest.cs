@@ -84,6 +84,18 @@ namespace DentalClinicApp.Test
             Assert.That(dentistId, Is.EqualTo(3));
         }
 
+        [Test]
+
+        public async Task AddUserAsDentistAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            dentistService = new DentistService(repo);            
+
+            var result = await dentistService.AddUserAsDentistAsync(new Guid("e28afed9-0de3-4ca6-aee8-28488401bca8"), 1);
+
+            Assert.That(result, Is.True);
+        }
+
 
         [TearDown]
 
