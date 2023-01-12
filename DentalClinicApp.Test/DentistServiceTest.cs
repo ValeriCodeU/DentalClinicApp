@@ -5,6 +5,7 @@ using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.EntityFrameworkCore;
+using static DentalClinicApp.Core.Constants.ModelConstant;
 
 namespace DentalClinicApp.Test
 {
@@ -82,6 +83,24 @@ namespace DentalClinicApp.Test
             var dentistId = await dentistService.GetDentistIdAsync(new Guid("e28afed9-0de3-4ca6-aee8-28488401bca8"));
 
             Assert.That(dentistId, Is.EqualTo(3));
+        }
+
+        [Test] public async Task GetManagerOfDentistAsync_ShouldReturnCorrectResult()
+        {
+            var repo = new Repository(dbContext);
+            dentistService = new DentistService(repo);
+
+            await repo.AddAsync(new Manager()
+            {
+                Id = 11,
+                UserId = new Guid("48787569-f841-4832-8528-1f503a8427cf"),
+            });
+
+            await repo.SaveChangesAsync();
+
+            var managerId = await dentistService.GetManagerOfDentistAsync(new Guid("48787569-f841-4832-8528-1f503a8427cf"));
+
+            Assert.That(managerId, Is.EqualTo(11));
         }
 
         [Test]
