@@ -1,4 +1,5 @@
 ﻿using DentalClinicApp.Core.Contracts;
+using DentalClinicApp.Core.Models.DentalProblems;
 using DentalClinicApp.Core.Services;
 using DentalClinicApp.Infrastructure.Data;
 using DentalClinicApp.Infrastructure.Data.Common;
@@ -49,6 +50,30 @@ namespace DentalClinicApp.Test
             var problemExist = await problemService.ProblemExistsAsync(1);
 
             Assert.That(problemExist, Is.True);
+        }
+
+        [Test]
+
+        public async Task CreateAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            problemService = new ProblemService(repo);
+
+
+            var model = new ProblemFormModel()
+            {
+                DiseaseName = "Cracked tooth",
+                DiseaseDescription = "Playing boxing without a mouth guard",
+                AlergyDescription = "drug allergy",
+                DentalStatus = "55",                
+            };
+
+            await problemService.CreateAsync(3, model);
+            var problem = await repo.GetByIdAsync<DentalProblem>(1);
+
+            Assert.That(problem.Id, Is.EqualTo(1));
+            Assert.That(problem.DentalStatus, Is.EqualTo("55"));
+            Assert.That(problem.IsActive, Is.True);
         }
 
 
