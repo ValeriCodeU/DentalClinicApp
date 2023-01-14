@@ -91,9 +91,11 @@ namespace DentalClinicApp.Test
             await repo.SaveChangesAsync();
             var procedure = await repo.GetByIdAsync<DentalProcedure>(2);
 
-            await procedureService.DeleteProcedureAsync(2);
+            var result = await procedureService.DeleteProcedureAsync(2);
 
             Assert.That(procedure.IsActive, Is.False);
+            Assert.That(result, Is.True);
+            
 
         }
 

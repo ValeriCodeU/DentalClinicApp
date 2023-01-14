@@ -5,6 +5,7 @@ using DentalClinicApp.Infrastructure.Data;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using NuGet.Frameworks;
 
 namespace DentalClinicApp.Test
 {
@@ -74,6 +75,36 @@ namespace DentalClinicApp.Test
             Assert.That(problem.Id, Is.EqualTo(1));
             Assert.That(problem.DentalStatus, Is.EqualTo("55"));
             Assert.That(problem.IsActive, Is.True);
+            Assert.That(problem.PatientId, Is.EqualTo(3));
+            Assert.That(problem.AlergyDescription, Is.EqualTo("drug allergy"));
+            Assert.That(problem.DiseaseDescription, Is.EqualTo("Playing boxing without a mouth guard"));
+        }
+
+        [Test]
+
+        public async Task DeleteAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            problemService = new ProblemService(repo);
+
+            await repo.AddAsync(new DentalProblem()
+            {
+                DiseaseName = "Cracked tooth",
+                DiseaseDescription = "Playing boxing without a mouth guard",
+                AlergyDescription = "drug allergy",
+                DentalStatus = "55",
+                PatientId = 1,
+                IsActive = true,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var problem = await repo.GetByIdAsync<DentalProblem>(1);
+
+            var result = await problemService.DeleteAsync(1);
+
+            Assert.That(problem.IsActive, Is.False);
+            Assert.That(result, Is.True);             
         }
 
 

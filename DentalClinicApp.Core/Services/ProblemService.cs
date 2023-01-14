@@ -47,12 +47,14 @@ namespace DentalClinicApp.Core.Services
             await repo.SaveChangesAsync();
         }
 
-        public async Task DeleteAsync(int problemId)
+        public async Task<bool> DeleteAsync(int problemId)
         {
             var problem = await repo.GetByIdAsync<DentalProblem>(problemId);
             problem.IsActive = false;
 
             await repo.SaveChangesAsync();
+
+            return true;
         }
 
         public async Task EditProblemAsync(ProblemFormModel model, int problemId)

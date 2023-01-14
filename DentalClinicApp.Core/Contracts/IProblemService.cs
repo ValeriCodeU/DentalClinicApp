@@ -23,6 +23,6 @@ namespace DentalClinicApp.Core.Contracts
 
         Task EditProblemAsync(ProblemFormModel model, int problemId);
 
-        Task DeleteAsync(int problemId);
+        Task<bool> DeleteAsync(int problemId);
     }
 }
