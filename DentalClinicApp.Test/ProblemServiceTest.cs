@@ -10,7 +10,7 @@ using NuGet.Frameworks;
 namespace DentalClinicApp.Test
 {
     public class ProblemServiceTest
-	{
+    {
         private IRepository repo;
         private IProblemService problemService;
         private DentalClinicDbContext dbContext;
@@ -66,7 +66,7 @@ namespace DentalClinicApp.Test
                 DiseaseName = "Cracked tooth",
                 DiseaseDescription = "Playing boxing without a mouth guard",
                 AlergyDescription = "drug allergy",
-                DentalStatus = "55",                
+                DentalStatus = "55",
             };
 
             await problemService.CreateAsync(3, model);
@@ -104,7 +104,70 @@ namespace DentalClinicApp.Test
             var result = await problemService.DeleteAsync(1);
 
             Assert.That(problem.IsActive, Is.False);
-            Assert.That(result, Is.True);             
+            Assert.That(result, Is.True);
+        }
+
+        [Test]
+
+        public async Task GetProblemByIdAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            problemService = new ProblemService(repo);
+
+            await repo.AddAsync(new DentalProblem()
+            {
+                DiseaseName = "Cracked tooth",
+                DiseaseDescription = "Playing boxing without a mouth guard",
+                AlergyDescription = "drug allergy",
+                DentalStatus = "55",
+                PatientId = 1,
+                IsActive = true,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var problem = await problemService.GetProblemByIdAsync(1);
+
+
+            Assert.That(problem, Is.Not.Null);
+            Assert.That(problem.Id, Is.EqualTo(1));
+        }
+
+        [Test]
+
+        public async Task EditProblemAsync()
+        {
+            var repo = new Repository(dbContext);
+            problemService = new ProblemService(repo);
+
+            await repo.AddAsync(new DentalProblem()
+            {
+                DiseaseName = "Cracked tooth",
+                DiseaseDescription = "Playing boxing without a mouth guard",
+                AlergyDescription = "drug allergy",
+                DentalStatus = "55",
+                PatientId = 1,
+                IsActive = true,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var model = new ProblemFormModel()
+            {
+                DiseaseName = "Sensitive to cold",
+                DiseaseDescription = "Pain when consuming cold drinks",
+                AlergyDescription = null,
+                DentalStatus = "45",                
+            };
+
+            await problemService.EditProblemAsync(model, 1);
+
+            var problem = await repo.GetByIdAsync<DentalProblem>(1);
+
+            Assert.That(problem.DentalStatus, Is.EqualTo("45"));
+            Assert.That(problem.DiseaseName, Is.EqualTo("Sensitive to cold"));
+            Assert.That(problem.DiseaseDescription, Is.EqualTo("Pain when consuming cold drinks"));
+            Assert.That(problem.AlergyDescription, Is.Null);
         }
 
 
