@@ -135,7 +135,7 @@ namespace DentalClinicApp.Test
 
         [Test]
 
-        public async Task EditProblemAsync()
+        public async Task EditProblemAsync_ShouldWorkCorrectly()
         {
             var repo = new Repository(dbContext);
             problemService = new ProblemService(repo);
@@ -168,6 +168,34 @@ namespace DentalClinicApp.Test
             Assert.That(problem.DiseaseName, Is.EqualTo("Sensitive to cold"));
             Assert.That(problem.DiseaseDescription, Is.EqualTo("Pain when consuming cold drinks"));
             Assert.That(problem.AlergyDescription, Is.Null);
+        }
+
+        [Test]
+
+        public async Task ProblemDetailsByIdAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            problemService = new ProblemService(repo);
+          
+
+            await repo.AddAsync(new DentalProblem()
+            {
+                DiseaseName = "Sensitive to cold",
+                DiseaseDescription = "Pain when consuming cold drinks",
+                AlergyDescription = null,
+                DentalStatus = "45",
+                PatientId = 1,
+                IsActive = true,
+            });
+
+
+            await repo.SaveChangesAsync();
+
+            var problemDetails = await problemService.ProblemDetailsByIdAsync(1);
+
+            Assert.That(problemDetails.DentalStatus, Is.EqualTo("45"));
+            Assert.That(problemDetails.Id, Is.EqualTo(1));
+            Assert.That(problemDetails.DiseaseName, Is.EqualTo("Sensitive to cold"));
         }
 
 
