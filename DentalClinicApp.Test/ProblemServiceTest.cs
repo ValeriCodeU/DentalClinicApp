@@ -157,7 +157,7 @@ namespace DentalClinicApp.Test
                 DiseaseName = "Sensitive to cold",
                 DiseaseDescription = "Pain when consuming cold drinks",
                 AlergyDescription = null,
-                DentalStatus = "45",                
+                DentalStatus = "45",
             };
 
             await problemService.EditProblemAsync(model, 1);
@@ -176,7 +176,7 @@ namespace DentalClinicApp.Test
         {
             var repo = new Repository(dbContext);
             problemService = new ProblemService(repo);
-          
+
 
             await repo.AddAsync(new DentalProblem()
             {
@@ -196,6 +196,39 @@ namespace DentalClinicApp.Test
             Assert.That(problemDetails.DentalStatus, Is.EqualTo("45"));
             Assert.That(problemDetails.Id, Is.EqualTo(1));
             Assert.That(problemDetails.DiseaseName, Is.EqualTo("Sensitive to cold"));
+        }
+
+        [Test]
+
+        public async Task AllProblemsByPatientIdAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            problemService = new ProblemService(repo);
+
+
+            await repo.AddAsync(new DentalProblem()
+            {
+                DiseaseName = "Sensitive to cold",
+                DiseaseDescription = "Pain when consuming cold drinks",
+                AlergyDescription = null,
+                DentalStatus = "45",
+                PatientId = 1,
+            });
+
+            await repo.AddAsync(new DentalProblem()
+            {
+                DiseaseName = "Cracked tooth",
+                DiseaseDescription = "Playing boxing without a mouth guard",
+                AlergyDescription = "drug allergy",
+                DentalStatus = "55",
+                PatientId = 1,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var result = await problemService.AllProblemsByPatientIdAsync(1);
+
+            Assert.That(result.Count, Is.EqualTo(2));
         }
 
 
