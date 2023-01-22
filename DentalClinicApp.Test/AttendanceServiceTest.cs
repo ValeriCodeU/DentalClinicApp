@@ -75,6 +75,33 @@ namespace DentalClinicApp.Test
             Assert.That(attendance.PatientId, Is.EqualTo(1));
         }
 
+        [Test]
+
+        public async Task DeleteAttendanceAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            attendanceService = new AttendanceService(repo);
+
+            await repo.AddAsync(new Attendance()
+            {
+                Id = 3,
+                ClinicRemarks = "No Problem",
+                IsActive = true,
+                Diagnosis = "No diagnosis",
+                PatientId = 1,
+                DentistId = 1,
+                Date = DateTime.Now,
+            });
+            await repo.SaveChangesAsync();
+
+            var attendance = await repo.GetByIdAsync<Attendance>(3);
+
+            var result = await attendanceService.DeleteAttendanceAsync(3);
+
+            Assert.That(attendance.IsActive, Is.False);
+            Assert.That(result, Is.True);
+        }
+
         [TearDown]
 
         public void TearDown()
