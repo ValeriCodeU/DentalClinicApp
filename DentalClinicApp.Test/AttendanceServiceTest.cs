@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 namespace DentalClinicApp.Test
 {
     public class AttendanceServiceTest
-	{
+    {
         private IRepository repo;
         private IAttendanceService attendanceService;
         private DentalClinicDbContext dbContext;
@@ -100,6 +100,40 @@ namespace DentalClinicApp.Test
 
             Assert.That(attendance.IsActive, Is.False);
             Assert.That(result, Is.True);
+        }
+
+        [Test]
+
+        public async Task EditAttendanceAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            attendanceService = new AttendanceService(repo);
+
+            await repo.AddAsync(new Attendance()
+            {
+                ClinicRemarks = "No Problem",
+                IsActive = true,
+                Diagnosis = "No diagnosis",
+                PatientId = 1,
+                DentistId = 1,
+                Date = DateTime.Now,
+            });
+            await repo.SaveChangesAsync();
+
+            var model = new AttendanceFormModel()
+            {
+                ClinicRemarks = "You need a root canal and a crown",
+                Diagnosis = "Fractured tooth",
+                PatientId = 3,
+            };
+
+            await attendanceService.EditAttendanceAsync(model, 1);
+
+            var attendance = await repo.GetByIdAsync<Attendance>(1);
+
+            Assert.That(attendance.PatientId, Is.EqualTo(3));
+            Assert.That(attendance.ClinicRemarks, Is.EqualTo("You need a root canal and a crown"));
+            Assert.That(attendance.Diagnosis, Is.EqualTo("Fractured tooth"));
         }
 
         [TearDown]
