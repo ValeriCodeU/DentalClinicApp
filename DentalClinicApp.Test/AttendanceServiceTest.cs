@@ -200,7 +200,8 @@ namespace DentalClinicApp.Test
 
             var result = await attendanceService.AllAttendancesByPatientIdAsync(1);
 
-            Assert.That(result.Count, Is.EqualTo(3));
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Count, Is.EqualTo(3));            
         }
 
         [TearDown]
