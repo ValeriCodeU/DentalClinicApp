@@ -205,7 +205,6 @@ namespace DentalClinicApp.Test
             var repo = new Repository(dbContext);
             problemService = new ProblemService(repo);
 
-
             await repo.AddAsync(new DentalProblem()
             {
                 DiseaseName = "Sensitive to cold",

@@ -4,6 +4,7 @@ using DentalClinicApp.Core.Services;
 using DentalClinicApp.Infrastructure.Data;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
+using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DentalClinicApp.Test
@@ -30,7 +31,7 @@ namespace DentalClinicApp.Test
 
         [Test]
 
-        public async Task ProblemExistsAsync_ShouldReturnTrue_WithValidId()
+        public async Task AttendanceExistsAsync_ShouldReturnTrue_WithValidId()
         {
             var repo = new Repository(dbContext);
             attendanceService = new AttendanceService(repo);
@@ -134,6 +135,72 @@ namespace DentalClinicApp.Test
             Assert.That(attendance.PatientId, Is.EqualTo(3));
             Assert.That(attendance.ClinicRemarks, Is.EqualTo("You need a root canal and a crown"));
             Assert.That(attendance.Diagnosis, Is.EqualTo("Fractured tooth"));
+        }
+
+        [Test]
+
+        public async Task AllAttendancesByPatientIdAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            attendanceService = new AttendanceService(repo);
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                FirstName = "Dimitar",
+                LastName = "Georgiev",
+                UserName = "dimitar",
+                NormalizedUserName = "DIMITAR",
+                Email = "dimitar@mail.com",
+                NormalizedEmail = "DIMITAR@MAIL.COM",
+                PhoneNumber = "1111111111111",
+            });
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 1,
+                UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                DentistId = 1,
+            });
+
+            await repo.AddAsync(new Attendance()
+            {
+                Id = 1,
+                ClinicRemarks = "No Problem",
+                IsActive = true,
+                Diagnosis = "No diagnosis",
+                PatientId = 1,
+                DentistId = 1,
+                Date = DateTime.Now,
+            });
+
+            await repo.AddAsync(new Attendance()
+            {
+                Id = 2,
+                ClinicRemarks = "You need a root canal and a crown",
+                IsActive = true,
+                Diagnosis = "Fractured tooth",
+                PatientId = 1,
+                DentistId = 1,
+                Date = DateTime.Now,
+            });
+
+            await repo.AddAsync(new Attendance()
+            {
+                Id = 3,
+                ClinicRemarks = "You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root.",
+                IsActive = true,
+                Diagnosis = "Cavities and worn tooth enamel",
+                PatientId = 1,
+                DentistId = 1,
+                Date = DateTime.Now,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var result = await attendanceService.AllAttendancesByPatientIdAsync(1);
+
+            Assert.That(result.Count, Is.EqualTo(3));
         }
 
         [TearDown]
