@@ -248,6 +248,11 @@ namespace DentalClinicApp.Test
             Assert.That(attendanceDetails, Is.Not.Null);
             Assert.That(attendanceDetails.Diagnosis, Is.EqualTo("Cavities and worn tooth enamel"));
             Assert.That(attendanceDetails.Patient.FirstName, Is.EqualTo("Dimitar"));
+            Assert.That(attendanceDetails.Patient.LastName, Is.EqualTo("Georgiev"));            
+            Assert.That(attendanceDetails.Patient.Email, Is.EqualTo("dimitar@mail.com"));
+            Assert.That(attendanceDetails.Patient.PhoneNumber, Is.EqualTo("1111111111111"));
+            Assert.That(attendanceDetails.ClinicRemarks, Is.EqualTo("You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root."));
+            Assert.That(attendanceDetails.Id, Is.EqualTo(3));            
         }
 
         [TearDown]
