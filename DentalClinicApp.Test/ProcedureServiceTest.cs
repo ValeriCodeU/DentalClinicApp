@@ -194,8 +194,8 @@ namespace DentalClinicApp.Test
                 Id = 1,
                 Name = "Pulling a tooth out",
                 Description = "Classic tooth extraction",
-                StartDate = DateTime.Now,
-                EndDate = DateTime.Now,
+                StartDate = DateTime.ParseExact("30/12/2022 15:00:00", "dd/MM/yyyy HH:mm:ss", null),
+                EndDate = DateTime.ParseExact("30/01/2023 15:00:00", "dd/MM/yyyy HH:mm:ss", null),
                 DentistId = 1,
                 PatientId = 1,
                 Cost = 100,
@@ -212,6 +212,8 @@ namespace DentalClinicApp.Test
             Assert.That(procedureDetails.Patient.PhoneNumber, Is.EqualTo("1111111111111"));
             Assert.That(procedureDetails.Name, Is.EqualTo("Pulling a tooth out"));
             Assert.That(procedureDetails.Description, Is.EqualTo("Classic tooth extraction"));
+            Assert.That(procedureDetails.StartDate, Is.EqualTo("12/30/2022"));
+            Assert.That(procedureDetails.EndDate, Is.EqualTo("01/30/2023"));
         }
 
 
