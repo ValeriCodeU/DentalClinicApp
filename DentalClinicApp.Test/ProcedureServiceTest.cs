@@ -4,6 +4,7 @@ using DentalClinicApp.Core.Services;
 using DentalClinicApp.Infrastructure.Data;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
+using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace DentalClinicApp.Test
@@ -95,7 +96,7 @@ namespace DentalClinicApp.Test
 
             Assert.That(procedure.IsActive, Is.False);
             Assert.That(result, Is.True);
-            
+
 
         }
 
@@ -160,6 +161,57 @@ namespace DentalClinicApp.Test
             var procedure = await repo.GetByIdAsync<DentalProcedure>(1);
 
             Assert.That(procedure.DentistId, Is.EqualTo(1));
+        }
+
+        [Test]
+
+        public async Task ProcedureDetailsByIdAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            procedureService = new ProcedureService(repo);
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                FirstName = "Dimitar",
+                LastName = "Georgiev",
+                UserName = "dimitar",
+                NormalizedUserName = "DIMITAR",
+                Email = "dimitar@mail.com",
+                NormalizedEmail = "DIMITAR@MAIL.COM",
+                PhoneNumber = "1111111111111",
+            });
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 1,
+                UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                DentistId = 1,
+            });
+
+            await repo.AddAsync(new DentalProcedure()
+            {
+                Id = 1,
+                Name = "Pulling a tooth out",
+                Description = "Classic tooth extraction",
+                StartDate = DateTime.Now,
+                EndDate = DateTime.Now,
+                DentistId = 1,
+                PatientId = 1,
+                Cost = 100,
+                IsActive = true,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var procedureDetails = await procedureService.ProcedureDetailsByIdAsync(1);
+
+            Assert.That(procedureDetails, Is.Not.Null);
+            Assert.That(procedureDetails.Id, Is.EqualTo(1));
+            Assert.That(procedureDetails.Patient.Email, Is.EqualTo("dimitar@mail.com"));
+            Assert.That(procedureDetails.Patient.PhoneNumber, Is.EqualTo("1111111111111"));
+            Assert.That(procedureDetails.Name, Is.EqualTo("Pulling a tooth out"));
+            Assert.That(procedureDetails.Description, Is.EqualTo("Classic tooth extraction"));
         }
 
 
