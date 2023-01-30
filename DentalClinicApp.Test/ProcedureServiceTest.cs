@@ -216,6 +216,71 @@ namespace DentalClinicApp.Test
             Assert.That(procedureDetails.EndDate, Is.EqualTo("01/30/2023"));
         }
 
+        [Test]
+
+        public async Task GetDentistProceduresAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            procedureService = new ProcedureService(repo);
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                FirstName = "Dimitar",
+                LastName = "Georgiev",
+                UserName = "dimitar",
+                NormalizedUserName = "DIMITAR",
+                Email = "dimitar@mail.com",
+                NormalizedEmail = "DIMITAR@MAIL.COM",
+                PhoneNumber = "1111111111111",
+            });
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                FirstName = "Gencho",
+                LastName = "Genchev",
+                UserName = "gencho",
+                NormalizedUserName = "GENCHO",
+                Email = "gencho@mail.com",
+                NormalizedEmail = "GENCHO@MAIL.COM",
+                PhoneNumber = "9999999999999",
+            });
+
+            await repo.AddAsync(new Dentist()
+            {
+                Id = 1,
+                UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                ManagerId = 1,
+            });
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 1,
+                UserId = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                DentistId = 1,
+            });
+
+            await repo.AddAsync(new DentalProcedure()
+            {
+                Id = 1,
+                Name = "Pulling a tooth out",
+                Description = "Classic tooth extraction",
+                StartDate = DateTime.ParseExact("30/12/2022 15:00:00", "dd/MM/yyyy HH:mm:ss", null),
+                EndDate = DateTime.ParseExact("30/01/2023 15:00:00", "dd/MM/yyyy HH:mm:ss", null),
+                DentistId = 1,
+                PatientId = 1,
+                Cost = 100,
+                IsActive = true,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var dentistProcedures = await procedureService.GetDentistProceduresAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"));
+
+            Assert.That(dentistProcedures, Is.Not.Null);
+            Assert.That(dentistProcedures.Count, Is.EqualTo(1));
+        }
 
         [TearDown]
 
