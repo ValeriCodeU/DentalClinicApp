@@ -293,6 +293,58 @@ namespace DentalClinicApp.Test
             Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Note).First, Is.Null);
         }
 
+        [Test]
+
+        public async Task AllProceduresByPatientIdAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            procedureService = new ProcedureService(repo);
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                FirstName = "Dimitar",
+                LastName = "Georgiev",
+                UserName = "dimitar",
+                NormalizedUserName = "DIMITAR",
+                Email = "dimitar@mail.com",
+                NormalizedEmail = "DIMITAR@MAIL.COM",
+                PhoneNumber = "1111111111111",
+            });
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 1,
+                UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                DentistId = 1,
+            });
+
+            await repo.AddAsync(new DentalProcedure()
+            {
+                Id = 1,
+                Name = "Pulling a tooth out",
+                Description = "Classic tooth extraction",
+                StartDate = DateTime.ParseExact("30/12/2022 15:00:00", "dd/MM/yyyy HH:mm:ss", null),
+                EndDate = DateTime.ParseExact("30/01/2023 15:00:00", "dd/MM/yyyy HH:mm:ss", null),
+                DentistId = 1,
+                PatientId = 1,
+                Cost = 100,
+                IsActive = true,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var result = await procedureService.AllProceduresByPatientIdAsync(1);
+
+            Assert.That(result, Is.Not.Null);
+            Assert.That(result.Count, Is.EqualTo(1));
+            Assert.That(result.Where(x => x.Id == 1).Select(p => p.Name).First, Is.EqualTo("Pulling a tooth out"));
+            Assert.That(result.Where(x => x.Id == 1).Select(p => p.Cost).First, Is.EqualTo(100));
+            Assert.That(result.Where(x => x.Id == 1).Select(p => p.StartDate).First, Is.EqualTo("30/12/2022"));
+            Assert.That(result.Where(x => x.Id == 1).Select(p => p.EndDate).First, Is.EqualTo("30/01/2023"));
+            Assert.That(result.Where(x => x.Id == 1).Select(p => p.Id).First, Is.EqualTo(1));
+        }
+
         [TearDown]
 
         public void TearDown()
