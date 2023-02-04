@@ -25,7 +25,7 @@ namespace DentalClinicApp.Test
                 .UseInMemoryDatabase("DentalDb")
                 .Options;
 
-            dbContext = new DentalClinicDbContext(contextOptions);            
+            dbContext = new DentalClinicDbContext(contextOptions);
 
             dbContext.Database.EnsureDeleted();
             dbContext.Database.EnsureCreated();
@@ -69,8 +69,8 @@ namespace DentalClinicApp.Test
         public async Task CreatePatientAsync_ShouldWorkCorrectly()
         {
             var repo = new Repository(dbContext);
-            patientService = new PatientService(repo);         
-            
+            patientService = new PatientService(repo);
+
             await repo.AddAsync(new Patient()
             {
                 Id = 2,
@@ -88,10 +88,10 @@ namespace DentalClinicApp.Test
             await repo.SaveChangesAsync();
 
             var patientsCountBefore = await repo.AllReadonly<Patient>().CountAsync();
-            await patientService.CreatePatientAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"), 1);            
+            await patientService.CreatePatientAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"), 1);
 
             var patientsCountAfter = await repo.AllReadonly<Patient>().CountAsync();
-            var patientCollection = await repo.AllReadonly<Patient>().ToListAsync();            
+            var patientCollection = await repo.AllReadonly<Patient>().ToListAsync();
 
             Assert.That(patientsCountBefore + 1, Is.EqualTo(patientsCountAfter));
             Assert.That(patientCollection.Any(p => p.Id == 2), Is.True);
@@ -124,8 +124,52 @@ namespace DentalClinicApp.Test
             var repo = new Repository(dbContext);
             patientService = new PatientService(repo);
 
-            var patients = new MyPatientsViewModel();
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                FirstName = "Dimitar",
+                LastName = "Georgiev",
+                UserName = "dimitar",
+                NormalizedUserName = "DIMITAR",
+                Email = "dimitar@mail.com",
+                NormalizedEmail = "DIMITAR@MAIL.COM",
+                PhoneNumber = "1111111111111",
+            });
 
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                FirstName = "Gencho",
+                LastName = "Genchev",
+                UserName = "gencho",
+                NormalizedUserName = "GENCHO",
+                Email = "gencho@mail.com",
+                NormalizedEmail = "GENCHO@MAIL.COM",
+                PhoneNumber = "9999999999999",
+            });
+
+            await repo.AddAsync(new Dentist()
+            {
+                Id = 1,
+                UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                ManagerId = 1,
+            });
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 1,
+                UserId = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                DentistId = 1,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var result = await patientService.GetPatientsAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"));
+
+            Assert.NotNull(result);
+            Assert.That(result.Count, Is.EqualTo(1));
+            Assert.That(result.Where(x => x.Id == 1).Select(x => x.Name).First, Is.EqualTo("Gencho Genchev"));
+            Assert.That(result.Where(x => x.Id == 1).Select(x => x.Id).First, Is.EqualTo(1));
 
         }
 
@@ -135,7 +179,7 @@ namespace DentalClinicApp.Test
         {
             var repo = new Repository(dbContext);
             patientService = new PatientService(repo);
-           
+
             await repo.AddAsync(new Patient()
             {
                 Id = 10,
