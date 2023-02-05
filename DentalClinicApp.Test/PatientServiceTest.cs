@@ -119,7 +119,7 @@ namespace DentalClinicApp.Test
 
         [Test]
 
-        public async Task GetMyPatientsAsync_ShouldReturnCorrectPatient()
+        public async Task GetPatientsAsync_ShouldReturnCorrectPatient()
         {
             var repo = new Repository(dbContext);
             patientService = new PatientService(repo);
@@ -214,6 +214,58 @@ namespace DentalClinicApp.Test
             var patientId = await patientService.GetUserIdByPatientId(10);
 
             Assert.That(patientId, Is.EqualTo(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6")));
+        }
+
+        [Test]
+
+        public async Task GetMyPatientsAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            patientService = new PatientService(repo);
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                FirstName = "Dimitar",
+                LastName = "Georgiev",
+                UserName = "dimitar",
+                NormalizedUserName = "DIMITAR",
+                Email = "dimitar@mail.com",
+                NormalizedEmail = "DIMITAR@MAIL.COM",
+                PhoneNumber = "1111111111111",
+            });
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                FirstName = "Gencho",
+                LastName = "Genchev",
+                UserName = "gencho",
+                NormalizedUserName = "GENCHO",
+                Email = "gencho@mail.com",
+                NormalizedEmail = "GENCHO@MAIL.COM",
+                PhoneNumber = "9999999999999",
+            });
+
+            await repo.AddAsync(new Dentist()
+            {
+                Id = 1,
+                UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                ManagerId = 1,
+            });
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 1,
+                UserId = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                DentistId = 1,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var result = await patientService.GetMyPatientsAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"));
+
+            Assert.IsNotNull(result);            
         }
 
         [TearDown]
