@@ -1,12 +1,10 @@
 ﻿using DentalClinicApp.Core.Contracts;
-using DentalClinicApp.Core.Models.Patients;
 using DentalClinicApp.Core.Services;
 using DentalClinicApp.Infrastructure.Data;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
 
 namespace DentalClinicApp.Test
 {
