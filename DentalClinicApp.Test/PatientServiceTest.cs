@@ -6,6 +6,7 @@ using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Cryptography.X509Certificates;
 
 namespace DentalClinicApp.Test
 {
@@ -265,7 +266,13 @@ namespace DentalClinicApp.Test
 
             var result = await patientService.GetMyPatientsAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"));
 
-            Assert.IsNotNull(result);            
+            Assert.IsNotNull(result);
+            Assert.That(result.Patients.Count, Is.EqualTo(1));
+            Assert.That(result.Patients.Where(x => x.Id == 1).Select(x => x.Id).First, Is.EqualTo(1));
+            Assert.That(result.Patients.Where(x => x.Id == 1).Select(x => x.FirstName).First, Is.EqualTo("Gencho"));
+            Assert.That(result.Patients.Where(x => x.Id == 1).Select(x => x.LastName).First, Is.EqualTo("Genchev"));
+            Assert.That(result.Patients.Where(x => x.Id == 1).Select(x => x.PhoneNumber).First, Is.EqualTo("9999999999999"));
+            Assert.That(result.Patients.Where(x => x.Id == 1).Select(x => x.Email).First, Is.EqualTo("gencho@mail.com"));
         }
 
         [TearDown]
