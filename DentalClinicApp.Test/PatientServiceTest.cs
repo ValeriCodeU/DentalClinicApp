@@ -76,14 +76,7 @@ namespace DentalClinicApp.Test
                 UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
                 DentistId = 1,
             });
-
-            //await repo.AddAsync(new Patient()
-            //{
-            //    Id = 5,
-            //    UserId = new Guid("a4a7eab8-9e0c-43a3-b882-35f9fdbded93"),
-            //    DentistId = 1,
-            //});           
-
+            
             await repo.SaveChangesAsync();
 
             var patientsCountBefore = await repo.AllReadonly<Patient>().CountAsync();
@@ -271,6 +264,50 @@ namespace DentalClinicApp.Test
             Assert.That(result.Patients.Where(x => x.Id == 1).Select(x => x.LastName).First, Is.EqualTo("Genchev"));
             Assert.That(result.Patients.Where(x => x.Id == 1).Select(x => x.PhoneNumber).First, Is.EqualTo("9999999999999"));
             Assert.That(result.Patients.Where(x => x.Id == 1).Select(x => x.Email).First, Is.EqualTo("gencho@mail.com"));
+        }
+
+        [Test]
+
+        public async Task PatientDetailsByIdAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            patientService = new PatientService(repo);
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                FirstName = "Gencho",
+                LastName = "Genchev",
+                UserName = "gencho",
+                NormalizedUserName = "GENCHO",
+                Email = "gencho@mail.com",
+                NormalizedEmail = "GENCHO@MAIL.COM",
+                PhoneNumber = "9999999999999",
+            });
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 1,
+                UserId = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                DentistId = 1,
+            });
+
+            await repo.AddAsync(new DentalProblem()
+            {
+                DiseaseName = "Sensitive to cold",
+                DiseaseDescription = "Pain when consuming cold drinks",
+                AlergyDescription = null,
+                DentalStatus = "45",
+                PatientId = 1,
+                IsActive = true,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var result = await patientService.PatientDetailsByIdAsync(1);
+
+            Assert.NotNull(result);
+            Assert.That(result.PatientProblems.Count, Is.EqualTo(1));
         }
 
         [TearDown]
