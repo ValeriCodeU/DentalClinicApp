@@ -308,6 +308,11 @@ namespace DentalClinicApp.Test
 
             Assert.NotNull(result);
             Assert.That(result.PatientProblems.Count, Is.EqualTo(1));
+            Assert.That(result.FirstName, Is.EqualTo("Gencho"));
+            Assert.That(result.LastName, Is.EqualTo("Genchev"));
+            Assert.That(result.PhoneNumber, Is.EqualTo("9999999999999"));
+            Assert.That(result.Email, Is.EqualTo("gencho@mail.com"));
+            //Assert.That(result.PatientProblems.Where(x => x.Id == 1).Select(x => x.DiseaseName).First, Is.EqualTo("Sensitive to cold"));
         }
 
         [TearDown]
