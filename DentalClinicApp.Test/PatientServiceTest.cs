@@ -314,7 +314,7 @@ namespace DentalClinicApp.Test
             Assert.That(result.PhoneNumber, Is.EqualTo("9999999999999"));
             Assert.That(result.Email, Is.EqualTo("gencho@mail.com"));
             Assert.That(result.PatientProblems.Count, Is.EqualTo(1));
-            //Assert.That(result, Is.EqualTo("Sensitive to cold"));
+            Assert.That(result.PatientProblems.Select(x => x.DiseaseName).First, Is.EqualTo("Sensitive to cold"));
         }
 
         [Test]
@@ -364,6 +364,7 @@ namespace DentalClinicApp.Test
             Assert.That(result.LastName, Is.EqualTo("Genchev"));
             Assert.That(result.PhoneNumber, Is.EqualTo("9999999999999"));
             Assert.That(result.Email, Is.EqualTo("gencho@mail.com"));
+            Assert.That(result.PatientAttendances.Select(x => x.Id).First, Is.EqualTo(1));
         }
 
         [Test]
@@ -416,6 +417,7 @@ namespace DentalClinicApp.Test
             Assert.That(result.LastName, Is.EqualTo("Genchev"));
             Assert.That(result.PhoneNumber, Is.EqualTo("9999999999999"));
             Assert.That(result.Email, Is.EqualTo("gencho@mail.com"));
+            Assert.That(result.PatientProcedures.Select(x => x.Id).First, Is.EqualTo(1));
 
         }
 
