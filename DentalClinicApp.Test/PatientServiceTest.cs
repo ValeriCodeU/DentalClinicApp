@@ -294,6 +294,7 @@ namespace DentalClinicApp.Test
 
             await repo.AddAsync(new DentalProblem()
             {
+                Id = 1,
                 DiseaseName = "Sensitive to cold",
                 DiseaseDescription = "Pain when consuming cold drinks",
                 AlergyDescription = null,
@@ -312,7 +313,58 @@ namespace DentalClinicApp.Test
             Assert.That(result.LastName, Is.EqualTo("Genchev"));
             Assert.That(result.PhoneNumber, Is.EqualTo("9999999999999"));
             Assert.That(result.Email, Is.EqualTo("gencho@mail.com"));
-            //Assert.That(result.PatientProblems.Where(x => x.Id == 1).Select(x => x.DiseaseName).First, Is.EqualTo("Sensitive to cold"));
+            Assert.That(result.PatientProblems.Count, Is.EqualTo(1));
+            //Assert.That(result, Is.EqualTo("Sensitive to cold"));
+        }
+
+        [Test]
+
+        public async Task PatientAttendanceDetailsByIdAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            patientService = new PatientService(repo);
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                FirstName = "Gencho",
+                LastName = "Genchev",
+                UserName = "gencho",
+                NormalizedUserName = "GENCHO",
+                Email = "gencho@mail.com",
+                NormalizedEmail = "GENCHO@MAIL.COM",
+                PhoneNumber = "9999999999999",
+            });
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 1,
+                UserId = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                DentistId = 1,
+            });
+
+            await repo.AddAsync(new Attendance()
+            {
+                Id = 1,
+                ClinicRemarks = "You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root.",
+                IsActive = true,
+                Diagnosis = "Cavities and worn tooth enamel",
+                PatientId = 1,
+                DentistId = 1,
+                Date = DateTime.Now,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var result = await patientService.PatientAttendanceDetailsByIdAsync(1);
+
+            Assert.IsNotNull(result);
+            Assert.That(result.PatientAttendances.Count, Is.EqualTo(1));
+            Assert.That(result.FirstName, Is.EqualTo("Gencho"));
+            Assert.That(result.LastName, Is.EqualTo("Genchev"));
+            Assert.That(result.PhoneNumber, Is.EqualTo("9999999999999"));
+            Assert.That(result.Email, Is.EqualTo("gencho@mail.com"));
+
         }
 
         [TearDown]
