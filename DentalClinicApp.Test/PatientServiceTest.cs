@@ -364,6 +364,58 @@ namespace DentalClinicApp.Test
             Assert.That(result.LastName, Is.EqualTo("Genchev"));
             Assert.That(result.PhoneNumber, Is.EqualTo("9999999999999"));
             Assert.That(result.Email, Is.EqualTo("gencho@mail.com"));
+        }
+
+        [Test]
+
+        public async Task PatientProcedureDetailsByIdAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            patientService = new PatientService(repo);
+
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                FirstName = "Gencho",
+                LastName = "Genchev",
+                UserName = "gencho",
+                NormalizedUserName = "GENCHO",
+                Email = "gencho@mail.com",
+                NormalizedEmail = "GENCHO@MAIL.COM",
+                PhoneNumber = "9999999999999",
+            });
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 1,
+                UserId = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                DentistId = 1,
+            });
+
+            await repo.AddAsync(new DentalProcedure()
+            {
+                Id = 1,
+                Name = "Pulling a tooth out",
+                Description = "Classic tooth extraction",
+                StartDate = DateTime.ParseExact("30/12/2022 15:00:00", "dd/MM/yyyy HH:mm:ss", null),
+                EndDate = DateTime.ParseExact("30/01/2023 15:00:00", "dd/MM/yyyy HH:mm:ss", null),
+                DentistId = 1,
+                PatientId = 1,
+                Cost = 100,
+                IsActive = true,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var result = await patientService.PatientProcedureDetailsByIdAsync(1);
+
+            Assert.IsNotNull(result);
+            Assert.That(result.PatientProcedures.Count, Is.EqualTo(1));
+            Assert.That(result.FirstName, Is.EqualTo("Gencho"));
+            Assert.That(result.LastName, Is.EqualTo("Genchev"));
+            Assert.That(result.PhoneNumber, Is.EqualTo("9999999999999"));
+            Assert.That(result.Email, Is.EqualTo("gencho@mail.com"));
 
         }
 
