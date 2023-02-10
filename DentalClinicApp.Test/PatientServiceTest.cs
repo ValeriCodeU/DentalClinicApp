@@ -5,6 +5,7 @@ using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace DentalClinicApp.Test
 {
@@ -343,6 +344,8 @@ namespace DentalClinicApp.Test
                 DentistId = 1,
             });
 
+            var date = DateTime.Now;
+
             await repo.AddAsync(new Attendance()
             {
                 Id = 1,
@@ -351,7 +354,7 @@ namespace DentalClinicApp.Test
                 Diagnosis = "Cavities and worn tooth enamel",
                 PatientId = 1,
                 DentistId = 1,
-                Date = DateTime.Now,
+                Date = date,
             });
 
             await repo.SaveChangesAsync();
@@ -365,6 +368,9 @@ namespace DentalClinicApp.Test
             Assert.That(result.PhoneNumber, Is.EqualTo("9999999999999"));
             Assert.That(result.Email, Is.EqualTo("gencho@mail.com"));
             Assert.That(result.PatientAttendances.Select(x => x.Id).First, Is.EqualTo(1));
+            Assert.That(result.PatientAttendances.Select(x => x.ClinicRemarks).First, Is.EqualTo("You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root."));
+            Assert.That(result.PatientAttendances.Select(x => x.Diagnosis).First, Is.EqualTo("Cavities and worn tooth enamel"));
+            Assert.That(result.PatientAttendances.Select(x => x.Date).First, Is.EqualTo(date.ToString("MM/dd/yyyy", CultureInfo.InvariantCulture)));
         }
 
         [Test]
