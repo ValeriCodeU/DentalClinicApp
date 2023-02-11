@@ -5,6 +5,7 @@ using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Runtime.InteropServices;
 using static DentalClinicApp.Core.Constants.ModelConstant;
 
 namespace DentalClinicApp.Test
@@ -113,6 +114,60 @@ namespace DentalClinicApp.Test
             var result = await dentistService.AddUserAsDentistAsync(new Guid("e28afed9-0de3-4ca6-aee8-28488401bca8"), 1);
 
             Assert.That(result, Is.True);
+        }
+
+        [Test]
+
+        public async Task GetAllManagedDentistsAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            dentistService = new DentistService(repo);
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("48787569-f841-4832-8528-1f503a8427cf"),
+                FirstName = "Lionel",
+                LastName = "Scaloni",
+                UserName = "lionel",
+                NormalizedUserName = "LIONEL",
+                Email = "lionel@mail.com",
+                NormalizedEmail = "LIONEL@MAIL.COM",
+                PhoneNumber = "222222222222222",
+            });
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("e28afed9-0de3-4ca6-aee8-28488401bca8"),
+                FirstName = "Vasil",
+                LastName = "Georgiev",
+                UserName = "vasil",
+                NormalizedUserName = "VASIL",
+                Email = "vasil@mail.com",
+                NormalizedEmail = "VASIL@MAIL.COM",
+                PhoneNumber = "33333333333333",
+            });
+
+
+            await repo.AddAsync(new Manager()
+            {
+                Id = 1,
+                UserId = new Guid("48787569-f841-4832-8528-1f503a8427cf")
+            });
+
+          
+            await repo.AddAsync(new Dentist()
+            {
+                Id = 2,
+                UserId = new Guid("e28afed9-0de3-4ca6-aee8-28488401bca8"),
+                ManagerId = 1,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var result = await dentistService.GetAllManagedDentistsAsync(new Guid("48787569-f841-4832-8528-1f503a8427cf"));
+
+            Assert.IsNotNull(result);
+            Assert.That(result.Dentists.Count, Is.EqualTo(1));
         }
 
 
