@@ -168,6 +168,10 @@ namespace DentalClinicApp.Test
 
             Assert.IsNotNull(result);
             Assert.That(result.Dentists.Count, Is.EqualTo(1));
+            Assert.That(result.Dentists.Where(x => x.Id == 2).Select(x => x.PhoneNumber).First, Is.EqualTo("33333333333333"));
+            Assert.That(result.Dentists.Where(x => x.Id == 2).Select(x => x.Email).First, Is.EqualTo("vasil@mail.com"));
+            Assert.That(result.Dentists.Where(x => x.Id == 2).Select(x => x.FirstName).First, Is.EqualTo("Vasil"));
+            Assert.That(result.Dentists.Where(x => x.Id == 2).Select(x => x.LastName).First, Is.EqualTo("Georgiev"));
         }
 
 
