@@ -5,8 +5,7 @@ using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Runtime.InteropServices;
-using static DentalClinicApp.Core.Constants.ModelConstant;
+
 
 namespace DentalClinicApp.Test
 {
@@ -55,7 +54,7 @@ namespace DentalClinicApp.Test
             {
                 Id = 2,
                 UserId = new Guid("e28afed9-0de3-4ca6-aee8-28488401bca8"),
-                ManagerId = 1,                
+                ManagerId = 1,
             });
 
             await repo.SaveChangesAsync();
@@ -86,7 +85,8 @@ namespace DentalClinicApp.Test
             Assert.That(dentistId, Is.EqualTo(3));
         }
 
-        [Test] public async Task GetManagerOfDentistAsync_ShouldReturnCorrectResult()
+        [Test]
+        public async Task GetManagerOfDentistAsync_ShouldReturnCorrectResult()
         {
             var repo = new Repository(dbContext);
             dentistService = new DentistService(repo);
@@ -109,7 +109,7 @@ namespace DentalClinicApp.Test
         public async Task AddUserAsDentistAsync_ShouldWorkCorrectly()
         {
             var repo = new Repository(dbContext);
-            dentistService = new DentistService(repo);            
+            dentistService = new DentistService(repo);
 
             var result = await dentistService.AddUserAsDentistAsync(new Guid("e28afed9-0de3-4ca6-aee8-28488401bca8"), 1);
 
@@ -154,7 +154,7 @@ namespace DentalClinicApp.Test
                 UserId = new Guid("48787569-f841-4832-8528-1f503a8427cf")
             });
 
-          
+
             await repo.AddAsync(new Dentist()
             {
                 Id = 2,
@@ -172,6 +172,52 @@ namespace DentalClinicApp.Test
             Assert.That(result.Dentists.Where(x => x.Id == 2).Select(x => x.Email).First, Is.EqualTo("vasil@mail.com"));
             Assert.That(result.Dentists.Where(x => x.Id == 2).Select(x => x.FirstName).First, Is.EqualTo("Vasil"));
             Assert.That(result.Dentists.Where(x => x.Id == 2).Select(x => x.LastName).First, Is.EqualTo("Georgiev"));
+        }
+
+        [Test]
+
+        public async Task GetStatisticsAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            dentistService = new DentistService(repo);
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("e28afed9-0de3-4ca6-aee8-28488401bca8"),
+                FirstName = "Vasil",
+                LastName = "Georgiev",
+                UserName = "vasil",
+                NormalizedUserName = "VASIL",
+                Email = "vasil@mail.com",
+                NormalizedEmail = "VASIL@MAIL.COM",
+                PhoneNumber = "33333333333333",
+            });
+
+            await repo.AddAsync(new Dentist()
+            {
+                Id = 1,
+                UserId = new Guid("e28afed9-0de3-4ca6-aee8-28488401bca8"),
+                ManagerId = 1,
+            });
+
+            await repo.AddAsync(new DentalProcedure()
+            {
+                Id = 1,
+                Name = "Pulling a tooth out",
+                Description = "Classic tooth extraction",
+                StartDate = DateTime.ParseExact("30/12/2022 15:00:00", "dd/MM/yyyy HH:mm:ss", null),
+                EndDate = DateTime.ParseExact("30/01/2023 15:00:00", "dd/MM/yyyy HH:mm:ss", null),
+                DentistId = 1,
+                PatientId = 1,
+                Cost = 100,
+                IsActive = true,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var result = await dentistService.GetStatisticsAsync(1);
+
+            Assert.That(result.TotalProceduresCount, Is.EqualTo(1));
         }
 
 
