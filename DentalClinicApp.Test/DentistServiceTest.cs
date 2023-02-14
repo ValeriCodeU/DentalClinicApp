@@ -260,6 +260,10 @@ namespace DentalClinicApp.Test
             Assert.That(result.TotalPatientsCount, Is.EqualTo(1));
             Assert.That(result.TotalAttendancesCount, Is.EqualTo(1));
             Assert.That(result.TotalAppointmentsCount, Is.EqualTo(1));
+            Assert.That(result.FirstName, Is.EqualTo("Vasil"));
+            Assert.That(result.LastName, Is.EqualTo("Georgiev"));            
+            Assert.That(result.PhoneNumber, Is.EqualTo("33333333333333"));
+            Assert.That(result.Email, Is.EqualTo("vasil@mail.com"));
         }
 
 
