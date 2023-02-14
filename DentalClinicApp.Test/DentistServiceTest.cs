@@ -232,12 +232,25 @@ namespace DentalClinicApp.Test
                 DentistId = 1,
             });
 
+            await repo.AddAsync(new Attendance()
+            {
+                Id = 1,
+                ClinicRemarks = "You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root.",
+                IsActive = true,
+                Diagnosis = "Cavities and worn tooth enamel",
+                PatientId = 1,
+                DentistId = 1,
+                Date = DateTime.Now,
+            });
+
+
             await repo.SaveChangesAsync();
 
             var result = await dentistService.GetStatisticsAsync(1);
 
             Assert.That(result.TotalProceduresCount, Is.EqualTo(1));
             Assert.That(result.TotalPatientsCount, Is.EqualTo(1));
+            Assert.That(result.TotalAttendancesCount, Is.EqualTo(1));
         }
 
 
