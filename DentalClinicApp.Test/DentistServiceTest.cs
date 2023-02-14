@@ -213,11 +213,31 @@ namespace DentalClinicApp.Test
                 IsActive = true,
             });
 
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                FirstName = "Gencho",
+                LastName = "Genchev",
+                UserName = "gencho",
+                NormalizedUserName = "GENCHO",
+                Email = "gencho@mail.com",
+                NormalizedEmail = "GENCHO@MAIL.COM",
+                PhoneNumber = "999999999"
+            });
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 1,
+                UserId = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                DentistId = 1,
+            });
+
             await repo.SaveChangesAsync();
 
             var result = await dentistService.GetStatisticsAsync(1);
 
             Assert.That(result.TotalProceduresCount, Is.EqualTo(1));
+            Assert.That(result.TotalPatientsCount, Is.EqualTo(1));
         }
 
 
