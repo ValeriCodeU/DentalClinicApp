@@ -243,6 +243,14 @@ namespace DentalClinicApp.Test
                 Date = DateTime.Now,
             });
 
+            await repo.AddAsync(new Appointment()
+            {
+                Id = 15,
+                StartDateTime = DateTime.ParseExact("23/12/2022 14:00:00", "dd/MM/yyyy HH:mm:ss", null),
+                PatientId = 1,
+                DentistId = 1,
+            });
+
 
             await repo.SaveChangesAsync();
 
@@ -251,6 +259,7 @@ namespace DentalClinicApp.Test
             Assert.That(result.TotalProceduresCount, Is.EqualTo(1));
             Assert.That(result.TotalPatientsCount, Is.EqualTo(1));
             Assert.That(result.TotalAttendancesCount, Is.EqualTo(1));
+            Assert.That(result.TotalAppointmentsCount, Is.EqualTo(1));
         }
 
 
