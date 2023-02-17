@@ -91,8 +91,8 @@ namespace DentalClinicApp.Core.Services
                     Description= p.Description,
                     Id = p.Id,
                     Cost = decimal.Parse(p.Cost.ToString("F2")),
-                    StartDate = p.StartDate.ToString("MM/dd/yyyy"),
-                    EndDate = p.EndDate.ToString("MM/dd/yyyy"),
+                    StartDate = p.StartDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    EndDate = p.EndDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                     Patient = new Models.Patients.PatientServiceModel()
                     {
                         FirstName = p.Patient.User.FirstName,

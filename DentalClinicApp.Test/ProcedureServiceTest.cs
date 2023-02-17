@@ -213,8 +213,8 @@ namespace DentalClinicApp.Test
             Assert.That(procedureDetails.Patient.PhoneNumber, Is.EqualTo("1111111111111"));
             Assert.That(procedureDetails.Name, Is.EqualTo("Pulling a tooth out"));
             Assert.That(procedureDetails.Description, Is.EqualTo("Classic tooth extraction"));
-            Assert.That(procedureDetails.StartDate, Is.EqualTo("12/30/2022"));
-            Assert.That(procedureDetails.EndDate, Is.EqualTo("01/30/2023"));
+            Assert.That(procedureDetails.StartDate, Is.EqualTo("30/12/2022"));
+            Assert.That(procedureDetails.EndDate, Is.EqualTo("30/01/2023"));
         }
 
         [Test]
@@ -284,8 +284,8 @@ namespace DentalClinicApp.Test
             Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Name).First, Is.EqualTo("Pulling a tooth out"));
             Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Description).First, Is.EqualTo("Classic tooth extraction"));
             Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Cost).First, Is.EqualTo(100));
-            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.StartDate).First, Is.EqualTo("12/30/2022"));            
-            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.EndDate).First, Is.EqualTo("01/30/2023"));
+            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.StartDate).First, Is.EqualTo("30/12/2022"));            
+            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.EndDate).First, Is.EqualTo("30/01/2023"));
             Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Patient.FirstName).First, Is.EqualTo("Gencho"));
             Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Patient.LastName).First, Is.EqualTo("Genchev"));
             Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Patient.Email).First, Is.EqualTo("gencho@mail.com"));
