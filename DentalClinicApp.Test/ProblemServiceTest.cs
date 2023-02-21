@@ -164,6 +164,7 @@ namespace DentalClinicApp.Test
 
             var problem = await repo.GetByIdAsync<DentalProblem>(1);
 
+            Assert.That(problem.IsActive, Is.True);
             Assert.That(problem.DentalStatus, Is.EqualTo("45"));
             Assert.That(problem.DiseaseName, Is.EqualTo("Sensitive to cold"));
             Assert.That(problem.DiseaseDescription, Is.EqualTo("Pain when consuming cold drinks"));
@@ -228,6 +229,15 @@ namespace DentalClinicApp.Test
             var result = await problemService.AllProblemsByPatientIdAsync(1);
 
             Assert.That(result.Count, Is.EqualTo(2));
+            Assert.That(result.Where(x => x.Id == 1).Select(x => x.DiseaseName).First, Is.EqualTo("Sensitive to cold"));
+            Assert.That(result.Where(x => x.Id == 2).Select(x => x.DiseaseName).First, Is.EqualTo("Cracked tooth"));
+            Assert.That(result.Where(x => x.Id == 1).Select(x => x.DiseaseDescription).First, Is.EqualTo("Pain when consuming cold drinks"));
+            Assert.That(result.Where(x => x.Id == 2).Select(x => x.DiseaseDescription).First, Is.EqualTo("Playing boxing without a mouth guard"));
+            Assert.That(result.Where(x => x.Id == 1).Select(x => x.DentalStatus).First, Is.EqualTo("45"));
+            Assert.That(result.Where(x => x.Id == 2).Select(x => x.DentalStatus).First, Is.EqualTo("55"));
+
+
+
         }
 
 
