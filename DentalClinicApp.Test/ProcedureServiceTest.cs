@@ -98,8 +98,6 @@ namespace DentalClinicApp.Test
             Assert.That(procedureDeleted.IsActive, Is.False);
             Assert.That(procedureNotDeleted.IsActive, Is.True);
             Assert.That(result, Is.True);
-
-
         }
 
         [Test]
@@ -108,6 +106,25 @@ namespace DentalClinicApp.Test
         {
             var repo = new Repository(dbContext);
             procedureService = new ProcedureService(repo);
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                FirstName = "Gencho",
+                LastName = "Genchev",
+                UserName = "gencho",
+                NormalizedUserName = "GENCHO",
+                Email = "gencho@mail.com",
+                NormalizedEmail = "GENCHO@MAIL.COM",
+                PhoneNumber = "9999999999999",
+            });
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 1,
+                UserId = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                DentistId = 1,
+            });
 
             await repo.AddAsync(new DentalProcedure()
             {
@@ -124,12 +141,15 @@ namespace DentalClinicApp.Test
 
             await repo.SaveChangesAsync();
 
+            var startDate = DateTime.Now.ToString();
+            var endDate = DateTime.Now.ToString();
+
             var model = new ProcedureFormModel()
             {
                 Name = "Pulling a tooth out",
                 Description = "Classic tooth extraction",
-                StartDate = DateTime.Now.ToString(),
-                EndDate = DateTime.Now.ToString(),
+                StartDate = startDate,
+                EndDate = endDate,
                 PatientId = 1,
                 Cost = 200,
             };
@@ -139,6 +159,15 @@ namespace DentalClinicApp.Test
             var procedure = await repo.GetByIdAsync<DentalProcedure>(1);
 
             Assert.That(procedure.Cost, Is.EqualTo(200));
+            Assert.That(procedure.Id, Is.EqualTo(1));
+            Assert.That(procedure.Name, Is.EqualTo("Pulling a tooth out"));
+            Assert.That(procedure.Description, Is.EqualTo("Classic tooth extraction"));
+            Assert.That(procedure.PatientId, Is.EqualTo(1));
+            Assert.That(procedure.DentistId, Is.EqualTo(1));            
+            Assert.That(procedure.Patient.User.FirstName, Is.EqualTo("Gencho"));
+            Assert.That(procedure.Patient.User.LastName, Is.EqualTo("Genchev"));
+            Assert.That(procedure.Patient.User.Email, Is.EqualTo("gencho@mail.com"));
+            Assert.That(procedure.Patient.User.PhoneNumber, Is.EqualTo("9999999999999"));
         }
 
         [Test]
