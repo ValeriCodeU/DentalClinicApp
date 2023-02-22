@@ -6,7 +6,6 @@ using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Cryptography.X509Certificates;
 
 namespace DentalClinicApp.Test
 {
@@ -91,11 +90,13 @@ namespace DentalClinicApp.Test
             });
 
             await repo.SaveChangesAsync();
-            var procedure = await repo.GetByIdAsync<DentalProcedure>(2);
+            var procedureDeleted = await repo.GetByIdAsync<DentalProcedure>(2);
+            var procedureNotDeleted = await repo.GetByIdAsync<DentalProcedure>(1);
 
             var result = await procedureService.DeleteProcedureAsync(2);
 
-            Assert.That(procedure.IsActive, Is.False);
+            Assert.That(procedureDeleted.IsActive, Is.False);
+            Assert.That(procedureNotDeleted.IsActive, Is.True);
             Assert.That(result, Is.True);
 
 

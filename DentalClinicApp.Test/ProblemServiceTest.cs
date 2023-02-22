@@ -5,7 +5,6 @@ using DentalClinicApp.Infrastructure.Data;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using NuGet.Frameworks;
 
 namespace DentalClinicApp.Test
 {
@@ -235,9 +234,6 @@ namespace DentalClinicApp.Test
             Assert.That(result.Where(x => x.Id == 2).Select(x => x.DiseaseDescription).First, Is.EqualTo("Playing boxing without a mouth guard"));
             Assert.That(result.Where(x => x.Id == 1).Select(x => x.DentalStatus).First, Is.EqualTo("45"));
             Assert.That(result.Where(x => x.Id == 2).Select(x => x.DentalStatus).First, Is.EqualTo("55"));
-
-
-
         }
 
 
