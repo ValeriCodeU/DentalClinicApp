@@ -275,11 +275,10 @@ namespace DentalClinicApp.Test
             var procedureDetails = await procedureService.ProcedureDetailsByIdAsync(1);
 
             Assert.That(procedureDetails, Is.Not.Null);
-            Assert.That(procedureDetails.Id, Is.EqualTo(1));
-            Assert.That(procedureDetails.Patient.Email, Is.EqualTo("dimitar@mail.com"));
-            Assert.That(procedureDetails.Patient.PhoneNumber, Is.EqualTo("1111111111111"));
+            Assert.That(procedureDetails.Id, Is.EqualTo(1));           
             Assert.That(procedureDetails.Name, Is.EqualTo("Pulling a tooth out"));
             Assert.That(procedureDetails.Description, Is.EqualTo("Classic tooth extraction"));
+            Assert.That(procedureDetails.Cost, Is.EqualTo(100));
             Assert.That(procedureDetails.StartDate, Is.EqualTo("30/12/2022"));
             Assert.That(procedureDetails.EndDate, Is.EqualTo("30/01/2023"));
             Assert.That(procedureDetails.Patient.Id, Is.EqualTo(1));
