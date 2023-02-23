@@ -280,7 +280,7 @@ namespace DentalClinicApp.Test
             Assert.That(procedureDetails.Description, Is.EqualTo("Classic tooth extraction"));
             Assert.That(procedureDetails.Cost, Is.EqualTo(100));
             Assert.That(procedureDetails.StartDate, Is.EqualTo("30/12/2022"));
-            Assert.That(procedureDetails.EndDate, Is.EqualTo("30/01/2023"));
+            Assert.That(procedureDetails.EndDate, Is.EqualTo("30/01/2023"));            
             Assert.That(procedureDetails.Patient.Id, Is.EqualTo(1));
             Assert.That(procedureDetails.Patient.FirstName, Is.EqualTo("Dimitar"));
             Assert.That(procedureDetails.Patient.LastName, Is.EqualTo("Georgiev"));
@@ -410,6 +410,8 @@ namespace DentalClinicApp.Test
             Assert.That(result, Is.Not.Null);
             Assert.That(result.Count, Is.EqualTo(1));
             Assert.That(result.Where(x => x.Id == 1).Select(p => p.Name).First, Is.EqualTo("Pulling a tooth out"));
+            Assert.That(result.Where(x => x.Id == 1).Select(p => p.Description).First, Is.EqualTo("Classic tooth extraction"));
+            Assert.That(result.Where(x => x.Id == 1).Select(p => p.Id).First, Is.EqualTo(1));
             Assert.That(result.Where(x => x.Id == 1).Select(p => p.Cost).First, Is.EqualTo(100));
             Assert.That(result.Where(x => x.Id == 1).Select(p => p.StartDate).First, Is.EqualTo("30/12/2022"));
             Assert.That(result.Where(x => x.Id == 1).Select(p => p.EndDate).First, Is.EqualTo("30/01/2023"));
