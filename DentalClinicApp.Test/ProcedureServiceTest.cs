@@ -282,6 +282,11 @@ namespace DentalClinicApp.Test
             Assert.That(procedureDetails.Description, Is.EqualTo("Classic tooth extraction"));
             Assert.That(procedureDetails.StartDate, Is.EqualTo("30/12/2022"));
             Assert.That(procedureDetails.EndDate, Is.EqualTo("30/01/2023"));
+            Assert.That(procedureDetails.Patient.Id, Is.EqualTo(1));
+            Assert.That(procedureDetails.Patient.FirstName, Is.EqualTo("Dimitar"));
+            Assert.That(procedureDetails.Patient.LastName, Is.EqualTo("Georgiev"));
+            Assert.That(procedureDetails.Patient.Email, Is.EqualTo("dimitar@mail.com"));
+            Assert.That(procedureDetails.Patient.PhoneNumber, Is.EqualTo("1111111111111"));
         }
 
         [Test]
