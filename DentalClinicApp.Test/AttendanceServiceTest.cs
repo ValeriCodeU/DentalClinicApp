@@ -72,6 +72,8 @@ namespace DentalClinicApp.Test
             var attendance = await repo.GetByIdAsync<Attendance>(1);
 
             Assert.That(result, Is.EqualTo(1));
+            Assert.That(attendance.ClinicRemarks, Is.EqualTo("You need a root canal and a crown"));
+            Assert.That(attendance.Diagnosis, Is.EqualTo("Fractured tooth"));
             Assert.That(attendance.DentistId, Is.EqualTo(1));
             Assert.That(attendance.PatientId, Is.EqualTo(1));
         }
