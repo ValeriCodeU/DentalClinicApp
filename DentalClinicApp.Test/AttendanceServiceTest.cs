@@ -6,6 +6,7 @@ using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Globalization;
 
 namespace DentalClinicApp.Test
 {
@@ -210,8 +211,7 @@ namespace DentalClinicApp.Test
             Assert.That(result.Where(x => x.Id == 3).Select(p => p.ClinicRemarks).First, Is.EqualTo("You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root."));
             Assert.That(result.Where(x => x.Id == 3).Select(p => p.Diagnosis).First, Is.EqualTo("Cavities and worn tooth enamel"));
             Assert.That(result.Where(x => x.Id == 3).Select(p => p.Id).First, Is.EqualTo(3));
-            Assert.That(result.Where(x => x.Id == 3).Select(p => p.Date).First, Is.EqualTo("24/02/2023"));
-
+            Assert.That(result.Where(x => x.Id == 3).Select(p => p.Date).First, Is.EqualTo(date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));
         }
 
 
