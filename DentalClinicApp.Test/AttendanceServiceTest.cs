@@ -215,126 +215,126 @@ namespace DentalClinicApp.Test
         }
 
 
-            [Test]
+        [Test]
 
-            public async Task AttendanceDetailsByIdAsync_ShouldWorkCorrectly()
+        public async Task AttendanceDetailsByIdAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            attendanceService = new AttendanceService(repo);
+
+            await repo.AddAsync(new ApplicationUser()
             {
-                var repo = new Repository(dbContext);
-                attendanceService = new AttendanceService(repo);
+                Id = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                FirstName = "Dimitar",
+                LastName = "Georgiev",
+                UserName = "dimitar",
+                NormalizedUserName = "DIMITAR",
+                Email = "dimitar@mail.com",
+                NormalizedEmail = "DIMITAR@MAIL.COM",
+                PhoneNumber = "1111111111111",
+            });
 
-                await repo.AddAsync(new ApplicationUser()
-                {
-                    Id = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
-                    FirstName = "Dimitar",
-                    LastName = "Georgiev",
-                    UserName = "dimitar",
-                    NormalizedUserName = "DIMITAR",
-                    Email = "dimitar@mail.com",
-                    NormalizedEmail = "DIMITAR@MAIL.COM",
-                    PhoneNumber = "1111111111111",
-                });
-
-                await repo.AddAsync(new Patient()
-                {
-                    Id = 1,
-                    UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
-                    DentistId = 1,
-                });
-
-                await repo.AddAsync(new Attendance()
-                {
-                    Id = 3,
-                    ClinicRemarks = "You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root.",
-                    IsActive = true,
-                    Diagnosis = "Cavities and worn tooth enamel",
-                    PatientId = 1,
-                    DentistId = 1,
-                    Date = DateTime.Now,
-                });
-
-                await repo.SaveChangesAsync();
-
-                var attendanceDetails = await attendanceService.AttendanceDetailsByIdAsync(3);
-
-                Assert.That(attendanceDetails, Is.Not.Null);
-                Assert.That(attendanceDetails.Diagnosis, Is.EqualTo("Cavities and worn tooth enamel"));
-                Assert.That(attendanceDetails.Patient.FirstName, Is.EqualTo("Dimitar"));
-                Assert.That(attendanceDetails.Patient.LastName, Is.EqualTo("Georgiev"));
-                Assert.That(attendanceDetails.Patient.Email, Is.EqualTo("dimitar@mail.com"));
-                Assert.That(attendanceDetails.Patient.PhoneNumber, Is.EqualTo("1111111111111"));
-                Assert.That(attendanceDetails.ClinicRemarks, Is.EqualTo("You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root."));
-                Assert.That(attendanceDetails.Id, Is.EqualTo(3));
-            }
-
-            [Test]
-
-            public async Task GetDentistAttendancesAsync_ShouldWorkCorrectly()
+            await repo.AddAsync(new Patient()
             {
-                var repo = new Repository(dbContext);
-                attendanceService = new AttendanceService(repo);
+                Id = 1,
+                UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                DentistId = 1,
+            });
 
-                await repo.AddAsync(new ApplicationUser()
-                {
-                    Id = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
-                    FirstName = "Dimitar",
-                    LastName = "Georgiev",
-                    UserName = "dimitar",
-                    NormalizedUserName = "DIMITAR",
-                    Email = "dimitar@mail.com",
-                    NormalizedEmail = "DIMITAR@MAIL.COM",
-                    PhoneNumber = "1111111111111",
-                });
-
-                await repo.AddAsync(new ApplicationUser()
-                {
-                    Id = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
-                    FirstName = "Gencho",
-                    LastName = "Genchev",
-                    UserName = "gencho",
-                    NormalizedUserName = "GENCHO",
-                    Email = "gencho@mail.com",
-                    NormalizedEmail = "GENCHO@MAIL.COM",
-                    PhoneNumber = "9999999999999",
-                });
-
-                await repo.AddAsync(new Dentist()
-                {
-                    Id = 1,
-                    UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
-                    ManagerId = 1,
-                });
-
-                await repo.AddAsync(new Patient()
-                {
-                    Id = 1,
-                    UserId = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
-                    DentistId = 1,
-                });
-
-                await repo.AddAsync(new Attendance()
-                {
-                    Id = 3,
-                    ClinicRemarks = "You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root.",
-                    IsActive = true,
-                    Diagnosis = "Cavities and worn tooth enamel",
-                    PatientId = 1,
-                    DentistId = 1,
-                    Date = DateTime.Now,
-                });
-
-                await repo.SaveChangesAsync();
-
-                var dentistAttendances = await attendanceService.GetDentistAttendancesAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"));
-
-                Assert.That(dentistAttendances, Is.Not.Null);
-                Assert.That(dentistAttendances.Count, Is.EqualTo(1));
-            }
-
-            [TearDown]
-
-            public void TearDown()
+            await repo.AddAsync(new Attendance()
             {
-                dbContext.Dispose();
-            }
+                Id = 3,
+                ClinicRemarks = "You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root.",
+                IsActive = true,
+                Diagnosis = "Cavities and worn tooth enamel",
+                PatientId = 1,
+                DentistId = 1,
+                Date = DateTime.Now,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var attendanceDetails = await attendanceService.AttendanceDetailsByIdAsync(3);
+
+            Assert.That(attendanceDetails, Is.Not.Null);
+            Assert.That(attendanceDetails.Diagnosis, Is.EqualTo("Cavities and worn tooth enamel"));
+            Assert.That(attendanceDetails.Patient.FirstName, Is.EqualTo("Dimitar"));
+            Assert.That(attendanceDetails.Patient.LastName, Is.EqualTo("Georgiev"));
+            Assert.That(attendanceDetails.Patient.Email, Is.EqualTo("dimitar@mail.com"));
+            Assert.That(attendanceDetails.Patient.PhoneNumber, Is.EqualTo("1111111111111"));
+            Assert.That(attendanceDetails.ClinicRemarks, Is.EqualTo("You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root."));
+            Assert.That(attendanceDetails.Id, Is.EqualTo(3));
         }
-    } 
+
+        [Test]
+
+        public async Task GetDentistAttendancesAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            attendanceService = new AttendanceService(repo);
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                FirstName = "Dimitar",
+                LastName = "Georgiev",
+                UserName = "dimitar",
+                NormalizedUserName = "DIMITAR",
+                Email = "dimitar@mail.com",
+                NormalizedEmail = "DIMITAR@MAIL.COM",
+                PhoneNumber = "1111111111111",
+            });
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                FirstName = "Gencho",
+                LastName = "Genchev",
+                UserName = "gencho",
+                NormalizedUserName = "GENCHO",
+                Email = "gencho@mail.com",
+                NormalizedEmail = "GENCHO@MAIL.COM",
+                PhoneNumber = "9999999999999",
+            });
+
+            await repo.AddAsync(new Dentist()
+            {
+                Id = 1,
+                UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                ManagerId = 1,
+            });
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 1,
+                UserId = new Guid("94a79c1d-5a55-4260-815a-d5b827d93a1d"),
+                DentistId = 1,
+            });
+
+            await repo.AddAsync(new Attendance()
+            {
+                Id = 3,
+                ClinicRemarks = "You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root.",
+                IsActive = true,
+                Diagnosis = "Cavities and worn tooth enamel",
+                PatientId = 1,
+                DentistId = 1,
+                Date = DateTime.Now,
+            });
+
+            await repo.SaveChangesAsync();
+
+            var dentistAttendances = await attendanceService.GetDentistAttendancesAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"));
+
+            Assert.That(dentistAttendances, Is.Not.Null);
+            Assert.That(dentistAttendances.Count, Is.EqualTo(1));
+        }
+
+        [TearDown]
+
+        public void TearDown()
+        {
+            dbContext.Dispose();
+        }
+    }
+}
