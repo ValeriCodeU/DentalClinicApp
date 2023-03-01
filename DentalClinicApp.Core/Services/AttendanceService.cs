@@ -115,8 +115,8 @@ namespace DentalClinicApp.Core.Services
 				.OrderByDescending(d => d.Date)
 				.Select(a => new AttedanceServiceModel()
 				{
-					ClinicRemarks=a.ClinicRemarks,
-					Diagnosis=a.Diagnosis,
+					ClinicRemarks = a.ClinicRemarks,
+					Diagnosis = a.Diagnosis,
 					Id = a.Id,
 					Date = a.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
                     Patient = new Models.Patients.PatientServiceModel()
