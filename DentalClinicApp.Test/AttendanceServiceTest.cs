@@ -241,6 +241,8 @@ namespace DentalClinicApp.Test
                 DentistId = 1,
             });
 
+            var date = DateTime.Now;
+
             await repo.AddAsync(new Attendance()
             {
                 Id = 3,
@@ -249,7 +251,7 @@ namespace DentalClinicApp.Test
                 Diagnosis = "Cavities and worn tooth enamel",
                 PatientId = 1,
                 DentistId = 1,
-                Date = DateTime.Now,
+                Date = date,
             });
 
             await repo.SaveChangesAsync();
@@ -264,6 +266,7 @@ namespace DentalClinicApp.Test
             Assert.That(attendanceDetails.Patient.PhoneNumber, Is.EqualTo("1111111111111"));
             Assert.That(attendanceDetails.ClinicRemarks, Is.EqualTo("You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root."));
             Assert.That(attendanceDetails.Id, Is.EqualTo(3));
+            Assert.That(attendanceDetails.Date, Is.EqualTo(date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));
         }
 
         [Test]
