@@ -65,7 +65,7 @@ namespace DentalClinicApp.Test
             {
                 ClinicRemarks = "You need a root canal and a crown",
                 Diagnosis = "Fractured tooth",
-                PatientId = 1,
+                PatientId = 1                
             };
 
             var result = await attendanceService.CreateAsync(model, 1);
@@ -74,7 +74,7 @@ namespace DentalClinicApp.Test
 
             Assert.That(result, Is.EqualTo(1));
             Assert.That(attendance.ClinicRemarks, Is.EqualTo("You need a root canal and a crown"));
-            Assert.That(attendance.Diagnosis, Is.EqualTo("Fractured tooth"));
+            Assert.That(attendance.Diagnosis, Is.EqualTo("Fractured tooth"));            
             Assert.That(attendance.DentistId, Is.EqualTo(1));
             Assert.That(attendance.PatientId, Is.EqualTo(1));
         }

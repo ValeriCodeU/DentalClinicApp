@@ -199,6 +199,7 @@ namespace DentalClinicApp.Test
             Assert.That(appointment.DentistId, Is.EqualTo(1));
             Assert.That(appointment.PatientId, Is.EqualTo(1));
             Assert.That(appointment.Status, Is.True);
+            Assert.That(appointment.Details, Is.EqualTo("If I'm late, I'll call"));            
             Assert.That(appointment.StartDateTime, Is.EqualTo(DateTime.ParseExact("30/01/2023 15:00:00", "dd/MM/yyyy HH:mm:ss", null)));
         }
 
