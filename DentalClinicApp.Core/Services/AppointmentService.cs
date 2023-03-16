@@ -6,6 +6,10 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DentalClinicApp.Core.Services
 {
+
+    /// <summary>
+    /// Manipulates appointment data
+    /// </summary>
     public class AppointmentService : IAppointmentService
     {
         private readonly IRepository repo;
@@ -15,6 +19,11 @@ namespace DentalClinicApp.Core.Services
             repo = _repo;
         }
 
+        /// <summary>
+        ///  Аccept appointment
+        /// </summary>
+        /// <param name="id">Appointment Id</param>
+        /// <returns>>Boolean data type if appointment is accepted</returns>       
         public async Task<bool> AcceptAppointmentByIdAsync(int id)
         {
             var appointment = await repo.GetByIdAsync<Appointment>(id);
@@ -25,6 +34,13 @@ namespace DentalClinicApp.Core.Services
             return true;
         }
 
+        /// <summary>
+        /// Create a new appointment
+        /// </summary>
+        /// <param name="model">Appointment form model</param>
+        /// <param name="patientId">Patient Id</param>
+        /// <param name="dentistId">Dentist Id</param>
+        /// <returns></returns>
         public async Task CreateAsync(AppointmentFormModel model, int patientId, int dentistId)
         {
 
@@ -41,6 +57,11 @@ namespace DentalClinicApp.Core.Services
             await repo.SaveChangesAsync();
         }
 
+        /// <summary>
+        ///  Get appointment by Id
+        /// </summary>
+        /// <param name="id">Appointment Id</param>
+        /// <returns>Appointment data</returns>       
         public async Task<AppointmentServiceModel> GetAppointmentByIdAsync(int id)
         {
             return await repo.AllReadonly<Appointment>()
@@ -60,6 +81,11 @@ namespace DentalClinicApp.Core.Services
                 }).FirstAsync();
         }
 
+        /// <summary>
+        /// Get appointments for dentist
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <returns>List of appointments</returns>
         public async Task<AppointmentDetailsViewModel> GetDentistAppointments(Guid userId)
         {
             return await repo.AllReadonly<Dentist>()
@@ -87,6 +113,11 @@ namespace DentalClinicApp.Core.Services
                 }).FirstAsync();
         }
 
+        /// <summary>
+        /// Get appointments for patient
+        /// </summary>
+        /// <param name="userId">User Id</param>
+        /// <returns>List of appointments</returns>
         public async Task<AppointmentDetailsViewModel> GetPatientAppointments(Guid userId)
         {
             return await repo.AllReadonly<Patient>()
@@ -107,6 +138,11 @@ namespace DentalClinicApp.Core.Services
                 }).FirstAsync();
         }
 
+        /// <summary>
+        /// Postpone appointment
+        /// </summary>
+        /// <param name="id">Appointment Id</param>
+        /// <returns>>Boolean data type if appointment is postponed</returns>
         public async Task<bool> PostponeAppointmentByIdAsync(int id)
         {
             var appointment = await repo.GetByIdAsync<Appointment>(id);

@@ -100,7 +100,7 @@ namespace DentalClinicApp.Test
             Assert.That(appointment.Details, Is.Null);
             Assert.That(appointment.StartDate, Is.EqualTo(DateTime.ParseExact("23/12/2022 14:00:00", "dd/MM/yyyy HH:mm:ss", null)));
             Assert.That(appointment.Patient.FirstName, Is.EqualTo("Vasil"));
-            Assert.That(appointment.Patient.LastName, Is.EqualTo("Georgiev"));
+            Assert.That(appointment.Patient.LastName, Is.EqualTo("Georgiev"));            
         }
 
         [Test]
