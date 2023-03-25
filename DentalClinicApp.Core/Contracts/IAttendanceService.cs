@@ -8,20 +8,60 @@ using System.Threading.Tasks;
 
 namespace DentalClinicApp.Core.Contracts
 {
+	/// <summary>
+	/// Manipulates attendance data
+	/// </summary>
 	public interface IAttendanceService
 	{
+		/// <summary>
+		/// Create a new attendance
+		/// </summary>
+		/// <param name="model"></param>
+		/// <param name="dentistId"></param>
+		/// <returns></returns>
 		Task<int> CreateAsync(AttendanceFormModel model, int dentistId);
 
+		/// <summary>
+		/// Get attendance for dentist
+		/// </summary>
+		/// <param name="userId"></param>
+		/// <returns>List of attendances</returns>
 		Task<IEnumerable<AttedanceServiceModel>> GetDentistAttendancesAsync(Guid userId);
 
-		Task<bool> AttendanceExistsAsync(int id);
+        /// <summary>
+        /// Check if the attendance exists
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Boolean data type if attendance exists</returns>
+        Task<bool> AttendanceExistsAsync(int id);
 
+		/// <summary>
+		/// Attendance details for patient
+		/// </summary>
+		/// <param name="id"></param>
+		/// <returns>Attendance data</returns>
 		Task<AttedanceServiceModel> AttendanceDetailsByIdAsync(int id);
 
+		/// <summary>
+		/// Update attendance
+		/// </summary>
+		/// <param name="model"></param>
+		/// <param name="attendanceId"></param>
+		/// <returns></returns>
 		Task EditAttendanceAsync(AttendanceFormModel model, int attendanceId);
 
-		Task<bool> DeleteAttendanceAsync(int id);
+        /// <summary>
+        /// Delete attendance
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Boolean data type if the attendance has been deleted</returns>
+        Task<bool> DeleteAttendanceAsync(int id);
 
+		/// <summary>
+		/// Get all attendance details for patient
+		/// </summary>
+		/// <param name="patientId"></param>
+		/// <returns>List of attendance details for patient</returns>
         Task<IEnumerable<AttendanceDetailsViewModel>> AllAttendancesByPatientIdAsync(int patientId);
 
         
