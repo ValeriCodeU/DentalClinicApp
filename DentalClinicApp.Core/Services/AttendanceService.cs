@@ -12,7 +12,10 @@ using System.Threading.Tasks;
 
 namespace DentalClinicApp.Core.Services
 {
-	public class AttendanceService : IAttendanceService
+    /// <summary>
+    /// Manipulates attendance data
+    /// </summary>
+    public class AttendanceService : IAttendanceService
 	{
 		private readonly IRepository repo;
 
@@ -21,7 +24,12 @@ namespace DentalClinicApp.Core.Services
 			repo = _repo;
 		}
 
-		public async Task<IEnumerable<AttendanceDetailsViewModel>> AllAttendancesByPatientIdAsync(int patientId)
+        /// <summary>
+        /// Get all attendance details for patient
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <returns>List of attendance details for patient</returns>
+        public async Task<IEnumerable<AttendanceDetailsViewModel>> AllAttendancesByPatientIdAsync(int patientId)
 		{
 			return await repo.AllReadonly<Patient>()
 				.Where(p => p.Id == patientId)
@@ -38,7 +46,12 @@ namespace DentalClinicApp.Core.Services
 				})).FirstAsync();
 		}
 
-		public async Task<AttedanceServiceModel> AttendanceDetailsByIdAsync(int id)
+        /// <summary>
+        /// Attendance details for patient
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Attendance data</returns>
+        public async Task<AttedanceServiceModel> AttendanceDetailsByIdAsync(int id)
 		{
 			return await repo.AllReadonly<Attendance>()
 				.Where(a => a.Id == id)
@@ -61,12 +74,23 @@ namespace DentalClinicApp.Core.Services
 				}).FirstAsync();
 		}
 
-		public async Task<bool> AttendanceExistsAsync(int id)
+        /// <summary>
+        /// Check if the attendance exists
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Boolean data type if attendance exists</returns>
+        public async Task<bool> AttendanceExistsAsync(int id)
 		{
             return await repo.AllReadonly<Attendance>().AnyAsync(a => a.Id == id && a.IsActive);
         }
 
-		public async Task<int> CreateAsync(AttendanceFormModel model, int dentistId)
+        /// <summary>
+        /// Create a new attendance
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="dentistId"></param>
+        /// <returns></returns>
+        public async Task<int> CreateAsync(AttendanceFormModel model, int dentistId)
 		{
 			var attendance = new Attendance()
 			{
@@ -83,7 +107,12 @@ namespace DentalClinicApp.Core.Services
 			return attendance.Id;
 		}
 
-		public async Task<bool> DeleteAttendanceAsync(int id)
+        /// <summary>
+        /// Delete attendance
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Boolean data type if the attendance has been deleted</returns>
+        public async Task<bool> DeleteAttendanceAsync(int id)
 		{
 			var attendance = await repo.GetByIdAsync<Attendance>(id);
 
@@ -93,7 +122,13 @@ namespace DentalClinicApp.Core.Services
 			return true;
 		}
 
-		public async Task EditAttendanceAsync(AttendanceFormModel model, int attendanceId)
+        /// <summary>
+        /// Update attendance
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="attendanceId"></param>
+        /// <returns></returns>
+        public async Task EditAttendanceAsync(AttendanceFormModel model, int attendanceId)
 		{
 			var attendance = await repo.GetByIdAsync<Attendance>(attendanceId);
 
@@ -105,7 +140,12 @@ namespace DentalClinicApp.Core.Services
 			await repo.SaveChangesAsync();
 		}
 
-		public async Task<IEnumerable<AttedanceServiceModel>> GetDentistAttendancesAsync(Guid userId)
+        /// <summary>
+        /// Get attendance for dentist
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>List of attendances</returns>
+        public async Task<IEnumerable<AttedanceServiceModel>> GetDentistAttendancesAsync(Guid userId)
 		{
 			return await repo.AllReadonly<Dentist>()
 				.Where(d => d.UserId == userId)
