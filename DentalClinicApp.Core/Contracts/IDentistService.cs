@@ -27,14 +27,14 @@ namespace DentalClinicApp.Core.Contracts
         Task<bool> IsExistsByIdAsync(Guid userId);
 
         /// <summary>
-        /// Get dentist Id
+        /// Get a dentist Id
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>Integer Id for dentist</returns>
         Task<int> GetDentistIdAsync(Guid userId);
 
         /// <summary>
-        /// Get statistic for dentist
+        /// Get statistic for a dentist
         /// </summary>
         /// <param name="id"></param>
         /// <returns>View model for dentist statistic</returns>
@@ -49,10 +49,10 @@ namespace DentalClinicApp.Core.Contracts
         Task<bool> AddUserAsDentistAsync(Guid userId, int managerId);
 
         /// <summary>
-        /// Get manager Id
+        /// Get a manager Id
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns>Integer Id for manager</returns>
+        /// <returns>Integer Id for a manager</returns>
         Task<int> GetManagerOfDentistAsync(Guid userId);
     }
 }

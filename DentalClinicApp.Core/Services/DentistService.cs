@@ -6,6 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace DentalClinicApp.Core.Services
 {
+    /// <summary>
+    ///  Manipulates dentist data
+    /// </summary>
     public class DentistService : IDentistService
     {
         private readonly IRepository repo;
@@ -15,6 +18,12 @@ namespace DentalClinicApp.Core.Services
             repo = _repo;
         }
 
+        /// <summary>
+        /// Create a user as a dentist        
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="managerId"></param>
+        /// <returns>Boolean data type to check for a successful operation</returns>
         public async Task<bool> AddUserAsDentistAsync(Guid userId, int managerId)
         {
             var dentist = new Dentist()
@@ -29,6 +38,11 @@ namespace DentalClinicApp.Core.Services
             return true;
         }
 
+        /// <summary>
+        /// Get all managed dentists
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>List of dentists</returns>
         public async Task<DentistDetailsViewModel> GetAllManagedDentistsAsync(Guid userId)
         {
 
@@ -52,6 +66,11 @@ namespace DentalClinicApp.Core.Services
 
         }
 
+        /// <summary>
+        /// Get a dentist Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Integer Id for dentist</returns>
         public async Task<int> GetDentistIdAsync(Guid userId)
         {
             var dentist = await repo.AllReadonly<Dentist>().FirstAsync(u => u.UserId == userId);
@@ -59,6 +78,11 @@ namespace DentalClinicApp.Core.Services
             return dentist.Id;
         }
 
+        /// <summary>
+        /// Get a manager Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Integer Id for a manager</returns>
         public async Task<int> GetManagerOfDentistAsync(Guid userId)
         {
             var manager = await repo.AllReadonly<Manager>().FirstAsync(u => u.UserId == userId);
@@ -66,6 +90,11 @@ namespace DentalClinicApp.Core.Services
             return manager.Id;
         }
 
+        /// <summary>
+        /// Get statistic for a dentist
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>View model for dentist statistic</returns>
         public async Task<DentistStatisticsViewModel> GetStatisticsAsync(int id)
         {
             var totalPatients = await repo.AllReadonly<Dentist>()
@@ -115,6 +144,11 @@ namespace DentalClinicApp.Core.Services
             
         }
 
+        /// <summary>
+        /// Check if the dentist exists
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Boolean data type if dentist exists</returns>
         public async Task<bool> IsExistsByIdAsync(Guid userId)
         {
             return await repo.AllReadonly<Dentist>().AnyAsync(d => d.UserId == userId && d.User.IsActive);
