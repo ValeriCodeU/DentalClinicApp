@@ -10,6 +10,9 @@ using System.Globalization;
 
 namespace DentalClinicApp.Core.Services
 {
+    /// <summary>
+    ///  Manipulates dentist data
+    /// </summary>
     public class PatientService : IPatientService
     {
         private readonly IRepository repo;

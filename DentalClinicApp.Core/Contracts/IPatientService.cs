@@ -9,14 +9,38 @@ using System.Threading.Tasks;
 
 namespace DentalClinicApp.Core.Contracts
 {
+    /// <summary>
+    ///  Manipulates patient data
+    /// </summary>
     public interface IPatientService
     {
+        /// <summary>
+        /// Create a user as a patient
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="dentistId"></param>
+        /// <returns></returns>
         Task CreatePatientAsync(Guid userId, int dentistId);
 
+        /// <summary>
+        /// Get all dentists in the system
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>List of dentists</returns> 
         Task<IEnumerable<DentistModel>> GetDentistsAsync();
 
+        /// <summary>
+        /// Get a patient Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Integer Id for a patient</returns>
         Task<int> GetPatientIdAsync(Guid userId);
 
+        /// <summary>
+        /// Check if the patient exists
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Boolean data type if patient exists</returns>
         Task<bool> IsExistsByIdAsync(Guid userId);
 
         Task<MyPatientsViewModel> GetMyPatientsAsync(Guid userId);

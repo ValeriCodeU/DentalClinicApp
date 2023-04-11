@@ -30,7 +30,7 @@ namespace DentalClinicApp.Core.Contracts
         /// Get a dentist Id
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns>Integer Id for dentist</returns>
+        /// <returns>Integer Id for a dentist</returns>
         Task<int> GetDentistIdAsync(Guid userId);
 
         /// <summary>
