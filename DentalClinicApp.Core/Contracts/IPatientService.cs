@@ -43,18 +43,53 @@ namespace DentalClinicApp.Core.Contracts
         /// <returns>Boolean data type if patient exists</returns>
         Task<bool> IsExistsByIdAsync(Guid userId);
 
+        /// <summary>
+        /// Get the dentist's patients
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Data view model for list of patients</returns>
         Task<MyPatientsViewModel> GetMyPatientsAsync(Guid userId);
 
+        /// <summary>
+        /// Get data for the patient's dental problems
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Data view model for lists of patient data</returns>
         Task<PatientDetailsViewModel> PatientDetailsByIdAsync(int id);
 
+        /// <summary>
+        /// Get data for the patient's dental attendances
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Data view model for lists of patient data</returns>
         Task<PatientDetailsViewModel> PatientAttendanceDetailsByIdAsync(int id);
 
+        /// <summary>
+        /// Get data for the patient's dental procedures
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Data view model for lists of patient data</returns>
         Task<PatientDetailsViewModel> PatientProcedureDetailsByIdAsync(int id);
 
+        /// <summary>
+        /// Get the Id for the patient's personal dentist
+        /// </summary>
+        /// <param name="patientId"></param>
+        /// <returns>Integer Id for a dentist</returns>
         Task<int> GetPersonalDentistIdAsync(int patientId);
 
+        /// <summary>
+        /// Get dentist patient data 
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>List of patient data</returns>
         Task<IEnumerable<PatientModel>> GetPatientsAsync(Guid userId);
 
+        /// <summary>
+        /// Get user Id by patient Id
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Guid Id for an user</returns>
         Task<Guid> GetUserIdByPatientId(int id);
     }
 }
