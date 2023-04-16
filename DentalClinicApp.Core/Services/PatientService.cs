@@ -40,6 +40,11 @@ namespace DentalClinicApp.Core.Services
             await repo.SaveChangesAsync();
         }
 
+        /// <summary>
+        /// Get all dentists in the system
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>List of dentists</returns> 
         public async Task<IEnumerable<DentistModel>> GetDentistsAsync()
         {
 
@@ -92,6 +97,11 @@ namespace DentalClinicApp.Core.Services
 
         }
 
+        /// <summary>
+        /// Get a patient Id
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Integer Id for a patient</returns>
         public async Task<int> GetPatientIdAsync(Guid userId)
         {
             var patient = await repo.AllReadonly<Patient>().FirstAsync(u => u.UserId == userId);
