@@ -22,6 +22,12 @@ namespace DentalClinicApp.Core.Services
             repo = _repo;
         }
 
+        /// <summary>
+        /// Create a user as a patient
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <param name="dentistId"></param>
+        /// <returns></returns>
         public async Task CreatePatientAsync(Guid userId, int dentistId)
         {
             var patient = new Patient()
