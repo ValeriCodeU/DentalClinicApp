@@ -37,10 +37,10 @@ namespace DentalClinicApp.Core.Contracts
         Task<int> GetPatientIdAsync(Guid userId);
 
         /// <summary>
-        /// Check if the patient exists
+        /// Check if the user exists as a patient
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns>Boolean data type if patient exists</returns>
+        /// <returns>Boolean data type if the user exists as a patient</returns>
         Task<bool> IsExistsByIdAsync(Guid userId);
 
         /// <summary>

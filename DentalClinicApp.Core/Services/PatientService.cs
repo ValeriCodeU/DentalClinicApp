@@ -116,6 +116,11 @@ namespace DentalClinicApp.Core.Services
             return result.DentistId;
         }
 
+        /// <summary>
+        /// Check if the user exists as a patient
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Boolean data type if the user exists as a patient</returns>
         public async Task<bool> IsExistsByIdAsync(Guid userId)
         {
             return await repo.AllReadonly<Patient>().AnyAsync(p => p.UserId == userId && p.User.IsActive);
