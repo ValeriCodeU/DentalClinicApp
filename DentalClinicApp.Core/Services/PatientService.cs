@@ -74,6 +74,11 @@ namespace DentalClinicApp.Core.Services
             return patients;
         }
 
+        /// <summary>
+        /// Get the dentist's patients
+        /// </summary>
+        /// <param name="userId"></param>
+        /// <returns>Data view model for list of patients</returns>
         public async Task<MyPatientsViewModel> GetMyPatientsAsync(Guid userId)
         {
             var patients = await repo.AllReadonly<Dentist>()
