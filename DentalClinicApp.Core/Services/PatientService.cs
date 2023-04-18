@@ -131,6 +131,11 @@ namespace DentalClinicApp.Core.Services
             return await repo.AllReadonly<Patient>().AnyAsync(p => p.UserId == userId && p.User.IsActive);
         }
 
+        /// <summary>
+        /// Get data for the patient's dental problems
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns>Data view model for lists of patient data</returns>
         public async Task<PatientDetailsViewModel> PatientDetailsByIdAsync(int id)
         {
 
