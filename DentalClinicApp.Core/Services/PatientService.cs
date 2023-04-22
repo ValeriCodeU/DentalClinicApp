@@ -103,7 +103,7 @@ namespace DentalClinicApp.Core.Services
         }
 
         /// <summary>
-        /// Get a patient Id
+        /// Get a patient identifier
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>Integer Id for a patient</returns>
