@@ -82,6 +82,7 @@ namespace DentalClinicApp.Areas.Admin.Controllers
                     return RedirectToAction(nameof(Statistics), new { id = dentistId });
                 }
                 TempData[MessageConstant.ErrorMessage] = "Something went wrong!";
+                
             }
 
             foreach (var error in result.Errors)

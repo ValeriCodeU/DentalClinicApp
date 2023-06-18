@@ -3,19 +3,14 @@ using DentalClinicApp.Core.Models.Attendances;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DentalClinicApp.Core.Services
 {
-    /// <summary>
-    /// Manipulates attendance data
-    /// </summary>
-    public class AttendanceService : IAttendanceService
+	/// <summary>
+	/// Manipulates attendance data
+	/// </summary>
+	public class AttendanceService : IAttendanceService
 	{
 		private readonly IRepository repo;
 

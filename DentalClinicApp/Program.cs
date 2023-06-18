@@ -1,5 +1,6 @@
 using DentalClinicApp.Infrastructure.Data;
 using DentalClinicApp.Infrastructure.Data.Identity;
+using DentalClinicApp.ModelBinders;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -24,8 +25,8 @@ builder.Services.AddDefaultIdentity<ApplicationUser>(options =>
 builder.Services.AddControllersWithViews()
     .AddMvcOptions(options =>
     {
-        options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();       
-       
+        options.Filters.Add<AutoValidateAntiforgeryTokenAttribute>();
+        options.ModelBinderProviders.Insert(0, new DecimalModelBinderProvider());
     });
 
 builder.Services.AddApplicationServices();

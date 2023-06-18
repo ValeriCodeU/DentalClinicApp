@@ -39,10 +39,10 @@ namespace DentalClinicApp.Core.Services
         }
 
         /// <summary>
-        /// Get all managed dentists
+        /// Get all dentist per patient
         /// </summary>
         /// <param name="userId"></param>
-        /// <returns>List of dentists</returns>
+        /// <returns>List of dentists</returns> 
         public async Task<DentistDetailsViewModel> GetAllManagedDentistsAsync(Guid userId)
         {
 
