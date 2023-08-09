@@ -329,18 +329,18 @@ namespace DentalClinicApp.Test
 
             await repo.SaveChangesAsync();
 
-            var dentistAttendances = await attendanceService.GetDentistAttendancesAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"));
+            var modelForTest = await attendanceService.GetDentistAttendancesAsync(1);
 
-            Assert.That(dentistAttendances, Is.Not.Null);
-            Assert.That(dentistAttendances.Count, Is.EqualTo(1));
-            Assert.That(dentistAttendances.Where(x => x.Id == 3).Select(p => p.ClinicRemarks).First, Is.EqualTo("You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root."));
-            Assert.That(dentistAttendances.Where(x => x.Id == 3).Select(p => p.Diagnosis).First, Is.EqualTo("Cavities and worn tooth enamel"));
-            Assert.That(dentistAttendances.Where(x => x.Id == 3).Select(p => p.Id).First, Is.EqualTo(3));
-            Assert.That(dentistAttendances.Where(x => x.Id == 3).Select(p => p.Date).First, Is.EqualTo(date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));
-            Assert.That(dentistAttendances.Where(x => x.Id == 3).Select(x => x.Patient.FirstName).First, Is.EqualTo("Gencho"));
-            Assert.That(dentistAttendances.Where(x => x.Id == 3).Select(x => x.Patient.LastName).First, Is.EqualTo("Genchev"));
-            Assert.That(dentistAttendances.Where(x => x.Id == 3).Select(x => x.Patient.Email).First, Is.EqualTo("gencho@mail.com"));
-            Assert.That(dentistAttendances.Where(x => x.Id == 3).Select(x => x.Patient.PhoneNumber).First, Is.EqualTo("9999999999999"));
+            Assert.That(modelForTest, Is.Not.Null);
+            Assert.That(modelForTest.Attendances.Count, Is.EqualTo(1));
+            Assert.That(modelForTest.Attendances.Where(x => x.Id == 3).Select(p => p.ClinicRemarks).First, Is.EqualTo("You need a filling, a root canal, or treatment of your gums to replace tissue lost at the root."));
+            Assert.That(modelForTest.Attendances.Where(x => x.Id == 3).Select(p => p.Diagnosis).First, Is.EqualTo("Cavities and worn tooth enamel"));
+            Assert.That(modelForTest.Attendances.Where(x => x.Id == 3).Select(p => p.Id).First, Is.EqualTo(3));
+            Assert.That(modelForTest.Attendances.Where(x => x.Id == 3).Select(p => p.Date).First, Is.EqualTo(date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture)));
+            Assert.That(modelForTest.Attendances.Where(x => x.Id == 3).Select(x => x.Patient.FirstName).First, Is.EqualTo("Gencho"));
+            Assert.That(modelForTest.Attendances.Where(x => x.Id == 3).Select(x => x.Patient.LastName).First, Is.EqualTo("Genchev"));
+            Assert.That(modelForTest.Attendances.Where(x => x.Id == 3).Select(x => x.Patient.Email).First, Is.EqualTo("gencho@mail.com"));
+            Assert.That(modelForTest.Attendances.Where(x => x.Id == 3).Select(x => x.Patient.PhoneNumber).First, Is.EqualTo("9999999999999"));
         }
 
         [TearDown]

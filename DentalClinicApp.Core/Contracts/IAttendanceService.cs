@@ -1,5 +1,6 @@
 ﻿using DentalClinicApp.Core.Models.Attendances;
 using DentalClinicApp.Core.Models.DentalProblems;
+using ShoppingListApp.Core.Models.Products.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +27,16 @@ namespace DentalClinicApp.Core.Contracts
         /// </summary>
         /// <param name="userId">User globally unique identifier</param>
         /// <returns>List of attendances</returns>
-        Task<IEnumerable<AttedanceServiceModel>> GetDentistAttendancesAsync(Guid userId);
+        //Task<IEnumerable<AttedanceServiceModel>> GetDentistAttendancesAsync(Guid userId);
+
+        //with query search and paging
+
+        Task<AttendanceQueryServiceModel> GetDentistAttendancesAsync(
+            int dentistId,            
+            AttendanceSorting sorting = AttendanceSorting.Newest,
+            int currentPage = 1,
+            int attendancesPerPage = 1            
+            );
 
         /// <summary>
         /// Check if the attendance exists
@@ -64,6 +74,8 @@ namespace DentalClinicApp.Core.Contracts
         /// <returns>List of attendance details for patient</returns>
         Task<IEnumerable<AttendanceDetailsViewModel>> AllAttendancesByPatientIdAsync(int patientId);
 
-        
+
+      
+
     }
 }

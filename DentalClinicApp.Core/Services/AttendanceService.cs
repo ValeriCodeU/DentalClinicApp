@@ -3,21 +3,22 @@ using DentalClinicApp.Core.Models.Attendances;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using ShoppingListApp.Core.Models.Products.Enums;
 using System.Globalization;
 
 namespace DentalClinicApp.Core.Services
 {
-	/// <summary>
-	/// Manipulates attendance data
-	/// </summary>
-	public class AttendanceService : IAttendanceService
-	{
-		private readonly IRepository repo;
+    /// <summary>
+    /// Manipulates attendance data
+    /// </summary>
+    public class AttendanceService : IAttendanceService
+    {
+        private readonly IRepository repo;
 
-		public AttendanceService(IRepository _repo)
-		{
-			repo = _repo;
-		}
+        public AttendanceService(IRepository _repo)
+        {
+            repo = _repo;
+        }
 
         /// <summary>
         /// Get all attendance details for patient
@@ -25,21 +26,21 @@ namespace DentalClinicApp.Core.Services
         /// <param name="patientId"></param>
         /// <returns>List of attendance details for patient</returns>
         public async Task<IEnumerable<AttendanceDetailsViewModel>> AllAttendancesByPatientIdAsync(int patientId)
-		{
-			return await repo.AllReadonly<Patient>()
-				.Where(p => p.Id == patientId)
-				.Where(p => p.User.IsActive)
-				.Select(a => a.Attendances
-				.Where(a => a.IsActive)
-				.Select(a => new AttendanceDetailsViewModel()
-				{
-					ClinicRemarks = a.ClinicRemarks,
-					Diagnosis = a.Diagnosis,
-					Date = a.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-					Id = a.Id,
+        {
+            return await repo.AllReadonly<Patient>()
+                .Where(p => p.Id == patientId)
+                .Where(p => p.User.IsActive)
+                .Select(a => a.Attendances
+                .Where(a => a.IsActive)
+                .Select(a => new AttendanceDetailsViewModel()
+                {
+                    ClinicRemarks = a.ClinicRemarks,
+                    Diagnosis = a.Diagnosis,
+                    Date = a.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    Id = a.Id,
 
-				})).FirstAsync();
-		}
+                })).FirstAsync();
+        }
 
         /// <summary>
         /// Attendance details for patient
@@ -47,27 +48,27 @@ namespace DentalClinicApp.Core.Services
         /// <param name="id"></param>
         /// <returns>Attendance data</returns>
         public async Task<AttedanceServiceModel> AttendanceDetailsByIdAsync(int id)
-		{
-			return await repo.AllReadonly<Attendance>()
-				.Where(a => a.Id == id)
-				.Where(a => a.IsActive)
-				.Select(a => new AttedanceServiceModel()
-				{
-					Id = a.Id,
-					ClinicRemarks = a.ClinicRemarks,
-					Diagnosis = a.Diagnosis,
-					Date = a.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-					Patient = new Models.Patients.PatientServiceModel()
-					{
-						Id = a.Patient.Id,
-						FirstName = a.Patient.User.FirstName,
-						LastName = a.Patient.User.LastName,
-						Email = a.Patient.User.Email,
-						PhoneNumber = a.Patient.User.PhoneNumber
-					}
+        {
+            return await repo.AllReadonly<Attendance>()
+                .Where(a => a.Id == id)
+                .Where(a => a.IsActive)
+                .Select(a => new AttedanceServiceModel()
+                {
+                    Id = a.Id,
+                    ClinicRemarks = a.ClinicRemarks,
+                    Diagnosis = a.Diagnosis,
+                    Date = a.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    Patient = new Models.Patients.PatientServiceModel()
+                    {
+                        Id = a.Patient.Id,
+                        FirstName = a.Patient.User.FirstName,
+                        LastName = a.Patient.User.LastName,
+                        Email = a.Patient.User.Email,
+                        PhoneNumber = a.Patient.User.PhoneNumber
+                    }
 
-				}).FirstAsync();
-		}
+                }).FirstAsync();
+        }
 
         /// <summary>
         /// Check if the attendance exists
@@ -75,7 +76,7 @@ namespace DentalClinicApp.Core.Services
         /// <param name="id"></param>
         /// <returns>Boolean data type if attendance exists</returns>
         public async Task<bool> AttendanceExistsAsync(int id)
-		{
+        {
             return await repo.AllReadonly<Attendance>().AnyAsync(a => a.Id == id && a.IsActive);
         }
 
@@ -86,21 +87,21 @@ namespace DentalClinicApp.Core.Services
         /// <param name="dentistId"></param>
         /// <returns></returns>
         public async Task<int> CreateAsync(AttendanceFormModel model, int dentistId)
-		{
-			var attendance = new Attendance()
-			{
-				ClinicRemarks = model.ClinicRemarks,
-				Diagnosis = model.Diagnosis,
-				PatientId = model.PatientId,
-				DentistId = dentistId,
-				Date = DateTime.Now
+        {
+            var attendance = new Attendance()
+            {
+                ClinicRemarks = model.ClinicRemarks,
+                Diagnosis = model.Diagnosis,
+                PatientId = model.PatientId,
+                DentistId = dentistId,
+                Date = DateTime.Now
             };
 
-			await repo.AddAsync<Attendance>(attendance);
-			await repo.SaveChangesAsync();
+            await repo.AddAsync<Attendance>(attendance);
+            await repo.SaveChangesAsync();
 
-			return attendance.Id;
-		}
+            return attendance.Id;
+        }
 
         /// <summary>
         /// Delete attendance
@@ -108,14 +109,14 @@ namespace DentalClinicApp.Core.Services
         /// <param name="id"></param>
         /// <returns>Boolean data type if the attendance has been deleted</returns>
         public async Task<bool> DeleteAttendanceAsync(int id)
-		{
-			var attendance = await repo.GetByIdAsync<Attendance>(id);
+        {
+            var attendance = await repo.GetByIdAsync<Attendance>(id);
 
-			attendance.IsActive = false;
-			await repo.SaveChangesAsync();
+            attendance.IsActive = false;
+            await repo.SaveChangesAsync();
 
-			return true;
-		}
+            return true;
+        }
 
         /// <summary>
         /// Update attendance
@@ -124,45 +125,97 @@ namespace DentalClinicApp.Core.Services
         /// <param name="attendanceId"></param>
         /// <returns></returns>
         public async Task EditAttendanceAsync(AttendanceFormModel model, int attendanceId)
-		{
-			var attendance = await repo.GetByIdAsync<Attendance>(attendanceId);
+        {
+            var attendance = await repo.GetByIdAsync<Attendance>(attendanceId);
 
-			attendance.ClinicRemarks = model.ClinicRemarks;
-			attendance.Diagnosis = model.Diagnosis;
-			attendance.Date = DateTime.Now;
-			attendance.PatientId = model.PatientId;
+            attendance.ClinicRemarks = model.ClinicRemarks;
+            attendance.Diagnosis = model.Diagnosis;
+            attendance.Date = DateTime.Now;
+            attendance.PatientId = model.PatientId;
 
-			await repo.SaveChangesAsync();
-		}
+            await repo.SaveChangesAsync();
+        }
+
+
+        /// <summary>
+        /// Get dentist attendances
+        /// </summary>
+        /// <param name="dentisId"></param>
+        /// <param name="sorting"></param>
+        /// <param name="currentPage"></param>
+        /// <param name="attendancesPerPage"></param>
+        /// <returns>Attendance query model</returns>
+        //query, paging
+
+        public async Task<AttendanceQueryServiceModel> GetDentistAttendancesAsync(
+            int dentisId,
+            AttendanceSorting sorting = AttendanceSorting.Newest,
+            int currentPage = 1,
+            int attendancesPerPage = 1
+            )
+        {
+            var result = new AttendanceQueryServiceModel();
+
+            var attendances = repo.AllReadonly<Attendance>()
+                .Where(a => a.DentistId == dentisId && a.IsActive);
+
+            attendances = sorting switch
+            {
+                AttendanceSorting.Diagnosis => attendances.OrderBy(a => a.Diagnosis),
+                AttendanceSorting.Newest => attendances.OrderByDescending(a => a.Date),
+                _ => attendances.OrderByDescending(a => a.Id)
+            };
+
+            var attendanceList = await attendances.Skip((currentPage - 1) * attendancesPerPage).Take(attendancesPerPage)
+                .Select(a => new AttedanceServiceModel()
+                {
+                    ClinicRemarks = a.ClinicRemarks,
+                    Diagnosis = a.Diagnosis,
+                    Id = a.Id,
+                    Date = a.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+                    Patient = new Models.Patients.PatientServiceModel()
+                    {
+                        FirstName = a.Patient.User.FirstName,
+                        LastName = a.Patient.User.LastName,
+                        Email = a.Patient.User.Email,
+                        PhoneNumber = a.Patient.User.PhoneNumber
+                    }
+                }).ToListAsync();
+
+            result.TotalAttendancesCount = await attendances.CountAsync();
+            result.Attendances = attendanceList;
+
+            return result;
+        }
 
         /// <summary>
         /// Get attendance for dentist
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>List of attendances</returns>
-        public async Task<IEnumerable<AttedanceServiceModel>> GetDentistAttendancesAsync(Guid userId)
-		{
-			return await repo.AllReadonly<Dentist>()
-				.Where(d => d.UserId == userId)
-				.Where(d => d.User.IsActive)
-				.Select(d => d.Attendances
-				.Where(d => d.IsActive)
-				.OrderByDescending(d => d.Date)
-				.Select(a => new AttedanceServiceModel()
-				{
-					ClinicRemarks = a.ClinicRemarks,
-					Diagnosis = a.Diagnosis,
-					Id = a.Id,
-					Date = a.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
-                    Patient = new Models.Patients.PatientServiceModel()
-					{
-						FirstName = a.Patient.User.FirstName,
-						LastName = a.Patient.User.LastName,
-						Email = a.Patient.User.Email,
-						PhoneNumber = a.Patient.User.PhoneNumber
-					}
+        //      public async Task<IEnumerable<AttedanceServiceModel>> GetDentistAttendancesAsync(Guid userId)
+        //{
+        //	return await repo.AllReadonly<Dentist>()
+        //		.Where(d => d.UserId == userId)
+        //		.Where(d => d.User.IsActive)
+        //		.Select(d => d.Attendances
+        //		.Where(d => d.IsActive)
+        //		.OrderByDescending(d => d.Date)
+        //		.Select(a => new AttedanceServiceModel()
+        //		{
+        //			ClinicRemarks = a.ClinicRemarks,
+        //			Diagnosis = a.Diagnosis,
+        //			Id = a.Id,
+        //			Date = a.Date.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
+        //                  Patient = new Models.Patients.PatientServiceModel()
+        //			{
+        //				FirstName = a.Patient.User.FirstName,
+        //				LastName = a.Patient.User.LastName,
+        //				Email = a.Patient.User.Email,
+        //				PhoneNumber = a.Patient.User.PhoneNumber
+        //			}
 
-				})).FirstAsync();
-		}
-	}
+        //		})).FirstAsync();
+    }
+
 }

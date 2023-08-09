@@ -84,24 +84,45 @@ namespace DentalClinicApp.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = DentistRoleName)]
+        [Authorize(Roles = DentistRoleName)]        
 
-        public async Task<IActionResult> MyAttendances()
-        {
+        //public async Task<IActionResult> MyAttendances()
+        //{
 
-            var userId = User.Id();
+        //    var userId = User.Id();
 
-            IEnumerable<AttedanceServiceModel> model;
+        //    IEnumerable<AttedanceServiceModel> model;
 
-            model = await attendanceService.GetDentistAttendancesAsync(userId);
+        //    model = await attendanceService.GetDentistAttendancesAsync(userId);
 
-            //if (this.User.IsInRole("Dentist"))
-            //{
-            //    model = await attendanceService.GetDentistAttendancesAsync(userId);
-            //}         
+        //    //if (this.User.IsInRole("Dentist"))
+        //    //{
+        //    //    model = await attendanceService.GetDentistAttendancesAsync(userId);
+        //    //}         
 
 
-            return View(model);
+        //    return View(model);
+        //}
+
+        //with query and paging
+
+        public async Task<IActionResult> MyAttendances([FromQuery]MyAttendancesQueryModel query)
+        {            
+            var dentistId = await dentistService.GetDentistIdAsync(User.Id());
+
+            var attendancesPerPage = MyAttendancesQueryModel.AttendancesPerPage;
+
+            var result = await attendanceService.GetDentistAttendancesAsync(
+                dentistId, 
+                query.Sorting, 
+                query.CurrentPage,
+                attendancesPerPage
+                );
+
+            query.Attendances = result.Attendances;
+            query.TotalAttendancesCount = result.TotalAttendancesCount;
+
+            return View(query);
         }
 
         [Authorize(Roles = DentistRoleName)]
