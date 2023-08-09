@@ -34,6 +34,7 @@ namespace DentalClinicApp.Core.Contracts
         Task<AttendanceQueryServiceModel> GetDentistAttendancesAsync(
             int dentistId,            
             AttendanceSorting sorting = AttendanceSorting.Newest,
+            string? searchTerm = null,
             int currentPage = 1,
             int attendancesPerPage = 1            
             );

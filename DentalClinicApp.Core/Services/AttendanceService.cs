@@ -150,6 +150,7 @@ namespace DentalClinicApp.Core.Services
         public async Task<AttendanceQueryServiceModel> GetDentistAttendancesAsync(
             int dentisId,
             AttendanceSorting sorting = AttendanceSorting.Newest,
+            string? searchTerm = null,
             int currentPage = 1,
             int attendancesPerPage = 1
             )
@@ -158,6 +159,15 @@ namespace DentalClinicApp.Core.Services
 
             var attendances = repo.AllReadonly<Attendance>()
                 .Where(a => a.DentistId == dentisId && a.IsActive);
+
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = $"%{searchTerm.ToLower()}%";
+
+                attendances = attendances
+                    .Where(a => EF.Functions.Like(a.Diagnosis.ToLower(), searchTerm) ||
+                    EF.Functions.Like(a.ClinicRemarks.ToLower(), searchTerm));
+            }
 
             attendances = sorting switch
             {

@@ -114,7 +114,8 @@ namespace DentalClinicApp.Controllers
 
             var result = await attendanceService.GetDentistAttendancesAsync(
                 dentistId, 
-                query.Sorting, 
+                query.Sorting,
+                query.SearchTerm,
                 query.CurrentPage,
                 attendancesPerPage
                 );
