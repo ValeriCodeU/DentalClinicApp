@@ -1,11 +1,20 @@
 ﻿using DentalClinicApp.Core.Models.Users;
+using DentalClinicApp.Core.Models.Users.Enums;
 using DentalClinicApp.Infrastructure.Data.Identity;
 
 namespace DentalClinicApp.Core.Contracts
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserListViewModel>> GetUsersAsync();
+        //Task<IEnumerable<UserListViewModel>> GetUsersAsync();
+
+        Task<UserQueryServiceModel> GetUsersAsync(
+            string? userName = null,
+            string? searchTerm = null,
+            UserSorting sorting = UserSorting.Newest,
+            int currentPage = 1,
+            int usersPerPage = 1
+            );
 
         Task<UserEditViewModel> GetUserForEditAsync(Guid id);
 

@@ -5,6 +5,7 @@ using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 
 namespace DentalClinicApp.Areas.Admin.Controllers
 {
@@ -27,11 +28,23 @@ namespace DentalClinicApp.Areas.Admin.Controllers
             signInManager = _signInManager;
         }
 
-        public async Task<IActionResult> ManageUsers()
+        public async Task<IActionResult> ManageUsers([FromQuery]AllUsersQueryModel query)
         {
-            var users = await userService.GetUsersAsync();
+            var usersPerPage = AllUsersQueryModel.UsersPerPage;
 
-            return View(users);
+            var result = await userService.GetUsersAsync(
+                query.RoleName, 
+                query.SearchTerm, 
+                query.Sorting, 
+                query.CurrentPage,
+                usersPerPage);
+
+            query.TotalUsersCount = result.TotalUsersCount;
+            query.Users = result.Users;
+            
+            query.RoleNames = await roleManager.Roles.Select(r => r.Name).ToListAsync();
+
+            return View(query);
         }
 
         public async Task<IActionResult> SetRole(Guid id)

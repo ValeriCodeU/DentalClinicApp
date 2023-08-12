@@ -1,16 +1,18 @@
 ﻿using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Users;
+using DentalClinicApp.Core.Models.Users.Enums;
 using DentalClinicApp.Infrastructure.Data;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using ShoppingListApp.Core.Models.Products.Enums;
 
 namespace DentalClinicApp.Core.Services
 {
     public class UserService : IUserService
     {
-        private readonly IRepository repo;        
+        private readonly IRepository repo;
         private readonly UserManager<ApplicationUser> userManager;
 
         public UserService(
@@ -18,7 +20,7 @@ namespace DentalClinicApp.Core.Services
             DentalClinicDbContext _dbContex,
             UserManager<ApplicationUser> _userManager)
         {
-            repo = _repo;            
+            repo = _repo;
             userManager = _userManager;
         }
 
@@ -26,7 +28,7 @@ namespace DentalClinicApp.Core.Services
         {
             var user = await repo.GetByIdAsync<ApplicationUser>(id);
 
-            user.IsActive = false;            
+            user.IsActive = false;
             await repo.SaveChangesAsync();
 
             return true;
@@ -85,30 +87,86 @@ namespace DentalClinicApp.Core.Services
                 LastName = user.LastName,
                 Email = user.Email,
                 PhoneNumber = user.PhoneNumber,
-                Username = user.UserName,               
+                Username = user.UserName,
             };
         }
-       
 
-        public async Task<IEnumerable<UserListViewModel>> GetUsersAsync()
-        {
-            var result = new List<UserListViewModel>();
 
-            var users = await repo.AllReadonly<ApplicationUser>().Where(u => u.IsActive).ToListAsync();
+        public async Task<UserQueryServiceModel> GetUsersAsync(
+            string? roleName = null,
+            string? searchTerm = null,
+            UserSorting sorting = UserSorting.Newest,
+            int currentPage = 1,
+            int usersPerPage = 1
+            )
+        {            
+            var result = new UserQueryServiceModel();
 
-            foreach (var u in users)
+            var users = repo.AllReadonly<ApplicationUser>().Where(u => u.IsActive).ToList();
+
+            //if (!String.IsNullOrEmpty(userName))
+            //{
+            //    users = users.Where(u => $"{u.FirstName} {u.LastName}" == userName);
+            //}
+
+            if (!String.IsNullOrEmpty(roleName))
             {
-                result.Add(new UserListViewModel()
+                //var usersInRole = await userManager.GetUsersInRoleAsync(roleName);
+                //var usersInRole = users.Where(u => userManager.IsInRoleAsync(u, roleName).Result).AsQueryable();
+
+                users = users.Where(u => userManager.IsInRoleAsync(u, roleName).Result).ToList();
+
+                //users = (IQueryable<ApplicationUser>)usersInRole;
+                //users = usersInRole;
+            }
+
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = $"%{searchTerm.ToLower()}%";
+
+                users = users
+                    .Where(u => EF.Functions.Like(u.FirstName.ToLower(), searchTerm) ||
+                    EF.Functions.Like(u.LastName.ToLower(), searchTerm)).ToList();
+            }
+
+            if (sorting == UserSorting.Name)
+            {
+                users = users.OrderBy(u => u.FirstName).ToList();
+            }
+
+            else if (sorting == UserSorting.Newest)
+            {
+                users = users.OrderByDescending(u => u.Id).ToList();
+            }
+            else
+            {
+                users = users.OrderByDescending(u => u.Id).ToList();
+            }
+
+            //users = sorting switch
+            //{
+            //    UserSorting.Name => users.OrderBy(u => u.FirstName),
+            //    UserSorting.Newest => users.OrderByDescending(u => u.Id),
+            //    _ => users.OrderByDescending(a => a.Id)
+            //};
+
+            var userList = users.Skip((currentPage - 1) * usersPerPage).Take(usersPerPage).ToList();
+
+
+            foreach (var u in userList)
+            {
+                result.Users.Add(new UserListViewModel()
                 {
-                    Id=u.Id,
+                    Id = u.Id,
                     Name = $"{u.FirstName} {u.LastName}",
                     Email = u.Email,
                     RoleNames = await userManager.GetRolesAsync(u)
-
                 });
             }
 
-            return result;           
+            result.TotalUsersCount = users.Count();
+
+            return result;
         }
     }
 }
