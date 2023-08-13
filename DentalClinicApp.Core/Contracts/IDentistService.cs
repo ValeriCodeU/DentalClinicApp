@@ -1,9 +1,12 @@
 ﻿using DentalClinicApp.Core.Models.Dentists;
+using DentalClinicApp.Core.Models.Users.Enums;
+using DentalClinicApp.Core.Models.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using DentalClinicApp.Core.Models.Dentists.Enums;
 
 namespace DentalClinicApp.Core.Contracts
 {
@@ -17,7 +20,13 @@ namespace DentalClinicApp.Core.Contracts
         /// </summary>
         /// <param name="userId">User globally unique identifier</param>
         /// <returns>List of dentists</returns>
-        Task<DentistDetailsViewModel> GetAllManagedDentistsAsync(Guid userId);
+        Task<DentistQueryServiceModel> GetAllManagedDentistsAsync(
+            int managerId,            
+            string? searchTerm = null,
+            DentistSorting sorting = DentistSorting.Newest,
+            int currentPage = 1,
+            int dentistsPerPage = 1
+            );
 
         /// <summary>
         /// Check if the dentist exists

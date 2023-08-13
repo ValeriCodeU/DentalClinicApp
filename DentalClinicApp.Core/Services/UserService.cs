@@ -131,7 +131,7 @@ namespace DentalClinicApp.Core.Services
 
             if (sorting == UserSorting.Name)
             {
-                users = users.OrderBy(u => u.FirstName).ToList();
+                users = users.OrderBy(u => u.FirstName).ThenBy(u => u.LastName).ToList();
             }
 
             else if (sorting == UserSorting.Newest)

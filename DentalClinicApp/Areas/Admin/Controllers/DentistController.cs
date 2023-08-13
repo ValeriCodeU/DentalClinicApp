@@ -1,11 +1,14 @@
 ﻿using DentalClinicApp.Core.Constants;
 using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Dentists;
+using DentalClinicApp.Core.Models.Dentists.Enums;
+using DentalClinicApp.Core.Models.Users;
+using DentalClinicApp.Core.Services;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using HouseRentingSystem.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using static DentalClinicApp.Core.Constants.ModelConstant;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DentalClinicApp.Areas.Admin.Controllers
 {
@@ -23,13 +26,26 @@ namespace DentalClinicApp.Areas.Admin.Controllers
         }
 
 
-        public async Task<IActionResult> MyDentists()
+        public async Task<IActionResult> MyDentists([FromQuery]MyDentistsQueryModel query)
         {
             var userId = this.User.Id();
+            
+            var managerId = await dentistService.GetManagerOfDentistAsync(userId);
 
-            var model = await dentistService.GetAllManagedDentistsAsync(userId);
+            var dentistsPerPage = MyDentistsQueryModel.DentistsPerPage;
 
-            return View(model);
+            var result = await dentistService.GetAllManagedDentistsAsync(
+                managerId,
+                query.SearchTerm,
+                query.Sorting,
+                query.CurrentPage,
+                dentistsPerPage);
+                
+               
+            query.TotalDentistsCount = result.TotalDentistsCount;
+            query.Dentists = result.Dentists;
+
+            return View(query);
         }
 
         public async Task<IActionResult> Statistics(int id)

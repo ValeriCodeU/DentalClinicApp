@@ -1,8 +1,11 @@
 ﻿using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Dentists;
+using DentalClinicApp.Core.Models.Dentists.Enums;
+using DentalClinicApp.Core.Models.Users;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using static DentalClinicApp.Core.Constants.ModelConstant;
 
 namespace DentalClinicApp.Core.Services
 {
@@ -43,28 +46,76 @@ namespace DentalClinicApp.Core.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>List of dentists</returns> 
-        public async Task<DentistDetailsViewModel> GetAllManagedDentistsAsync(Guid userId)
+        /// 
+
+        public async Task<DentistQueryServiceModel> GetAllManagedDentistsAsync(
+            int managerId,
+            string? searchTerm = null,
+            DentistSorting sorting = DentistSorting.Newest,
+            int currentPage = 1,
+            int dentistsPerPage = 1
+            )
         {
+            var result = new DentistQueryServiceModel();
 
-            return await repo.AllReadonly<Manager>()
-               .Where(m => m.UserId == userId)
-               .Select(m => new DentistDetailsViewModel()
-               {
-                   Dentists = m.AcceptedDentists
-                   .Where(d => d.User.IsActive)                   
-                   .Select(d => new DentistServiceModel()
-                   {
-                       Id = d.Id,
-                       FirstName = d.User.FirstName,
-                       LastName = d.User.LastName,
-                       Email = d.User.Email,
-                       PhoneNumber = d.User.PhoneNumber
-                   })
+            var dentists = repo.AllReadonly<Dentist>().Where(d => d.ManagerId == managerId && d.User.IsActive);
 
-               }).FirstAsync();
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = $"%{searchTerm.ToLower()}%";
 
+                dentists = dentists
+                    .Where(d => EF.Functions.Like(d.User.FirstName.ToLower(), searchTerm) ||
+                    EF.Functions.Like(d.User.LastName.ToLower(), searchTerm));
+            }
+
+            dentists = sorting switch
+            {
+                DentistSorting.Name => dentists.OrderBy(d => d.User.FirstName).ThenBy(d => d.User.LastName),
+                DentistSorting.Newest => dentists.OrderByDescending(d => d.Id),
+                _ => dentists.OrderByDescending(d => d.Id)
+            };
+
+            var dentistList = await dentists.Skip((currentPage - 1) * dentistsPerPage).Take(dentistsPerPage)
+                .Select(d => new DentistServiceModel()
+                {
+                    Id = d.Id,
+                    FirstName = d.User.FirstName,
+                    LastName = d.User.LastName,
+                    Email = d.User.Email,
+                    PhoneNumber = d.User.PhoneNumber
+                }).ToListAsync();
+
+            result.TotalDentistsCount = await dentists.CountAsync();
+            result.Dentists = dentistList;
+
+            return result;
 
         }
+
+
+        //public async Task<DentistDetailsViewModel> GetAllManagedDentistsAsync(Guid userId)
+        //{
+
+        //    return await repo.AllReadonly<Manager>()
+        //       .Where(m => m.UserId == userId)
+        //       .Select(m => new DentistDetailsViewModel()
+        //       {
+        //           Dentists = m.AcceptedDentists
+        //           .Where(d => d.User.IsActive)                   
+        //           .Select(d => new DentistServiceModel()
+        //           {
+        //               Id = d.Id,
+        //               FirstName = d.User.FirstName,
+        //               LastName = d.User.LastName,
+        //               Email = d.User.Email,
+        //               PhoneNumber = d.User.PhoneNumber
+        //           })
+
+        //       }).FirstAsync();
+
+
+        //}
 
         /// <summary>
         /// Get a dentist Id
@@ -141,7 +192,7 @@ namespace DentalClinicApp.Core.Services
                     TotalAttendancesCount = totalAttendances
 
                 }).FirstAsync();
-            
+
         }
 
         /// <summary>
