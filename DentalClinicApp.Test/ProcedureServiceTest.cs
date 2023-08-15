@@ -348,20 +348,20 @@ namespace DentalClinicApp.Test
 
             await repo.SaveChangesAsync();
 
-            var dentistProcedures = await procedureService.GetDentistProceduresAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"));
+            var modelForTest = await procedureService.GetDentistProceduresAsync(1);
 
-            Assert.That(dentistProcedures, Is.Not.Null);
-            Assert.That(dentistProcedures.Count, Is.EqualTo(1));
-            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Name).First, Is.EqualTo("Pulling a tooth out"));
-            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Description).First, Is.EqualTo("Classic tooth extraction"));
-            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Cost).First, Is.EqualTo(100));
-            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.StartDate).First, Is.EqualTo("30/12/2022"));            
-            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.EndDate).First, Is.EqualTo("30/01/2023"));
-            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Patient.FirstName).First, Is.EqualTo("Gencho"));
-            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Patient.LastName).First, Is.EqualTo("Genchev"));
-            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Patient.Email).First, Is.EqualTo("gencho@mail.com"));
-            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Patient.PhoneNumber).First, Is.EqualTo("9999999999999"));      
-            Assert.That(dentistProcedures.Where(x => x.Id == 1).Select(x => x.Note).First, Is.Null);
+            Assert.That(modelForTest.Procedures, Is.Not.Null);
+            Assert.That(modelForTest.Procedures.Count, Is.EqualTo(1));
+            Assert.That(modelForTest.Procedures.Where(x => x.Id == 1).Select(x => x.Name).First, Is.EqualTo("Pulling a tooth out"));
+            Assert.That(modelForTest.Procedures.Where(x => x.Id == 1).Select(x => x.Description).First, Is.EqualTo("Classic tooth extraction"));
+            Assert.That(modelForTest.Procedures.Where(x => x.Id == 1).Select(x => x.Cost).First, Is.EqualTo(100));
+            Assert.That(modelForTest.Procedures.Where(x => x.Id == 1).Select(x => x.StartDate).First, Is.EqualTo("30/12/2022"));            
+            Assert.That(modelForTest.Procedures.Where(x => x.Id == 1).Select(x => x.EndDate).First, Is.EqualTo("30/01/2023"));
+            Assert.That(modelForTest.Procedures.Where(x => x.Id == 1).Select(x => x.Patient.FirstName).First, Is.EqualTo("Gencho"));
+            Assert.That(modelForTest.Procedures.Where(x => x.Id == 1).Select(x => x.Patient.LastName).First, Is.EqualTo("Genchev"));
+            Assert.That(modelForTest.Procedures.Where(x => x.Id == 1).Select(x => x.Patient.Email).First, Is.EqualTo("gencho@mail.com"));
+            Assert.That(modelForTest.Procedures.Where(x => x.Id == 1).Select(x => x.Patient.PhoneNumber).First, Is.EqualTo("9999999999999"));      
+            Assert.That(modelForTest.Procedures.Where(x => x.Id == 1).Select(x => x.Note).First, Is.Null);
         }
 
         [Test]

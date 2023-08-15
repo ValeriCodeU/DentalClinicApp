@@ -1,14 +1,9 @@
-﻿using DentalClinicApp.Core.Models.Attendances;
-using DentalClinicApp.Core.Models.DentalProcedures;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using DentalClinicApp.Core.Models.DentalProcedures;
+using DentalClinicApp.Core.Models.DentalProcedures.Enums;
 
 namespace DentalClinicApp.Core.Contracts
 {
-	public interface IProcedureService
+    public interface IProcedureService
 	{
 		Task<int> CreateAsync(ProcedureFormModel model, int dentistId);
 
@@ -16,7 +11,14 @@ namespace DentalClinicApp.Core.Contracts
 
         Task<ProcedureServiceModel> ProcedureDetailsByIdAsync(int id);
 
-		Task<IEnumerable<ProcedureServiceModel>> GetDentistProceduresAsync(Guid userId);
+        Task<ProcedureQueryServiceModel> GetDentistProceduresAsync(
+            int dentistId,
+            ProcedureSorting sorting = ProcedureSorting.StartDate,
+            string? searchTerm = null,
+            int currentPage = 1,
+            int proceduresPerPage = 1
+            );
+
 
         Task EditProcedureAsync(ProcedureFormModel model, int procedureId);
 

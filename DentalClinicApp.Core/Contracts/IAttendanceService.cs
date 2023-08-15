@@ -23,7 +23,7 @@ namespace DentalClinicApp.Core.Contracts
         Task<int> CreateAsync(AttendanceFormModel model, int dentistId);
 
         /// <summary>
-        /// Get attendance for dentist
+        /// Get dentist attendances
         /// </summary>
         /// <param name="userId">User globally unique identifier</param>
         /// <returns>List of attendances</returns>

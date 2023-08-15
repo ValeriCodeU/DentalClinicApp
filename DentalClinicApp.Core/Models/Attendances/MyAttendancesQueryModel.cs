@@ -11,9 +11,7 @@ namespace DentalClinicApp.Core.Models.Attendances
 {
 	public class MyAttendancesQueryModel
 	{
-        public const int AttendancesPerPage = 10;
-
-        public string? Patient { get; set; }
+        public const int AttendancesPerPage = 10;        
 
         [Display(Name = "Search by text")]
 
@@ -23,9 +21,7 @@ namespace DentalClinicApp.Core.Models.Attendances
 
         public int CurrentPage { get; set; } = 1;
 
-        public int TotalAttendancesCount { get; set; }
-
-        public IEnumerable<string> Patients = new List<string>();
+        public int TotalAttendancesCount { get; set; }        
 
         public IEnumerable<AttedanceServiceModel> Attendances { get; set; } = new List<AttedanceServiceModel>();
     }

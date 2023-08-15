@@ -1,5 +1,6 @@
 ﻿using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.DentalProcedures;
+using DentalClinicApp.Core.Models.DentalProcedures.Enums;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -77,18 +78,43 @@ namespace DentalClinicApp.Core.Services
 			await repo.SaveChangesAsync();
 		}
 
-		public async Task<IEnumerable<ProcedureServiceModel>> GetDentistProceduresAsync(Guid userId)
-		{
-            return await repo.AllReadonly<Dentist>()
-                .Where(d => d.UserId == userId)
-                .Where(d => d.User.IsActive)
-                .Select(d => d.DentalProcedures
-                .Where(d => d.IsActive)
-				.OrderByDescending(d => d.StartDate)
+        public async Task<ProcedureQueryServiceModel> GetDentistProceduresAsync(
+           int dentisId,
+           ProcedureSorting sorting = ProcedureSorting.StartDate,
+           string? searchTerm = null,
+           int currentPage = 1,
+           int proceduresPerPage = 1
+           )
+        {
+            var result = new ProcedureQueryServiceModel();
+
+            var procedures = repo.AllReadonly<DentalProcedure>()
+                .Where(a => a.DentistId == dentisId && a.IsActive);
+
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = $"%{searchTerm.ToLower()}%";
+
+                procedures = procedures
+                    .Where(p => EF.Functions.Like(p.Name.ToLower(), searchTerm) ||
+                    EF.Functions.Like(p.Description.ToLower(), searchTerm));
+            }
+
+            procedures = sorting switch
+            {
+                ProcedureSorting.Name => procedures.OrderBy(p => p.Name),
+                ProcedureSorting.StartDate => procedures.OrderBy(p => p.StartDate),
+                ProcedureSorting.EndDate => procedures.OrderBy(p => p.EndDate),
+                ProcedureSorting.LowestPrice => procedures.OrderBy(p => p.Cost),
+                ProcedureSorting.HighPrice => procedures.OrderByDescending(p => p.Cost),
+                _ => procedures.OrderByDescending(a => a.Id)
+            };
+
+            var attendanceList = await procedures.Skip((currentPage - 1) * proceduresPerPage).Take(proceduresPerPage)
                 .Select(p => new ProcedureServiceModel()
                 {
                     Name = p.Name,
-                    Description= p.Description,
+                    Description = p.Description,
                     Id = p.Id,
                     Cost = decimal.Parse(p.Cost.ToString("F2")),
                     StartDate = p.StartDate.ToString("dd/MM/yyyy", CultureInfo.InvariantCulture),
@@ -100,11 +126,15 @@ namespace DentalClinicApp.Core.Services
                         Email = p.Patient.User.Email,
                         PhoneNumber = p.Patient.User.PhoneNumber
                     }
+                }).ToListAsync();
 
-                })).FirstAsync();
+            result.TotalProceduresCount = await procedures.CountAsync();
+            result.Procedures = attendanceList;
+
+            return result;
         }
 
-		public async Task<ProcedureServiceModel> ProcedureDetailsByIdAsync(int id)
+        public async Task<ProcedureServiceModel> ProcedureDetailsByIdAsync(int id)
 		{
 			return await repo.AllReadonly<DentalProcedure>()
 				.Where(p => p.Id == id)

@@ -1,6 +1,8 @@
 ﻿using DentalClinicApp.Core.Constants;
 using DentalClinicApp.Core.Contracts;
+using DentalClinicApp.Core.Models.Attendances;
 using DentalClinicApp.Core.Models.DentalProcedures;
+using DentalClinicApp.Core.Services;
 using HouseRentingSystem.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -118,15 +120,24 @@ namespace DentalClinicApp.Controllers
 
         [Authorize(Roles = DentistRoleName)]
 
-        public async Task<IActionResult> MyProcedures()
+        public async Task<IActionResult> MyProcedures([FromQuery]MyProceduresQueryModel query)
         {
-            var userId = this.User.Id();
+            var dentistId = await dentistService.GetDentistIdAsync(User.Id());
 
-            IEnumerable<ProcedureServiceModel> model;
+            var proceduresPerPage = MyProceduresQueryModel.ProceduresPerPage;
 
-            model = await procedureService.GetDentistProceduresAsync(userId);
+            var result = await procedureService.GetDentistProceduresAsync(
+                dentistId,
+                query.Sorting,
+                query.SearchTerm,
+                query.CurrentPage,
+                proceduresPerPage
+                );
 
-            return View(model);
+            query.Procedures = result.Procedures;
+            query.TotalProceduresCount = result.TotalProceduresCount;
+
+            return View(query);
         }
 
         [Authorize(Roles = PatientRoleName)]
