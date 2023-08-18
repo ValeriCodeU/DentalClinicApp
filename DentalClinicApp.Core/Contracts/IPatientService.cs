@@ -1,11 +1,7 @@
-﻿using DentalClinicApp.Core.Models.Dentists;
+﻿using DentalClinicApp.Core.Models.Attendances;
+using DentalClinicApp.Core.Models.Dentists;
 using DentalClinicApp.Core.Models.Patients;
-using DentalClinicApp.Core.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DentalClinicApp.Core.Models.Patients.Enums;
 
 namespace DentalClinicApp.Core.Contracts
 {
@@ -43,11 +39,18 @@ namespace DentalClinicApp.Core.Contracts
         Task<bool> IsExistsByIdAsync(Guid userId);
 
         /// <summary>
-        /// Get the dentist's patients
+        /// Get dentist patients
         /// </summary>
         /// <param name="userId">User globally unique identifier</param>
-        /// <returns>Data view model for list of patients</returns>
-        Task<MyPatientsViewModel> GetMyPatientsAsync(Guid userId);
+        /// <returns>Data query model for list of patients</returns>        
+
+        Task<PatientQueryServiceModel> GetMyPatientsAsync(
+            int dentistId,
+            PatientSorting sorting = PatientSorting.Newest,
+            string? searchTerm = null,
+            int currentPage = 1,
+            int patientsPerPage = 1
+            );
 
         /// <summary>
         /// Get data for the patient's dental problems

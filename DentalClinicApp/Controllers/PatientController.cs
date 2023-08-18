@@ -18,6 +18,7 @@ namespace DentalClinicApp.Controllers
         private readonly IUserService userService;
         private readonly IProblemService problemService;
         private readonly IProcedureService procedureService;
+        private readonly IDentistService dentistService;
 
         public PatientController(
             IPatientService _patientService,
@@ -25,7 +26,8 @@ namespace DentalClinicApp.Controllers
             IUserService _userService,
             IProblemService _problemService,
             SignInManager<ApplicationUser> _signInManager,
-            IProcedureService _procedureService)
+            IProcedureService _procedureService,
+            IDentistService _dentistService)
         {
             patientService = _patientService;
             userManager = _userManager;
@@ -33,6 +35,7 @@ namespace DentalClinicApp.Controllers
             problemService = _problemService;
             signInManager = _signInManager;
             procedureService = _procedureService;
+            dentistService = _dentistService;
         }
 
         [Authorize(Roles = UserRoleName)]
@@ -40,16 +43,16 @@ namespace DentalClinicApp.Controllers
         public async Task<IActionResult> Become()
         {
             var userId = this.User.Id();
-            
+
             if (await patientService.IsExistsByIdAsync(userId))
             {
                 TempData[MessageConstant.ErrorMessage] = "You are already a patient";
-                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });               
+                return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
             }
 
 
             var model = new BecomePatientFormModel();
-            model.Dentists = await patientService.GetDentistsAsync();            
+            model.Dentists = await patientService.GetDentistsAsync();
 
             return View(model);
         }
@@ -89,20 +92,30 @@ namespace DentalClinicApp.Controllers
 
         [Authorize(Roles = DentistRoleName)]
 
-        public async Task<IActionResult> MyPatients()
+        public async Task<IActionResult> MyPatients([FromQuery]MyPatientsQueryModel query)
         {
-            var userId = this.User.Id();
-            
-            var patients = await patientService.GetMyPatientsAsync(userId);
-          
+            var dentistId = await dentistService.GetDentistIdAsync(this.User.Id());
 
-            return View(patients);
+            var patientsPerPage = MyPatientsQueryModel.PatientsPerPage;
+
+            var result = await patientService.GetMyPatientsAsync(
+                dentistId,
+                query.Sorting,
+                query.SearchTerm,
+                query.CurrentPage,
+                patientsPerPage
+                );
+
+            query.Patients = result.Patients;
+            query.TotalPatientsCount = result.TotalPatientsCount;
+
+            return View(query);
         }
 
         [Authorize(Roles = DentistRoleName)]
 
         public async Task<IActionResult> PatientProblemDetails(int id)
-        {            
+        {
             var patientUserId = await patientService.GetUserIdByPatientId(id);
 
             if (!await patientService.IsExistsByIdAsync(patientUserId))
@@ -148,6 +161,6 @@ namespace DentalClinicApp.Controllers
             var model = await patientService.PatientProcedureDetailsByIdAsync(id);
 
             return View(model);
-        }       
+        }
     }
 }

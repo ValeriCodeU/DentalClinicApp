@@ -256,7 +256,7 @@ namespace DentalClinicApp.Test
 
             await repo.SaveChangesAsync();
 
-            var result = await patientService.GetMyPatientsAsync(new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"));
+            var result = await patientService.GetMyPatientsAsync(1);
 
             Assert.IsNotNull(result);
             Assert.That(result.Patients.Count, Is.EqualTo(1));

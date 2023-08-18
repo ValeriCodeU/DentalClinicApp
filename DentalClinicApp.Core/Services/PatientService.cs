@@ -3,6 +3,7 @@ using DentalClinicApp.Core.Models.Attendances;
 using DentalClinicApp.Core.Models.DentalProblems;
 using DentalClinicApp.Core.Models.Dentists;
 using DentalClinicApp.Core.Models.Patients;
+using DentalClinicApp.Core.Models.Patients.Enums;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
@@ -79,27 +80,55 @@ namespace DentalClinicApp.Core.Services
         /// </summary>
         /// <param name="userId"></param>
         /// <returns>Data view model for list of patients</returns>
-        public async Task<MyPatientsViewModel> GetMyPatientsAsync(Guid userId)
+        /// 
+
+
+        public async Task<PatientQueryServiceModel> GetMyPatientsAsync(
+           int dentistId,
+           PatientSorting sorting = PatientSorting.Newest,
+           string? searchTerm = null,
+           int currentPage = 1,
+           int patientsPerPage = 1
+           )
         {
-            var patients = await repo.AllReadonly<Dentist>()
-                .Where(d => d.UserId == userId && d.User.IsActive)                
-                .Select(b => new MyPatientsViewModel()
+            var result = new PatientQueryServiceModel();
+
+            var patients = repo.AllReadonly<Patient>()
+                .Where(p => p.DentistId == dentistId && p.User.IsActive);
+
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = $"%{searchTerm.ToLower()}%";
+
+                patients = patients
+                    .Where(p => EF.Functions.Like(p.User.FirstName.ToLower(), searchTerm) ||
+                    EF.Functions.Like(p.User.LastName.ToLower(), searchTerm) ||
+                    EF.Functions.Like(p.User.Email.ToLower(), searchTerm) ||
+                    EF.Functions.Like(p.User.PhoneNumber, searchTerm));
+            }
+
+            patients = sorting switch
+            {
+                PatientSorting.FirstName => patients.OrderBy(p => p.User.FirstName),
+                PatientSorting.LastName => patients.OrderBy(p => p.User.LastName),
+                PatientSorting.Newest => patients.OrderByDescending(p => p.Id),
+                _ => patients.OrderByDescending(p => p.Id)
+            };
+
+            var patientList = await patients.Skip((currentPage - 1) * patientsPerPage).Take(patientsPerPage)
+                .Select(p => new PatientServiceModel()
                 {
-                    Patients = b.Patients
-                    .Where(p => p.User.IsActive)
-                    .Select(p => new PatientServiceModel
-                    {
-                        Id = p.Id,
-                        FirstName = p.User.FirstName,
-                        LastName = p.User.LastName,
-                        PhoneNumber = p.User.PhoneNumber,
-                        Email = p.User.Email,
-                    })
+                    Id = p.Id,
+                    FirstName = p.User.FirstName,
+                    LastName = p.User.LastName,
+                    Email = p.User.Email,
+                    PhoneNumber = p.User.PhoneNumber
+                }).ToListAsync();
 
-                }).FirstAsync();
+            result.Patients = patientList;
+            result.TotalPatientsCount = await patients.CountAsync();
 
-            return patients;
-
+            return result;
         }
 
         /// <summary>
