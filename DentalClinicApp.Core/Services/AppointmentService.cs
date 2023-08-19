@@ -1,8 +1,13 @@
 ﻿using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Appointments;
+using DentalClinicApp.Core.Models.Appointments.Enums;
+using DentalClinicApp.Core.Models.Attendances;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
+using ShoppingListApp.Core.Models.Products.Enums;
+using System.Globalization;
+using System.Linq;
 
 namespace DentalClinicApp.Core.Services
 {
@@ -82,62 +87,74 @@ namespace DentalClinicApp.Core.Services
         }
 
         /// <summary>
-        /// Get appointments for dentist
+        /// Get appointments for dentist or patient
         /// </summary>
         /// <param name="userId">User Id</param>
         /// <returns>List of appointments</returns>
-        public async Task<AppointmentDetailsViewModel> GetDentistAppointments(Guid userId)
+        public async Task<AppointmentQueryServiceModel> GetAppointmentsAsync(
+            int clientId,
+            bool isPatient,
+            AppointmentSorting sorting = AppointmentSorting.Newest,
+            string? searchTerm = null,
+            int currentPage = 1,
+            int appointmentsPerPage = 1
+            )
         {
-            return await repo.AllReadonly<Dentist>()
-                .Where(d => d.User.IsActive)
-                .Where(d => d.User.Id == userId)
-                .Select(d => new AppointmentDetailsViewModel()
-                {
-                    Appointments = d.Appointments
-                    .Where(a => a.IsActive)
-                    .Select(a => new AppointmentServiceModel()
-                    {
-                        StartDate = a.StartDateTime,
-                        Status = a.Status,
-                        Details = a.Details,
-                        Id = a.Id,
-                        Patient = new Models.Patients.PatientServiceModel()
-                        {
-                            FirstName = a.Patient.User.FirstName,
-                            LastName = a.Patient.User.LastName,
-                            Email = a.Patient.User.Email,
-                            PhoneNumber = a.Patient.User.PhoneNumber
-                        }
-                    })
+            var result = new AppointmentQueryServiceModel();
 
-                }).FirstAsync();
+            IQueryable<Appointment> appointments = repo.AllReadonly<Appointment>();
+
+            if (isPatient)
+            {
+                appointments = repo.AllReadonly<Appointment>()
+                .Where(a => a.PatientId == clientId && a.IsActive);
+            }
+            else
+            {
+                appointments = repo.AllReadonly<Appointment>()
+                .Where(a => a.DentistId == clientId && a.IsActive);
+            }
+
+            if (!String.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = $"%{searchTerm.ToLower()}%";
+
+                appointments = appointments
+                    .Where(a => EF.Functions.Like(a.Dentist.User.LastName.ToLower(), searchTerm) ||
+                    EF.Functions.Like(a.Patient.User.FirstName.ToLower(), searchTerm) ||
+                    EF.Functions.Like(a.Details.ToLower(), searchTerm));
+            }
+
+            appointments = sorting switch
+            {
+                AppointmentSorting.Newest => appointments.OrderBy(a => a.StartDateTime),
+                AppointmentSorting.Latest => appointments.OrderByDescending(a => a.StartDateTime),
+                _ => appointments.OrderByDescending(a => a.StartDateTime)
+            };
+
+            var appointmentList = await appointments.Skip((currentPage - 1) * appointmentsPerPage).Take(appointmentsPerPage)
+               .Select(a => new AppointmentServiceModel()
+               {
+                   StartDate = a.StartDateTime,
+                   Status = a.Status,
+                   Details = a.Details,
+                   Id = a.Id,
+                   Patient = new Models.Patients.PatientServiceModel()
+                   {
+                       FirstName = a.Patient.User.FirstName,
+                       LastName = a.Patient.User.LastName,
+                       Email = a.Patient.User.Email,
+                       PhoneNumber = a.Patient.User.PhoneNumber
+                   }
+               }).ToListAsync();
+
+            result.TotalAppointmentsCount = await appointments.CountAsync();
+            result.Appointments = appointmentList;
+
+
+            return result;            
         }
-
-        /// <summary>
-        /// Get appointments for patient
-        /// </summary>
-        /// <param name="userId">User Id</param>
-        /// <returns>List of appointments</returns>
-        public async Task<AppointmentDetailsViewModel> GetPatientAppointments(Guid userId)
-        {
-            return await repo.AllReadonly<Patient>()
-                .Where(d => d.User.IsActive)
-                .Where(d => d.User.Id == userId)
-                .Select(d => new AppointmentDetailsViewModel()
-                {
-                    Appointments = d.Appointments
-                    .Where(a => a.IsActive)
-                    .Select(a => new AppointmentServiceModel()
-                    {
-                        StartDate = a.StartDateTime,
-                        Status = a.Status,
-                        Details = a.Details,
-                        Id = a.Id,
-                    })
-
-                }).FirstAsync();
-        }
-
+        
         /// <summary>
         /// Postpone appointment
         /// </summary>

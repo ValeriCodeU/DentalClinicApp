@@ -1,5 +1,6 @@
 ﻿using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Appointments;
+using DentalClinicApp.Core.Models.Appointments.Enums;
 using DentalClinicApp.Core.Services;
 using DentalClinicApp.Infrastructure.Data;
 using DentalClinicApp.Infrastructure.Data.Common;
@@ -202,6 +203,71 @@ namespace DentalClinicApp.Test
             Assert.That(appointment.Details, Is.EqualTo("If I'm late, I'll call"));            
             Assert.That(appointment.StartDateTime, Is.EqualTo(DateTime.ParseExact("30/01/2023 15:00:00", "dd/MM/yyyy HH:mm:ss", null)));
         }
+
+        [Test]
+
+        public async Task GetAppointmentsAsync_ShouldWorkCorrectly()
+        {
+            var repo = new Repository(dbContext);
+            appointmentService = new AppointmentService(repo);
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                FirstName = "Dimitar",
+                LastName = "Georgiev",
+                UserName = "dimitar",
+                NormalizedUserName = "DIMITAR",
+                Email = "dimitar@mail.com",
+                NormalizedEmail = "DIMITAR@MAIL.COM",
+                PhoneNumber = "1111111111111",
+            });
+
+            await repo.AddAsync(new Patient()
+            {
+                Id = 1,
+                UserId = new Guid("da24feae-ab42-4702-bbf9-9c5361aee8d6"),
+                DentistId = 1,
+            });
+
+            await repo.AddAsync(new ApplicationUser()
+            {
+                Id = new Guid("e28afed9-0de3-4ca6-aee8-28488401bca8"),
+                FirstName = "Vasil",
+                LastName = "Georgiev",
+                UserName = "vasil",
+                NormalizedUserName = "VASIL",
+                Email = "vasil@mail.com",
+                NormalizedEmail = "VASIL@MAIL.COM",
+                PhoneNumber = "33333333333333",
+            });
+
+            await repo.AddAsync(new Dentist()
+            {
+                Id = 1,
+                UserId = new Guid("e28afed9-0de3-4ca6-aee8-28488401bca8"),
+                ManagerId = 1,
+            });
+
+            await repo.AddAsync(new Appointment()
+            {
+                Id = 1,
+                StartDateTime = DateTime.ParseExact("23/12/2022 14:00:00", "dd/MM/yyyy HH:mm:ss", null),
+                PatientId = 1,
+                DentistId = 1,
+                IsActive = true,
+                Status = true
+            });
+
+
+
+            await repo.SaveChangesAsync();
+
+            var appointmentquery = await appointmentService.GetAppointmentsAsync(1, true, AppointmentSorting.Newest, null, 1, 1);
+
+            Assert.That(appointmentquery.Appointments.Count, Is.EqualTo(1));            
+        }
+
 
         [TearDown]
 

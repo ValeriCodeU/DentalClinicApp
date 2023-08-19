@@ -11,13 +11,16 @@ namespace DentalClinicApp.Controllers
     {
         private readonly IPatientService patientService;
         private readonly IAppointmentService appointmentService;
+        private readonly IDentistService dentistService;    
 
         public AppointmentController(
             IPatientService _patientService,
-            IAppointmentService _appointmentService)
+            IAppointmentService _appointmentService,
+            IDentistService _dentistService)
         {
             patientService = _patientService;
             appointmentService = _appointmentService;
+            dentistService = _dentistService;
         }
 
         [Authorize(Roles = PatientRoleName)]
@@ -107,22 +110,39 @@ namespace DentalClinicApp.Controllers
 
         [Authorize(Roles = DentistRoleName + "," + PatientRoleName)]
 
-        public async Task<IActionResult> MyAppointments()
+        public async Task<IActionResult> MyAppointments([FromQuery]MyAppointmentsQueryModel query)
         {
             var userId = this.User.Id();
+            int clientId = 0;
+            bool isParient = false;
 
-            var model = new AppointmentDetailsViewModel();
+            var model = new MyAppointmentsQueryModel();
 
             if (this.User.IsInRole(PatientRoleName))
             {
-                model = await appointmentService.GetPatientAppointments(userId);
+                clientId = await patientService.GetPatientIdAsync(userId);                
+                isParient = true;
             }
-            if (this.User.IsInRole(DentistRoleName))
+            else if (this.User.IsInRole(DentistRoleName))
             {
-                model = await appointmentService.GetDentistAppointments(userId);
-            }            
+                clientId = await dentistService.GetDentistIdAsync(userId);                
+            }
 
-            return View(model);
+            var appointmentsPerPage = MyAppointmentsQueryModel.AppointmentsPerPage;
+
+            var result = await appointmentService.GetAppointmentsAsync(
+                clientId,
+                isParient,
+                query.Sorting,
+                query.SearchTerm,
+                query.CurrentPage,
+                appointmentsPerPage
+                );
+
+            query.Appointments = result.Appointments;
+            query.TotalAppointmentsCount = result.TotalAppointmentsCount;
+
+            return View(query);           
         }
     }
 }

@@ -1,9 +1,5 @@
 ﻿using DentalClinicApp.Core.Models.Appointments;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using DentalClinicApp.Core.Models.Appointments.Enums;
 
 namespace DentalClinicApp.Core.Contracts
 {
@@ -17,16 +13,22 @@ namespace DentalClinicApp.Core.Contracts
         /// </summary>
         /// <param name="model">Appointment form model</param>
         /// <param name="patientId">Patient identifier</param>
-        /// <param name="dentistId">Dentist identifier</param>
-        /// <returns></returns>
+        /// <param name="dentistId">Dentist identifier</param>       
         Task CreateAsync(AppointmentFormModel model, int patientId, int dentistId);
 
         /// <summary>
         /// Get appointments for dentist
         /// </summary>
         /// <param name="userId">User globally unique identifier</param>
-        /// <returns>List of appointments</returns>
-        Task<AppointmentDetailsViewModel> GetDentistAppointments(Guid userId);
+        /// <returns>Data query model for list of appointments</returns>
+        Task<AppointmentQueryServiceModel> GetAppointmentsAsync(
+            int clientId,
+            bool isPatient,
+            AppointmentSorting sorting = AppointmentSorting.Newest,
+            string? searchTerm = null,
+            int currentPage = 1,
+            int appointmentsPerPage = 1
+            );
 
         /// <summary>
         /// Get apppointment by identifier
@@ -53,7 +55,7 @@ namespace DentalClinicApp.Core.Contracts
         /// Get appointments for patient
         /// </summary>
         /// <param name="userId">User globally unique identifier</param>
-        /// <returns>List of appointments</returns>
-        Task<AppointmentDetailsViewModel> GetPatientAppointments(Guid userId);
+        /// <returns>Data query model for list of appointments</returns>
+        Task<MyAppointmentsQueryModel> GetPatientAppointments(Guid userId);
     }
 }
