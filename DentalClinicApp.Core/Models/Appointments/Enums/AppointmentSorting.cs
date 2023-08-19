@@ -3,6 +3,6 @@
     public enum AppointmentSorting
     {
         Newest = 0,
-        Latest = 1
+        Latest = 1,      
     }
 }

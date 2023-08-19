@@ -7,6 +7,8 @@ namespace DentalClinicApp.Core.Models.Appointments
     {
         public const int AppointmentsPerPage = 6;
 
+        public string? Status { get; set; }
+
         [Display(Name = "Search by text")]
 
         public string? SearchTerm { get; set; }

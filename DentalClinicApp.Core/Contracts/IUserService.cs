@@ -9,7 +9,7 @@ namespace DentalClinicApp.Core.Contracts
         //Task<IEnumerable<UserListViewModel>> GetUsersAsync();
 
         Task<UserQueryServiceModel> GetUsersAsync(
-            string? userName = null,
+            string? roleName = null,
             string? searchTerm = null,
             UserSorting sorting = UserSorting.Newest,
             int currentPage = 1,

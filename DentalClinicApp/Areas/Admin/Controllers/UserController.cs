@@ -146,12 +146,7 @@ namespace DentalClinicApp.Areas.Admin.Controllers
             }
 
             return RedirectToAction(nameof(ManageUsers), new { ared = "Admin" });
-        }
-
-
-
-
-        
+        }        
 
         //public async Task<IActionResult> CreateRole()
         //{

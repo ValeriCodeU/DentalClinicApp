@@ -263,7 +263,7 @@ namespace DentalClinicApp.Test
 
             await repo.SaveChangesAsync();
 
-            var appointmentquery = await appointmentService.GetAppointmentsAsync(1, true, AppointmentSorting.Newest, null, 1, 1);
+            var appointmentquery = await appointmentService.GetAppointmentsAsync(1, true, AppointmentSorting.Newest, null, null, 1, 1);
 
             Assert.That(appointmentquery.Appointments.Count, Is.EqualTo(1));            
         }

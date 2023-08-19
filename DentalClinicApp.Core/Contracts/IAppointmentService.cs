@@ -25,6 +25,7 @@ namespace DentalClinicApp.Core.Contracts
             int clientId,
             bool isPatient,
             AppointmentSorting sorting = AppointmentSorting.Newest,
+            string? status = null,
             string? searchTerm = null,
             int currentPage = 1,
             int appointmentsPerPage = 1

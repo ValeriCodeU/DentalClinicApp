@@ -134,6 +134,7 @@ namespace DentalClinicApp.Controllers
                 clientId,
                 isParient,
                 query.Sorting,
+                query.Status,
                 query.SearchTerm,
                 query.CurrentPage,
                 appointmentsPerPage

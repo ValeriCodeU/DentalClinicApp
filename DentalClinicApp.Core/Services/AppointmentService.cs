@@ -1,13 +1,9 @@
 ﻿using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Appointments;
 using DentalClinicApp.Core.Models.Appointments.Enums;
-using DentalClinicApp.Core.Models.Attendances;
 using DentalClinicApp.Infrastructure.Data.Common;
 using DentalClinicApp.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
-using ShoppingListApp.Core.Models.Products.Enums;
-using System.Globalization;
-using System.Linq;
 
 namespace DentalClinicApp.Core.Services
 {
@@ -95,6 +91,7 @@ namespace DentalClinicApp.Core.Services
             int clientId,
             bool isPatient,
             AppointmentSorting sorting = AppointmentSorting.Newest,
+            string? status = null,
             string? searchTerm = null,
             int currentPage = 1,
             int appointmentsPerPage = 1
@@ -115,6 +112,19 @@ namespace DentalClinicApp.Core.Services
                 .Where(a => a.DentistId == clientId && a.IsActive);
             }
 
+            if (!String.IsNullOrEmpty(status) && isPatient)
+            {
+                if (status == "Waiting")
+                {
+                    appointments = repo.AllReadonly<Appointment>().Where(a => a.Status == false && a.IsActive && a.PatientId == clientId);
+                }
+                else if (status == "Approved")
+                {
+                    appointments = repo.AllReadonly<Appointment>().Where(a => a.Status == true && a.IsActive && a.PatientId == clientId);
+                }
+                
+            }
+
             if (!String.IsNullOrEmpty(searchTerm))
             {
                 searchTerm = $"%{searchTerm.ToLower()}%";
@@ -128,7 +138,7 @@ namespace DentalClinicApp.Core.Services
             appointments = sorting switch
             {
                 AppointmentSorting.Newest => appointments.OrderBy(a => a.StartDateTime),
-                AppointmentSorting.Latest => appointments.OrderByDescending(a => a.StartDateTime),
+                AppointmentSorting.Latest => appointments.OrderByDescending(a => a.StartDateTime),                
                 _ => appointments.OrderByDescending(a => a.StartDateTime)
             };
 
