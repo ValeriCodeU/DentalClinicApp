@@ -49,13 +49,6 @@ namespace DentalClinicApp.Core.Contracts
         /// </summary>
         /// <param name="id">Appointment identifier</param>
         /// <returns>Boolean data type if appointment is postponed</returns>
-        Task<bool> PostponeAppointmentByIdAsync(int id);
-
-        /// <summary>
-        /// Get appointments for patient
-        /// </summary>
-        /// <param name="userId">User globally unique identifier</param>
-        /// <returns>Data query model for list of appointments</returns>
-        Task<MyAppointmentsQueryModel> GetPatientAppointments(Guid userId);
+        Task<bool> PostponeAppointmentByIdAsync(int id);       
     }
 }
