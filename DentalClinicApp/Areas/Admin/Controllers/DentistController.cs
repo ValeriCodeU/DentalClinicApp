@@ -1,14 +1,10 @@
 ﻿using DentalClinicApp.Core.Constants;
 using DentalClinicApp.Core.Contracts;
 using DentalClinicApp.Core.Models.Dentists;
-using DentalClinicApp.Core.Models.Dentists.Enums;
-using DentalClinicApp.Core.Models.Users;
-using DentalClinicApp.Core.Services;
 using DentalClinicApp.Infrastructure.Data.Identity;
 using HouseRentingSystem.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace DentalClinicApp.Areas.Admin.Controllers
 {
