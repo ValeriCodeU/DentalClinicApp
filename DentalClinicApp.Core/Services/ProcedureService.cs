@@ -67,14 +67,14 @@ namespace DentalClinicApp.Core.Services
 
         public async Task EditProcedureAsync(ProcedureFormModel model, int procedureId)
         {
-            var attendance = await repo.GetByIdAsync<DentalProcedure>(procedureId);
+            var procedure = await repo.GetByIdAsync<DentalProcedure>(procedureId);
 
-            attendance.Name = model.Name;
-            attendance.Description = model.Description;
-            attendance.Cost = model.Cost;
-            attendance.StartDate = DateTime.Parse(model.StartDate);
-            attendance.EndDate = DateTime.Parse(model.EndDate);
-            attendance.PatientId = model.PatientId;
+            procedure.Name = model.Name;
+            procedure.Description = model.Description;
+            procedure.Cost = model.Cost;
+            procedure.StartDate = DateTime.ParseExact(model.StartDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            procedure.EndDate = DateTime.ParseExact(model.EndDate, "dd/MM/yyyy", CultureInfo.InvariantCulture);
+            procedure.PatientId = model.PatientId;
 
             await repo.SaveChangesAsync();
         }

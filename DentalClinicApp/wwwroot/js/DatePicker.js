@@ -2,7 +2,8 @@
 
 	$('.datepicker').datepicker(
 		{
-			minDate: new Date(),
+			minDate: new Date(),		
+			
 			//maxDate: AddSubstractMonths(new Date(), 2)
         }		
 	);
