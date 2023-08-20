@@ -329,7 +329,8 @@ namespace DentalClinicApp.Test
 
             await repo.SaveChangesAsync();
 
-            var modelForTest = await attendanceService.GetDentistAttendancesAsync(1);
+            var modelForTest = await attendanceService
+                .GetAttendancesAsync(1, true, ShoppingListApp.Core.Models.Products.Enums.AttendanceSorting.Newest);
 
             Assert.That(modelForTest, Is.Not.Null);
             Assert.That(modelForTest.Attendances.Count, Is.EqualTo(1));

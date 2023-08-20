@@ -348,7 +348,8 @@ namespace DentalClinicApp.Test
 
             await repo.SaveChangesAsync();
 
-            var modelForTest = await procedureService.GetDentistProceduresAsync(1);
+            var modelForTest = await procedureService
+                .GetProceduresAsync(1, true, Core.Models.DentalProcedures.Enums.ProcedureSorting.StartDate, null);
 
             Assert.That(modelForTest.Procedures, Is.Not.Null);
             Assert.That(modelForTest.Procedures.Count, Is.EqualTo(1));

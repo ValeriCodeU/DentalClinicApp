@@ -114,14 +114,14 @@ namespace DentalClinicApp.Controllers
         {
             var userId = this.User.Id();
             int clientId = 0;
-            bool isParient = false;
+            bool isPatient = false;
 
             var model = new MyAppointmentsQueryModel();
 
             if (this.User.IsInRole(PatientRoleName))
             {
                 clientId = await patientService.GetPatientIdAsync(userId);                
-                isParient = true;
+                isPatient = true;
             }
             else if (this.User.IsInRole(DentistRoleName))
             {
@@ -132,7 +132,7 @@ namespace DentalClinicApp.Controllers
 
             var result = await appointmentService.GetAppointmentsAsync(
                 clientId,
-                isParient,
+                isPatient,
                 query.Sorting,
                 query.Status,
                 query.SearchTerm,

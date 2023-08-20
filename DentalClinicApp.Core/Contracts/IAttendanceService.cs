@@ -31,8 +31,9 @@ namespace DentalClinicApp.Core.Contracts
 
         //with query search and paging
 
-        Task<AttendanceQueryServiceModel> GetDentistAttendancesAsync(
-            int dentistId,            
+        Task<AttendanceQueryServiceModel> GetAttendancesAsync(
+            int clientId,
+            bool isPatient,                   
             AttendanceSorting sorting = AttendanceSorting.Newest,
             string? searchTerm = null,
             int currentPage = 1,

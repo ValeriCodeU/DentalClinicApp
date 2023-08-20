@@ -1,5 +1,6 @@
 ﻿using DentalClinicApp.Core.Constants;
 using DentalClinicApp.Core.Contracts;
+using DentalClinicApp.Core.Models.Appointments;
 using DentalClinicApp.Core.Models.Attendances;
 using DentalClinicApp.Core.Models.DentalProcedures;
 using DentalClinicApp.Core.Services;
@@ -118,16 +119,36 @@ namespace DentalClinicApp.Controllers
             return RedirectToAction(nameof(MyProcedures));
         }
 
-        [Authorize(Roles = DentistRoleName)]
+        //[Authorize(Roles = DentistRoleName)]
+        [Authorize(Roles = DentistRoleName + "," + PatientRoleName)]
 
         public async Task<IActionResult> MyProcedures([FromQuery]MyProceduresQueryModel query)
         {
-            var dentistId = await dentistService.GetDentistIdAsync(User.Id());
+            //var dentistId = await dentistService.GetDentistIdAsync(User.Id());
+            var userId = this.User.Id();
+            int clientId = 0;
+            bool isPatient = false;            
+
+            if (this.User.IsInRole(PatientRoleName))
+            {
+                if (!await patientService.IsExistsByIdAsync(userId))
+                {
+                    return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+                }
+
+                clientId = await patientService.GetPatientIdAsync(userId);
+                isPatient = true;
+            }
+            else if (this.User.IsInRole(DentistRoleName))
+            {
+                clientId = await dentistService.GetDentistIdAsync(userId);
+            }
 
             var proceduresPerPage = MyProceduresQueryModel.ProceduresPerPage;
 
-            var result = await procedureService.GetDentistProceduresAsync(
-                dentistId,
+            var result = await procedureService.GetProceduresAsync(
+                clientId,
+                isPatient,
                 query.Sorting,
                 query.SearchTerm,
                 query.CurrentPage,

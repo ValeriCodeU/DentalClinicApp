@@ -84,7 +84,7 @@ namespace DentalClinicApp.Controllers
             return View(model);
         }
 
-        [Authorize(Roles = DentistRoleName)]        
+        //[Authorize(Roles = DentistRoleName)]        
 
         //public async Task<IActionResult> MyAttendances()
         //{
@@ -106,14 +106,35 @@ namespace DentalClinicApp.Controllers
 
         //with query and paging
 
+        [Authorize(Roles = DentistRoleName + "," + PatientRoleName)]
+
         public async Task<IActionResult> MyAttendances([FromQuery]MyAttendancesQueryModel query)
         {            
-            var dentistId = await dentistService.GetDentistIdAsync(User.Id());
+            //var dentistId = await dentistService.GetDentistIdAsync(User.Id());
+            var userId = this.User.Id();
+            int clientId = 0;
+            bool isPatient = false;
+
+            if (this.User.IsInRole(PatientRoleName))
+            {
+                if (!await patientService.IsExistsByIdAsync(userId))
+                {
+                    return RedirectToPage("/Account/AccessDenied", new { area = "Identity" });
+                }
+
+                clientId = await patientService.GetPatientIdAsync(userId);
+                isPatient = true;
+            }
+            else if (this.User.IsInRole(DentistRoleName))
+            {
+                clientId = await dentistService.GetDentistIdAsync(userId);
+            }
 
             var attendancesPerPage = MyAttendancesQueryModel.AttendancesPerPage;
 
-            var result = await attendanceService.GetDentistAttendancesAsync(
-                dentistId, 
+            var result = await attendanceService.GetAttendancesAsync(
+                clientId,
+                isPatient,
                 query.Sorting,
                 query.SearchTerm,
                 query.CurrentPage,

@@ -11,8 +11,9 @@ namespace DentalClinicApp.Core.Contracts
 
         Task<ProcedureServiceModel> ProcedureDetailsByIdAsync(int id);
 
-        Task<ProcedureQueryServiceModel> GetDentistProceduresAsync(
-            int dentistId,
+        Task<ProcedureQueryServiceModel> GetProceduresAsync(
+            int clientId,
+            bool isPatient,
             ProcedureSorting sorting = ProcedureSorting.StartDate,
             string? searchTerm = null,
             int currentPage = 1,

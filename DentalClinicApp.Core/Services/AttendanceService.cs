@@ -147,8 +147,9 @@ namespace DentalClinicApp.Core.Services
         /// <returns>Attendance query model</returns>
         //query, paging
 
-        public async Task<AttendanceQueryServiceModel> GetDentistAttendancesAsync(
-            int dentisId,
+        public async Task<AttendanceQueryServiceModel> GetAttendancesAsync(
+            int clientId,
+            bool isPatient,
             AttendanceSorting sorting = AttendanceSorting.Newest,
             string? searchTerm = null,
             int currentPage = 1,
@@ -157,9 +158,19 @@ namespace DentalClinicApp.Core.Services
         {
             var result = new AttendanceQueryServiceModel();
 
-            var attendances = repo.AllReadonly<Attendance>()
-                .Where(a => a.DentistId == dentisId && a.IsActive);
+            IQueryable<Attendance>attendances = repo.AllReadonly<Attendance>();
 
+            if (isPatient)
+            {
+                attendances = repo.AllReadonly<Attendance>()
+                .Where(a => a.PatientId == clientId && a.IsActive);
+            }
+            else
+            {
+                attendances = repo.AllReadonly<Attendance>()
+                .Where(a => a.DentistId == clientId && a.IsActive);
+            }
+            
             if (!String.IsNullOrEmpty(searchTerm))
             {
                 searchTerm = $"%{searchTerm.ToLower()}%";
