@@ -1,15 +1,10 @@
 ﻿using DentalClinicApp.Infrastructure.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DentalClinicApp.Infrastructure.Configuration
 {
-	internal class DentistConfiguration : IEntityTypeConfiguration<Dentist>
+    internal class DentistConfiguration : IEntityTypeConfiguration<Dentist>
 	{
 		public void Configure(EntityTypeBuilder<Dentist> builder)
 		{
